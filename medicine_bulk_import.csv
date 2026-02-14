@@ -1,0 +1,89 @@
+name,price,box,s_price,quantity,generic,company,effects,e_date
+"FIXEF (CEFAXIM 400MG) TAB",2.65,0,5,10,Cefixime,TURKEY,Antibiotic,2027-05-01
+"AMOXICLAV 625MG TAB",1.9,0,4,15,Amox/Clav,TURKEY,Antibiotic,2029-01-01
+"AMOXICLAV 1G TAB",2.2,0,4,15,Amox/Clav,TURKEY,Antibiotic,2029-03-01
+"KLAMER 500MG TAB",3.45,0,5,15,Clarithromycin,,Antibiotic,2028-04-01
+"RICAM TAB",1.35,0,3,20,Paracetamol,,Pain/Fever,2028-08-01
+"OMEPRAZOLE 40MG CAP",1.3,0,3.5,10,Omeprazole,UK,Acid Reflux,2028-01-01
+"TYLOL 250MG SYR",1.2,0,2.5,20,Paracetamol,,Pain/Fever,2028-08-01
+"SETAPAR 120MG 150ML SYRUP",1.1,0,3,10,Paracetamol,,Pain/Fever,2027-06-01
+"TYLOL 500MG TB",1,0,2,20,Paracetamol,,Pain/Fever,2026-11-01
+"PAROL SOLUTION",1.2,0,2.5,20,Paracetamol,,Pain/Fever,2029-09-11
+"APIREKS SYR",1.85,0,3,24,Paracetamol,TURKEY,Pain/Fever,2029-04-01
+"IBURAFIN 400MG TAB",1.4,0,1,20,Ibuprofen,,NSAID/Pain,2029-06-01
+"DICLORON INJ",1.2,0,1.5,10,Ibuprofen,TURKEY,NSAID/Pain,2030-05-01
+"VOLAMED 25MG",1.25,0,1.5,50,Diclofenac,,NSAID/Pain,2029-01-01
+"ADOL SUPPOST 125MG",1.25,0,1.5,20,Diclofenac,SYRIA,NSAID/Pain,2028-07-31
+"ADOL SUPPOST 250",2.1,0,2,20,Paracetamol,,Pain/Fever,2028-03-01
+"PIROXICAM",2.5,0,4,4,Piroxicam,,NSAID/Pain,2028-03-01
+"OMEPRAZOLE 20MG CAP",0.85,0,1,20,Omeprazole,UK,Acid Reflux,2027-09-01
+"DOMEPRAZLE CAP",1.3,0,3.5,10,Omeprazole,UK,Acid Reflux,2027-06-01
+"OMEREF 40MG INJ",1.2,0,2.5,20,Omeprazole,,Acid Reflux,2026-11-01
+"GLYCRIN SUPP PED",2.45,0,1,60,Glycerin,,Laxative,2027-09-01
+"KLEEN ENEMA SOL",0.7,0,2,10,Sodium Phosphate,,Laxative,2028-01-01
+"DUPHALAC SYR",2.85,0,3.5,10,Lactulose,,Laxative,2027-11-12
+"PROGERMILA ORAL SOLUTION",2.5,0,12,2,Bacillus Clausii,,Probiotic,2027-05-01
+"MOTOLIM TAB",1.25,0,2.5,25,Domperidone,TURKEY,Anti-Nausea,2027-10-01
+"PLASIL INJ",1.25,0,1.5,20,Metoclopramide,TURKEY,Anti-Nausea,2027-05-01
+"ONDANSETRON INJ 4MG",0.35,0,1,20,Ondansetron,TURKEY,Anti-Nausea,2027-04-01
+"NAUSAZY 4MG ORAL SOLUTION",3.6,0,1,20,Ondansetron,,Anti-Nausea,2027-08-01
+"VENTOLINE NEBULES",2.7,0,1,20,Salbutamol,,Asthma,2030-03-01
+"MONTILEXT 10MG TAB",2.5,0,1,10,Montelukast,TURKEY,Asthma,2030-01-01
+"DESLORATADIN SYR",1.25,0,2.5,15,Desloratadine,TURKEY,Antihistamine,2028-09-01
+"HITRAZINE SYR",1.35,0,2.5,14,Cetirizine/Hyd,,Antihistamine,2027-09-01
+"LORATIDINE TAB B/100",2.85,0,1,100,Loratadine,MALAYSIA,Antihistamine,2027-01-01
+"KEPPRA SYR",9.5,0,12,15,Levetiracetam,,Anticonvulsant,2027-01-01
+"PHENOBARBITONE 30MG TAB",1,0,1,100,Phenobarbital,KENYA,Anticonvulsant,2027-05-01
+"DEPAKING 200MG",4.3,0,6,5,Valproate,,Anticonvulsant,2029-05-01
+"DEPAKIN SYR",2.8,0,5,10,Valproate,,Anticonvulsant,2028-08-01
+"DIAZPAM INJ",4,0,1,30,Diazepam,,Sedative,2028-05-01
+"R.L SOL (Ringer Lactate)",0.5,0,1,20,Electrolytes,,IV Fluid,2028-10-01
+"N S SOL 100ML (Normal Saline)",0.45,0,1,10,Sod. Chloride,,IV Fluid,2028-02-01
+"DNS SOL (Dextrose Normal Saline)",0.5,0,1,15,Dex/Saline,,IV Fluid,2028-04-01
+"N.S SOL",0.5,0,1,20,Sod. Chloride,,IV Fluid,2027-08-01
+"MAGNISUM INJ",2.85,0,1.5,40,Magnesium,,Vitamin,2028-02-01
+"VITAMIN D TAB 1000 IU",2,0,4,10,Vitamin D,,Vitamin,2029-01-01
+"VITAMIN D3 TAB 60000U",0.5,0,3,20,Vitamin D3,,Vitamin,2028-05-15
+"D3 ROY DROP",1.85,0,3,10,Vitamin D3,,Vitamin,2027-08-01
+"ZINC SY",1.65,0,2.5,15,Zinc,TURKEY,Mineral,2027-12-01
+"ZENTOVIT ORAL SOLUTION",2.2,0,1,10,Multivitamin,,Mineral,2028-06-01
+"COARTESIANE SYR (W) 120MG",2.65,0,3.5,15,Artemether/Lum,,Antimalarial,2027-11-15
+"COARTESIANE SYR 60ML",1.9,0,3,15,Artemether/Lum,,Antimalarial,2027-04-01
+"ARTEMETHER 20MG INJ",0.38,0,0.18,20,Artemether,CHINA,Antimalarial,2028-04-01
+"ARTEMETHER 80MG INJ",0.4,0,1.5,10,Artemether,CHINA,Antimalarial,2027-08-01
+"HYDROCORTISON INJ",0.28,0,1,50,Hydrocortisone,,Corticosteroid,2027-02-01
+"DEXAMETHASONEINJ",0.35,0,1,100,Dexamethasone,CHINA,Corticosteroid,2028-04-01
+"XILONE SYR",1.2,0,0.65,15,Prednisolone,EGYPT,Corticosteroid,2027-08-01
+"PREDALONE 5MG TAB",5.6,0,0.9,75,Prednisolone,EGYPT,Corticosteroid,2028-02-01
+"CAF EAR DROP",0.35,0,0.18,10,Chloramphenicol,,Ear Infection,2027-12-01
+"CIPLOX D DROP",0.35,0,0.7,8,Cipro/Dexa,,Eye/Ear Infec,2028-12-01
+"CIPLOX DROP",0.65,0,0.7,15,Ciprofloxacin,,Eye/Ear Infec,2027-08-01
+"NORMAL SALINE DROP",0.3,0,0.5,20,Sod. Chloride,,Nasal/Eye,2027-04-01
+"MICANAZOLE ORAL GEL",1,0,1.5,12,Miconazole,EGYPT,Antifungal,2028-08-01
+"MICIRIN CREAM",1.5,0,12,12,Mupirocin,,Topical Antibio,2027-05-01
+"MICLOCIN CREAM",1.5,0,12,10,Mupirocin,,Topical,2027-06-01
+"KETACANAZOLE SHAMPO",2,0,10,10,Ketoconazole,INDIA,Antifungal,2027-09-01
+"LASIX 20MG TAB",0.85,0,2,20,Furosemide,UK,Diuretic,2027-07-01
+"FLAGYL 500MG CAP",2.8,0,3.5,10,Metronidazole,TURKEY,Antibiotic,2027-09-01
+"ATOKSILIN 1000MG CAP",2.75,0,4,10,Amoxicillin,TURKEY,Antibiotic,2028-07-01
+"AZITHROMYCIN 500MG CAP",1.7,0,3,5,Azithromycin,TURKEY,Antibiotic,2028-11-01
+"CIPRO 500MG TAB",1.1,0,3.5,20,Ciprofloxacin,TURKEY,Antibiotic,2028-06-24
+"AMOXICLAV 228.5 MG SYR",1.9,0,3.5,20,Amox/Clav,TURKEY,Antibiotic,2028-06-29
+"AMOXICLAV 457MG SYR",2.25,0,4,20,Amox/Clav,TURKEY,Antibiotic,2028-07-01
+"AMOXICLAV 600/42.9MG SYR",2.85,0,4.5,14,Amox/Clav,,Antibiotic,2028-03-01
+"KLAMER 250MG SYR",3.1,0,5,20,Clarithromycin,TURKEY,Antibiotic,2027-11-01
+"ATOKSILIN SYR",1.5,0,3,20,Amoxicillin,TURKEY,Antibiotic,2028-09-01
+"ERTHROMYCNE 125MG SYR",0.6,0,2,20,Erythromycin,KENYA,Antibiotic,2028-01-01
+"ZYCIN 15ML SYR",0.8,0,1,20,Azithromycin,,Antibiotic,2027-11-12
+"FLAGYL SYR",0.7,0,2,20,Metronidazole,PAKISTAN,Antibiotic,2026-11-01
+"AMRISOLE SYR",0.7,0,2,20,Metronidazole,,Antibiotic,2028-04-04
+"DESEFIN INJ 500MG",0.85,0,2,30,Ceftriaxone,,Antibiotic,2028-12-02
+"DESEFIN 1G INJ",1,0,2,50,Ceftriaxone,TURKEY,Antibiotic,2028-06-01
+"E-PICO 500MG INJ",0.45,0,1.5,50,Ceftriaxone,,Antibiotic,2027-08-01
+"E-PICO 1GR INJ",0.54,0,1.5,50,Ceftriaxone,,Antibiotic,2027-07-01
+"GENTOPHAR 80MG INJ",0.5,0,1.5,30,Gentamicin,TURKEY,Antibiotic,2027-09-01
+"VERMISUN SYR (KENYA)",0.5,0,1.5,15,Mebendazole,,Antiparasitic,2027-07-01
+"ALMEX SYR",0.45,0,1,15,Mebendazole,,Antiparasitic,2028-11-01
+"EVERMOX TAB",0.65,0,1,10,Mebendazole,,Antiparasitic,2029-03-01
+"AL-BENDAZOLE 400MG TAB",1.65,0,1,100,Albendazole,,Antiparasitic,2029-04-01
+"POLYVIT SY",2.3,0,4,20,Multivitamin,,Vitamin,2029-12-01

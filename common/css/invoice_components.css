@@ -1,0 +1,621 @@
+/**
+ * Unified Invoice Components Stylesheet
+ * A4 Print-Ready Layout with Professional Healthcare Branding
+ * 
+ * Usage: Include this stylesheet in all invoice views
+ * <link href="common/css/invoice_components.css" rel="stylesheet">
+ */
+
+/* ============================================================
+   CSS Variables for Easy Customization
+   ============================================================ */
+:root {
+    --invoice-primary-color: #2c3e50;
+    --invoice-secondary-color: #7f8c8d;
+    --invoice-border-color: #e0e0e0;
+    --invoice-bg-light: #f8f9fa;
+    --invoice-text-dark: #333;
+    --invoice-text-muted: #666;
+    --invoice-success: #27ae60;
+    --invoice-warning: #f39c12;
+    --invoice-danger: #e74c3c;
+}
+
+/* ============================================================
+   Invoice Container
+   ============================================================ */
+.invoice-container {
+    max-width: 210mm;
+    /* A4 width */
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    position: relative;
+    min-height: 297mm;
+    /* A4 height */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--invoice-text-dark);
+    line-height: 1.5;
+}
+
+/* ============================================================
+   Watermark Background
+   ============================================================ */
+.invoice-watermark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    max-width: 400px;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.invoice-watermark img {
+    width: 100%;
+    height: auto;
+}
+
+/* Content wrapper - ensures content is above watermark */
+.invoice-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================================
+   Invoice Header - Huge Logo with Date/Time
+   ============================================================ */
+.invoice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    border-bottom: 3px solid var(--invoice-primary-color);
+}
+
+.invoice-header-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.invoice-logo {
+    max-width: 200px;
+    max-height: 100px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.invoice-logo-large {
+    max-width: 280px;
+    max-height: 140px;
+}
+
+.invoice-clinic-name {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--invoice-primary-color);
+    margin: 0 0 5px 0;
+}
+
+.invoice-clinic-details {
+    font-size: 0.9rem;
+    color: var(--invoice-text-muted);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.invoice-header-right {
+    text-align: right;
+    min-width: 180px;
+}
+
+.invoice-datetime {
+    background: #ffffff;
+    padding: 12px 18px;
+    border-radius: 6px;
+    border: 1px solid var(--invoice-border-color);
+}
+
+.invoice-datetime-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.invoice-datetime-row:last-child {
+    margin-bottom: 0;
+}
+
+.invoice-datetime-label {
+    font-weight: 600;
+    color: var(--invoice-text-muted);
+    margin-right: 15px;
+    font-size: 0.85rem;
+}
+
+.invoice-datetime-value {
+    font-weight: 700;
+    color: var(--invoice-primary-color);
+    font-size: 0.95rem;
+}
+
+/* ============================================================
+   Invoice Title Section
+   ============================================================ */
+.invoice-title-section {
+    text-align: center;
+    margin-bottom: 25px;
+    padding: 15px 0;
+    background: var(--invoice-primary-color);
+    border-radius: 4px;
+    color: #fff;
+}
+
+.invoice-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.invoice-subtitle {
+    font-size: 1rem;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* ============================================================
+   Info Sections (Patient, Doctor, Invoice Details)
+   ============================================================ */
+.invoice-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.invoice-info-box {
+    background: #ffffff;
+    border: 1px solid var(--invoice-border-color);
+    border-radius: 6px;
+    padding: 15px 18px;
+}
+
+.invoice-info-box-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--invoice-primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 12px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--invoice-primary-color);
+}
+
+.invoice-info-row {
+    display: flex;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.invoice-info-row:last-child {
+    margin-bottom: 0;
+}
+
+.invoice-info-label {
+    font-weight: 600;
+    color: var(--invoice-text-muted);
+    min-width: 110px;
+    flex-shrink: 0;
+}
+
+.invoice-info-value {
+    color: var(--invoice-text-dark);
+    font-weight: 500;
+}
+
+/* ============================================================
+   Items/Services Table
+   ============================================================ */
+.invoice-table-wrapper {
+    margin-bottom: 25px;
+    overflow-x: auto;
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.invoice-table thead {
+    background: var(--invoice-primary-color);
+    color: #fff;
+}
+
+.invoice-table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
+}
+
+.invoice-table th:last-child,
+.invoice-table td:last-child {
+    text-align: right;
+}
+
+.invoice-table tbody tr {
+    border-bottom: 1px solid var(--invoice-border-color);
+}
+
+.invoice-table tbody tr:nth-child(even) {
+    background: var(--invoice-bg-light);
+}
+
+.invoice-table tbody tr:hover {
+    background: #eef2f7;
+}
+
+.invoice-table td {
+    padding: 12px 15px;
+    vertical-align: top;
+}
+
+.invoice-table .text-center {
+    text-align: center;
+}
+
+.invoice-table .text-right {
+    text-align: right;
+}
+
+/* ============================================================
+   Payment Summary Section
+   ============================================================ */
+.invoice-summary-section {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 25px;
+}
+
+.invoice-summary {
+    min-width: 320px;
+    max-width: 400px;
+}
+
+.invoice-summary-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-size: 0.95rem;
+    border-bottom: 1px solid var(--invoice-border-color);
+}
+
+.invoice-summary-row:last-child {
+    border-bottom: none;
+}
+
+.invoice-summary-label {
+    color: var(--invoice-text-muted);
+    font-weight: 500;
+}
+
+.invoice-summary-value {
+    font-weight: 600;
+    color: var(--invoice-text-dark);
+}
+
+.invoice-summary-row.discount .invoice-summary-value {
+    color: var(--invoice-success);
+}
+
+.invoice-summary-row.total {
+    background: var(--invoice-primary-color);
+    color: #fff;
+    margin: 10px -15px -10px;
+    padding: 15px;
+    border-radius: 0 0 8px 8px;
+}
+
+.invoice-summary-row.total .invoice-summary-label,
+.invoice-summary-row.total .invoice-summary-value {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+/* Wrapper for the summary box */
+.invoice-summary-box {
+    background: #ffffff;
+    border: 1px solid var(--invoice-border-color);
+    border-radius: 6px;
+    padding: 15px;
+    overflow: hidden;
+}
+
+/* ============================================================
+   Payment Status Badges
+   ============================================================ */
+.invoice-status {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.invoice-status-paid {
+    background: #d4edda;
+    color: #155724;
+}
+
+.invoice-status-pending {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.invoice-status-partial {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.invoice-status-cancelled {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ============================================================
+   Footer Section
+   ============================================================ */
+.invoice-footer {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 2px solid var(--invoice-border-color);
+    text-align: center;
+}
+
+.invoice-footer-message {
+    font-style: italic;
+    color: var(--invoice-text-muted);
+    font-size: 0.9rem;
+    margin: 0 0 15px 0;
+}
+
+.invoice-footer-signature {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    padding: 0 30px;
+}
+
+.invoice-signature-box {
+    text-align: center;
+    min-width: 180px;
+}
+
+.invoice-signature-line {
+    border-top: 1px solid var(--invoice-text-dark);
+    margin-bottom: 8px;
+    padding-top: 50px;
+}
+
+.invoice-signature-label {
+    font-size: 0.85rem;
+    color: var(--invoice-text-muted);
+}
+
+/* ============================================================
+   Print Styles
+   ============================================================ */
+@media print {
+    @page {
+        size: A4;
+        margin: 10mm;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .invoice-container {
+        max-width: none;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        box-shadow: none;
+    }
+
+    .invoice-watermark {
+        opacity: 0.08;
+    }
+
+    .no-print {
+        display: none !important;
+    }
+
+    .invoice-header,
+    .invoice-info-box,
+    .invoice-title-section,
+    .invoice-summary-box {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .invoice-table thead {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .invoice-summary-row.total {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    /* Avoid page breaks inside important sections */
+    .invoice-info-grid,
+    .invoice-table,
+    .invoice-summary-section {
+        page-break-inside: avoid;
+    }
+
+    /* Ensure header prints on each page if invoice spans multiple pages */
+    .invoice-header {
+        page-break-after: avoid;
+    }
+}
+
+/* ============================================================
+   Responsive Adjustments (for screen viewing)
+   ============================================================ */
+@media screen and (max-width: 768px) {
+    .invoice-container {
+        padding: 15px;
+        min-height: auto;
+    }
+
+    .invoice-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .invoice-header-left {
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .invoice-header-right {
+        text-align: center;
+    }
+
+    .invoice-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .invoice-footer-signature {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .invoice-summary-section {
+        justify-content: stretch;
+    }
+
+    .invoice-summary {
+        min-width: 100%;
+    }
+}
+
+/* ============================================================
+   Action Buttons (No-Print Area)
+   ============================================================ */
+.invoice-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #ffffff;
+    border: 1px solid var(--invoice-border-color);
+    border-radius: 4px;
+}
+
+.invoice-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ============================================================
+   Prescription Specific Styles
+   ============================================================ */
+.prescription-rx-symbol {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--invoice-primary-color);
+    line-height: 1;
+}
+
+.prescription-medicine-name {
+    font-weight: 600;
+    color: var(--invoice-text-dark);
+}
+
+.prescription-medicine-details {
+    font-size: 0.85rem;
+    color: var(--invoice-text-muted);
+}
+
+/* ============================================================
+   Lab Report Specific Styles
+   ============================================================ */
+.lab-result-table .normal-range {
+    font-size: 0.8rem;
+    color: var(--invoice-text-muted);
+}
+
+.lab-result-table .result-value {
+    font-weight: 700;
+}
+
+.lab-result-table .result-value.abnormal {
+    color: var(--invoice-danger);
+}
+
+.lab-result-table .result-value.normal {
+    color: var(--invoice-success);
+}
+
+/* ============================================================
+   Queue Invoice Specific Styles
+   ============================================================ */
+.queue-number-display {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 80px;
+    background: var(--invoice-primary-color);
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 700;
+    border-radius: 50%;
+    margin: 10px 0;
+}
+
+.queue-status-badge {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.queue-status-waiting {
+    background: var(--invoice-warning);
+    color: #fff;
+}
+
+.queue-status-processing {
+    background: #3498db;
+    color: #fff;
+}
+
+.queue-status-completed {
+    background: var(--invoice-success);
+    color: #fff;
+}

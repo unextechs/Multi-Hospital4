@@ -1,0 +1,77 @@
+                                                                                                            }
+                                                                                                        } else {
+                                                                                                            echo 'checked';
+                                                                                                        }
+                                                                                                        ?>> <?php echo lang('attendance'); ?>
+                                            <br>
+                                            <input type='checkbox' value="leave" name="module[]" <?php
+                                                                                                    if (!empty($package->id)) {
+                                                                                                        if (in_array('leave', $modules1)) {
+                                                                                                            echo 'checked';
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo 'checked';
+                                                                                                    }
+                                                                                                    ?>> <?php echo lang('leave'); ?>
+                                            <br>
+                                            <input type='checkbox' value="chat" name="module[]" <?php
+                                                                                                if (!empty($package->id)) {
+                                                                                                    if (in_array('chat', $modules1)) {
+                                                                                                        echo 'checked';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'checked';
+                                                                                                }
+                                                                                                ?>> <?php echo lang('chat'); ?>
+
+                                            <br>
+                                            <input type='checkbox' value="frontend" name="module[]" <?php
+                                                                                                if (!empty($package->id)) {
+                                                                                                    if (in_array('frontend', $modules1)) {
+                                                                                                        echo 'checked';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'checked';
+                                                                                                }
+                                                                                                ?>> <?php echo lang('web_frontend'); ?>
+
+                                            <br>
+                                            <input type='checkbox' value="ai_patient_overview" name="module[]" <?php
+                                                                                                if (!empty($package->id)) {
+                                                                                                    if (in_array('ai_patient_overview', $modules1)) {
+                                                                                                        echo 'checked';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'checked';
+                                                                                                }
+                                                                                                ?>> <?php echo lang('ai_patient_overview'); ?>
+
+                                            <br>
+                                            <input type='checkbox' value="ai_image_analysis" name="module[]" <?php
+                                                                                                if (!empty($package->id)) {
+                                                                                                    if (in_array('ai_image_analysis', $modules1)) {
+                                                                                                        echo 'checked';
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    echo 'checked';
+                                                                                                }
+                                                                                                ?>> <?php echo lang('ai_image_analysis'); ?>
+
+
+
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <input type="hidden" name="id" value='<?php
+                                                                            if (!empty($package->id)) {
+                                                                                echo $package->id;
+                                                                            }
+                                                                            ?>'>
+                                    <div class="form-group col-md-12">
+                                        <button type="submit" name="submit" class="btn btn-info float-right"><?php echo lang('submit'); ?></button>
+                                    </div>
+                                </div>
+                            </form>

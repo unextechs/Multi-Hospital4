@@ -1,0 +1,105 @@
+270:                        </div>
+271:                    </div>
+272:                </div>
+276:                </div>
+277:            </div>
+284:                    </div>
+294:                    </div>
+309:                            </div>
+310:                        </div>
+320:                                                class="fas fa-exclamation-triangle mr-2"></i>Known Allergies</div>
+325:                                        </div>
+326:                                    </div>
+327:                                </div>
+331:                                                class="fas fa-history mr-2"></i>Family/Medical History</div>
+336:                                        </div>
+337:                                    </div>
+338:                                </div>
+342:                                                class="fas fa-stethoscope mr-2"></i>Ongoing Symptoms</div>
+349:                                                        class="fa fa-plus-circle mr-1"></i>Add New</a></div>
+350:                                        </div>
+351:                                    </div>
+352:                                </div>
+356:                                                class="fas fa-diagnoses mr-2"></i>Clinical Diagnosis</div>
+363:                                                        class="fa fa-plus-circle mr-1"></i>Add New</a></div>
+364:                                        </div>
+365:                                    </div>
+366:                                </div>
+367:                            </div>
+374:                            </div>
+397:                            </div>
+398:                        </div>
+399:                    </div>
+410:                            </div>
+411:                        </div>
+423:                                            placeholder="120/80" readonly></div>
+424:                                </div>
+430:                                            placeholder="37.0" readonly></div>
+431:                                </div>
+437:                                            placeholder="72" readonly></div>
+438:                                </div>
+445:                                            placeholder="18" readonly></div>
+446:                                </div>
+452:                                            placeholder="70" readonly></div>
+453:                                </div>
+454:                            </div>
+460:                            </div>
+493:                            </div>
+494:                        </div>
+495:                    </div>
+517:                                    </div>
+526:                                    </div>
+529:                            </div>
+530:                        </div>
+535:                            </div>
+585:                            </div>
+586:                        </div>
+587:                    </div>
+606:                                            </div>
+607:                                        </div>
+613:                                            </div>
+616:                                            </div>
+617:                                        </div>
+618:                                    </div>
+627:                                    </div>
+630:                            </div>
+631:                        </div>
+637:                            </div>
+667:                                                            echo '<div class="small mb-1">• <strong>' . $medicine_name . '</strong></div>';
+683:                            </div>
+684:                        </div>
+685:                    </div>
+688:            </div>
+689:        </div>
+691:    </div>
+692:</div>
+693:</div>
+703:            </div>
+709:                </div>
+713:                </div>
+717:                </div>
+726:                </div>
+731:                </div>
+736:                </div>
+737:            </div>
+738:        </div>
+739:    </div>
+750:            </div>
+754:                        placeholder="e.g. Fever, Headache"></div>
+755:            </div>
+760:            </div>
+761:        </div>
+762:    </div>
+763:</div>
+773:            </div>
+776:                        class="form-control form-control-lg" id="new_diagnosis_name" required></div>
+780:                                class="form-control" id="new_diagnosis_code"></div>
+781:                    </div>
+784:                                class="form-control" id="new_diagnosis_description" rows="2"></textarea></div>
+785:                    </div>
+786:                </div>
+787:            </div>
+793:            </div>
+794:        </div>
+795:    </div>
+796:</div>
