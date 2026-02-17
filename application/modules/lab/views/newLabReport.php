@@ -134,7 +134,44 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
                         <h5 class="section-title">LABORATORY RESULTS</h5>
                         <div class="section-content">
                             <div class="report-content">
-                                <?php echo $lab->report; ?>
+                                <?php
+                                if (!empty($labs)) {
+                                    $count = 0;
+                                    foreach ($labs as $lab_item) {
+                                        if (empty($lab_item->report))
+                                            continue;
+                                        if ($count > 0) {
+                                            echo '<br><hr style="border-top: 1px dashed #ccc;"><br>';
+                                        }
+                                        $count++;
+                                        ?>
+                                        <div class="lab-item-report mb-4">
+                                            <h6 class="font-weight-bold" style="text-decoration: underline;">
+                                                <?php
+                                                // Get Category Name for Title
+                                                $category_name = lang('test');
+                                                if (!empty($lab_item->category_id)) {
+                                                    $category = $this->finance_model->getPaymentCategoryById($lab_item->category_id);
+                                                    if (!empty($category->category)) {
+                                                        $category_name = $category->category;
+                                                    }
+                                                }
+                                                echo $category_name . ' ' . lang('results');
+                                                ?>
+                                                <span style="float: right; font-size: 0.8em; font-weight: normal;">
+                                                    ID: <?php echo $lab_item->id; ?>
+                                                </span>
+                                            </h6>
+                                            <div class="lab-report-body mt-2">
+                                                <?php echo $lab_item->report; ?>
+                                            </div>
+                                        </div>
+                                    <?php
+                                    }
+                                } else if (!empty($lab->report)) {
+                                    echo $lab->report;
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>

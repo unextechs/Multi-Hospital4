@@ -179,6 +179,12 @@ class Lab extends MX_Controller
         $settings1 = $this->settings_model->getSettings();
         $data['settings'] = $this->settings_model->getSettings();
         $data['lab'] = $this->lab_model->getLabById($id);
+        // Get all labs for this invoice
+        if (!empty($data['lab']->invoice_id)) {
+            $data['labs'] = $this->lab_model->getLabByInvoice($data['lab']->invoice_id);
+        } else {
+            $data['labs'] = array($data['lab']);
+        }
         $lab = $this->lab_model->getLabById($id);
         $data['redirect'] = 'download1';
         //$data['lab'] = $this->lab_model->getLabById($id);
@@ -380,6 +386,13 @@ class Lab extends MX_Controller
         $id = $this->input->get('id');
         $data['settings'] = $this->settings_model->getSettings();
         $data['lab'] = $this->lab_model->getLabById($id);
+
+        // Get all labs for this invoice
+        if (!empty($data['lab']->invoice_id)) {
+            $data['labs'] = $this->lab_model->getLabByInvoice($data['lab']->invoice_id);
+        } else {
+            $data['labs'] = array($data['lab']);
+        }
         //$data['lab'] = $this->lab_model->getLabById($id);
         if (!$this->ion_auth->in_group('superadmin') && $data['lab']->hospital_id != $this->session->userdata('hospital_id')) {
             $this->load->view('home/permission');
@@ -397,6 +410,13 @@ class Lab extends MX_Controller
         $id = $this->input->get('id');
         $data['settings'] = $this->settings_model->getSettings();
         $data['lab'] = $this->lab_model->getLabById($id);
+
+        // Get all labs for this invoice
+        if (!empty($data['lab']->invoice_id)) {
+            $data['labs'] = $this->lab_model->getLabByInvoice($data['lab']->invoice_id);
+        } else {
+            $data['labs'] = array($data['lab']);
+        }
         //$data['lab'] = $this->lab_model->getLabById($id);
         if (!$this->ion_auth->in_group('superadmin') && $data['lab']->hospital_id != $this->session->userdata('hospital_id')) {
             $this->load->view('home/permission');
@@ -2198,6 +2218,13 @@ class Lab extends MX_Controller
         $data['settings'] = $this->settings_model->getSettings();
         $data['lab'] = $this->lab_model->getLabById($id);
 
+        // Get all labs for this invoice
+        if (!empty($data['lab']->invoice_id)) {
+            $data['labs'] = $this->lab_model->getLabByInvoice($data['lab']->invoice_id);
+        } else {
+            $data['labs'] = array($data['lab']);
+        }
+
         if ($data['lab']->hospital_id != $this->session->userdata('hospital_id')) {
             $this->load->view('home/permission');
         }
@@ -3423,6 +3450,13 @@ class Lab extends MX_Controller
         $id = $this->input->get('id');
         $data['settings'] = $this->settings_model->getSettings();
         $data['lab'] = $this->lab_model->getLabById($id);
+
+        // Get all labs for this invoice
+        if (!empty($data['lab']->invoice_id)) {
+            $data['labs'] = $this->lab_model->getLabByInvoice($data['lab']->invoice_id);
+        } else {
+            $data['labs'] = array($data['lab']);
+        }
 
         if ($data['lab']->hospital_id != $this->session->userdata('hospital_id')) {
             $this->load->view('home/permission');

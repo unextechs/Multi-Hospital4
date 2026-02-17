@@ -209,7 +209,7 @@
                                                         placeholder="" name="filename" required
                                                         accept=".xls, .xlsx ,.csv" required="">
                                                     <span class="glyphicon glyphicon-file form-control-feedback"></span>
-                                                    <input type="hidden" name="tablename" value="template">
+                                                    <input type="hidden" name="tablename" value="lab_template">
                                                 </div>
 
                                                 <div class="col-md-12">

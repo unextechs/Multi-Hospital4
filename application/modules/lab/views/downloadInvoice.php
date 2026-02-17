@@ -180,14 +180,42 @@
             </div>
 
             <!-- Lab Report Content -->
-            <?php if (!empty($lab->report)): ?>
-                <div class="invoice-info-box" style="margin-bottom: 25px;">
-                    <h4 class="invoice-info-box-title"><?php echo lang('test'); ?>     <?php echo lang('results'); ?></h4>
-                    <div class="lab-report-content">
-                        <?php echo $lab->report; ?>
+            <!-- Lab Report Content -->
+            <?php
+            if (!empty($labs)) {
+                foreach ($labs as $lab_item) {
+                    if (empty($lab_item->report))
+                        continue;
+                    ?>
+                    <div class="invoice-info-box" style="margin-bottom: 25px;">
+                        <h4 class="invoice-info-box-title">
+                            <?php
+                            $category_name = lang('test');
+                            if (!empty($lab_item->category_id)) {
+                                $category = $this->finance_model->getPaymentCategoryById($lab_item->category_id);
+                                if (!empty($category->category)) {
+                                    $category_name = $category->category;
+                                }
+                            }
+                            echo $category_name . ' ' . lang('results');
+                            ?>
+                            (ID: <?php echo $lab_item->id; ?>)
+                        </h4>
+                        <div class="lab-report-content">
+                            <?php echo $lab_item->report; ?>
+                        </div>
                     </div>
-                </div>
-            <?php endif; ?>
+                <?php
+                }
+            } else if (!empty($lab->report)) {
+                ?>
+                    <div class="invoice-info-box" style="margin-bottom: 25px;">
+                        <h4 class="invoice-info-box-title"><?php echo lang('test'); ?>     <?php echo lang('results'); ?></h4>
+                        <div class="lab-report-content">
+                        <?php echo $lab->report; ?>
+                        </div>
+                    </div>
+            <?php } ?>
 
             <!-- Footer with Signature -->
             <div class="invoice-footer" style="margin-top: 50px;">

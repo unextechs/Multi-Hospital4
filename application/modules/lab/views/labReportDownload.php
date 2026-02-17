@@ -197,7 +197,32 @@
         </table>
 
         <div class="reportBlock" style="padding: 10px">
-            <?php echo $lab->report; ?>
+            <?php
+            if (!empty($labs)) {
+                $count = 0;
+                foreach ($labs as $lab_item) {
+                    if (empty($lab_item->report))
+                        continue;
+                    if ($count > 0) {
+                        echo '<hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ccc;">';
+                    }
+                    $count++;
+
+                    // Optional: Add Title for each report in PDF too
+                    $category_name = lang('test');
+                    if (!empty($lab_item->category_id)) {
+                        $category = $this->finance_model->getPaymentCategoryById($lab_item->category_id);
+                        if (!empty($category->category)) {
+                            $category_name = $category->category;
+                        }
+                    }
+                    echo '<h4 style="margin-bottom: 10px; text-decoration: underline;">' . $category_name . ' ' . lang('results') . ' (ID: ' . $lab_item->id . ')</h4>';
+                    echo $lab_item->report;
+                }
+            } else {
+                echo $lab->report;
+            }
+            ?>
         </div>
         <htmlpagefooter>
 

@@ -30,6 +30,8 @@ class Import extends MX_Controller
         }
     }
 
+
+
     function importPatientInfo()
     {
         if (isset($_FILES["filename"]["name"])) {

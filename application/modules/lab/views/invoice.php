@@ -234,19 +234,52 @@
                             </div>
 
                             <!-- Lab Report Content -->
-                            <?php if (!empty($lab->report)): ?>
-                                <div class="invoice-info-box"
-                                    style="margin-bottom: 25px; border: 1px solid #eee; padding: 20px; border-radius: 8px;">
-                                    <h4 class="invoice-info-box-title"
-                                        style="border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">
+                            <!-- Lab Report Content -->
+                            <?php
+                            if (!empty($labs)) {
+                                foreach ($labs as $lab_item) {
+                                    if (empty($lab_item->report))
+                                        continue;
+                                    ?>
+                                    <div class="invoice-info-box"
+                                        style="margin-bottom: 25px; border: 1px solid #eee; padding: 20px; border-radius: 8px;">
+                                        <h4 class="invoice-info-box-title"
+                                            style="border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">
+                                            <?php
+                                            // Get Category Name for Title
+                                            $category_name = lang('test');
+                                            if (!empty($lab_item->category_id)) {
+                                                $category = $this->finance_model->getPaymentCategoryById($lab_item->category_id);
+                                                if (!empty($category->category)) {
+                                                    $category_name = $category->category;
+                                                }
+                                            }
+                                            echo $category_name . ' ' . lang('results');
+                                            ?>
+                                            <span style="float: right; font-size: 0.8rem; text-transform: none;">
+                                                ID: <?php echo $lab_item->id; ?>
+                                            </span>
+                                        </h4>
+                                        <div class="lab-report-content">
+                                            <?php echo $lab_item->report; ?>
+                                        </div>
+                                    </div>
+                                <?php
+                                }
+                            } else if (!empty($lab->report)) {
+                                ?>
+                                    <div class="invoice-info-box"
+                                        style="margin-bottom: 25px; border: 1px solid #eee; padding: 20px; border-radius: 8px;">
+                                        <h4 class="invoice-info-box-title"
+                                            style="border-bottom: 2px solid #007bff; padding-bottom: 10px; margin-bottom: 20px; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;">
                                         <?php echo lang('test'); ?>
                                         <?php echo lang('results'); ?>
-                                    </h4>
-                                    <div class="lab-report-content">
+                                        </h4>
+                                        <div class="lab-report-content">
                                         <?php echo $lab->report; ?>
+                                        </div>
                                     </div>
-                                </div>
-                            <?php endif; ?>
+                            <?php } ?>
 
                             <!-- Footer with Signature -->
                             <div class="invoice-footer" style="margin-top: 50px;">
