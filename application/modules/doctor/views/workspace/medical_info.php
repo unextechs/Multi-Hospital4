@@ -15,7 +15,7 @@
                     <div class="font-weight-medium">
                         <span class="badge badge-primary">
                             <i class="fas fa-id-card mr-1"></i>
-                            P<?php echo $patient->hospital_patient_id; ?>
+                            <?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . $patient->hospital_patient_id; ?>
                         </span>
                     </div>
                 </div>

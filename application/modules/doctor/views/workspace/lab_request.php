@@ -1,7 +1,8 @@
 <div class="col-md-12">
     <div class="alert alert-info py-2 mb-3">
         <i class="fas fa-info-circle"></i> <strong>Patient:</strong> <?php echo $patient->name; ?> |
-        <strong>P ID:</strong> <span class="badge badge-light">P<?php echo $patient->hospital_patient_id; ?></span>
+        <strong>P ID:</strong> <span
+            class="badge badge-light"><?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . $patient->hospital_patient_id; ?></span>
     </div>
 </div>
 <div class="col-md-6">

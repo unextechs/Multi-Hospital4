@@ -376,6 +376,40 @@
                                                         required="">
                                                 </div>
                                             </div>
+
+                                            <!-- Patient ID Prefix -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="text-uppercase font-weight-bold text-dark">
+                                                        <i class="fas fa-id-badge mr-2 text-muted"></i>
+                                                        Patient ID Prefix
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="text" class="form-control form-control-lg shadow-sm"
+                                                        name="patient_id_prefix"
+                                                        value='<?php echo !empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P'; ?>'
+                                                        required="">
+                                                    <small class="form-text text-muted">Example: P, PAT, HOS-P</small>
+                                                </div>
+                                            </div>
+
+                                            <!-- Patient ID Start Index -->
+                                            <div class="col-md-6 mb-4">
+                                                <div class="form-group">
+                                                    <label class="text-uppercase font-weight-bold text-dark">
+                                                        <i class="fas fa-sort-numeric-down mr-2 text-muted"></i>
+                                                        Patient ID Starting Number
+                                                        <span class="text-danger">*</span>
+                                                    </label>
+                                                    <input type="number" min="0"
+                                                        class="form-control form-control-lg shadow-sm"
+                                                        name="patient_id_start_index"
+                                                        value='<?php echo !empty($settings->patient_id_start_index) ? $settings->patient_id_start_index : '0'; ?>'
+                                                        required="">
+                                                    <small class="form-text text-muted">The system will start numbering
+                                                        patients from this number (e.g., 100).</small>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

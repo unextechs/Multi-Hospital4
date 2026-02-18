@@ -184,7 +184,7 @@
                 <div class="row small">
                     <div class="col-xs-6">
                         <p class="mb-1 text-muted">ID: <span
-                                class="text-dark font-weight-bold">P<?php echo $patient->hospital_patient_id; ?></span>
+                                class="text-dark font-weight-bold"><?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . $patient->hospital_patient_id; ?></span>
                         </p>
                         <p class="mb-1 text-muted">Gender: <span class="text-dark"><?php echo $patient->sex; ?></span>
                         </p>

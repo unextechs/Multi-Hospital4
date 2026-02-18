@@ -450,10 +450,14 @@ $(document).ready(function () {
       data: "",
       dataType: "json",
       success: function (response) {
-        $("#visit_charges").val(response.response.visit_charges).end();
-        var discount = $("#discount").val();
+        var visit_charge = response.response.visit_charges;
+        var discount_percent = response.settings.discount_percent;
+        var discount_amount = (visit_charge * discount_percent) / 100;
+
+        $("#visit_charges").val(visit_charge).end();
+        $("#discount").val(discount_amount).end();
         $("#grand_total")
-          .val(parseFloat(response.response.visit_charges - discount))
+          .val(parseFloat(visit_charge - discount_amount))
           .end();
       },
     });
@@ -481,10 +485,14 @@ $(document).ready(function () {
       data: "",
       dataType: "json",
       success: function (response) {
-        $("#visit_charges1").val(response.response.visit_charges).end();
-        var discount = $("#discount1").val();
+        var visit_charge = response.response.visit_charges;
+        var discount_percent = response.settings.discount_percent;
+        var discount_amount = (visit_charge * discount_percent) / 100;
+
+        $("#visit_charges1").val(visit_charge).end();
+        $("#discount1").val(discount_amount).end();
         $("#grand_total1")
-          .val(parseFloat(response.response.visit_charges - discount))
+          .val(parseFloat(visit_charge - discount_amount))
           .end();
       },
     });

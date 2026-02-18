@@ -24,12 +24,15 @@ class Patient_model extends CI_model
         $this->db->limit(1);
         $query = $this->db->get('patient');
 
+        $settings = $this->db->get_where('settings', array('hospital_id' => $hospital_id))->row();
+        $start_index = (!empty($settings->patient_id_start_index)) ? (int) $settings->patient_id_start_index : 1;
+
         if ($query->num_rows() > 0) {
-            $max_id = $query->row()->hospital_patient_id;
-            $next_local_id = (int) $max_id + 1;
+            $max_id = (int) $query->row()->hospital_patient_id;
+            $next_local_id = max($max_id + 1, $start_index);
         } else {
             // First patient for this hospital
-            $next_local_id = 1;
+            $next_local_id = $start_index;
         }
 
         // Generate Global Medical Record Number (MRN) if not provided
@@ -441,7 +444,9 @@ class Patient_model extends CI_model
             } else {
                 $age = explode('-', $user['age']);
             }
-            $data[] = array("id" => $user['id'], "text" => $user['name'] . ' (' . lang('id') . ': ' . 'P' . $user['hospital_patient_id'] . '- ' . lang('phone') . ': ' . $user['phone'] . '- ' . lang('age') . ': ' . $age[0] . ' years )');
+            $settings = $this->db->get_where('settings', array('hospital_id' => $this->session->userdata('hospital_id')))->row();
+            $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+            $data[] = array("id" => $user['id'], "text" => $user['name'] . ' (' . lang('id') . ': ' . $prefix . $user['hospital_patient_id'] . '- ' . lang('phone') . ': ' . $user['phone'] . '- ' . lang('age') . ': ' . $age[0] . ' years )');
         }
         return $data;
     }
@@ -479,9 +484,11 @@ class Patient_model extends CI_model
             } else {
                 $age = explode('-', $user['age']);
             }
+            $settings = $this->db->get_where('settings', array('hospital_id' => $this->session->userdata('hospital_id')))->row();
+            $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
             $data[] = array(
                 "id" => $user['id'],
-                "text" => $user['name'] . ' (' . lang('id') . ': ' . 'P' . $user['hospital_patient_id'] . '- ' . lang('phone') . ': ' . $user['phone'] . '- ' . lang('age') . ': ' . $age[0] . ' years )',
+                "text" => $user['name'] . ' (' . lang('id') . ': ' . $prefix . $user['hospital_patient_id'] . '- ' . lang('phone') . ': ' . $user['phone'] . '- ' . lang('age') . ': ' . $age[0] . ' years )',
                 "name" => $user['name'],
                 "age" => $age[0],
                 "phone" => $user['phone'],
@@ -533,7 +540,9 @@ class Patient_model extends CI_model
             } else {
                 $age = explode('-', $user['age']);
             }
-            $data[] = array("id" => $user['id'], "text" => $user['name'] . ' (' . lang('id') . ': ' . 'P' . $user['hospital_patient_id'] . ' - ' . lang('phone') . ': ' . $user['phone'] . ' - ' . lang('age') . ': ' . $age[0] . ' ' . lang('years') . ')');
+            $settings = $this->db->get_where('settings', array('hospital_id' => $this->session->userdata('hospital_id')))->row();
+            $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+            $data[] = array("id" => $user['id'], "text" => $user['name'] . ' (' . lang('id') . ': ' . $prefix . $user['hospital_patient_id'] . ' - ' . lang('phone') . ': ' . $user['phone'] . ' - ' . lang('age') . ': ' . $age[0] . ' ' . lang('years') . ')');
         }
         return $data;
     }

@@ -682,14 +682,18 @@
                                                                 <i class="fas fa-edit"></i> Edit
                                                             </button>
                                                         <?php endif; ?>
+                                                        <button class="btn btn-sm btn-info reprint-lab-workspace ml-1"
+                                                            data-id="<?php echo $lab->id; ?>" title="Print Request">
+                                                            <i class="fas fa-print"></i> Print
+                                                        </button>
                                                         <?php if ($lab->status == 'complete'): ?>
                                                             <button class="btn btn-sm btn-success view-lab-results"
                                                                 data-id="<?php echo $lab->id; ?>">
-                                                                <i class="fas fa-eye"></i> View Results
+                                                                <i class="fas fa-eye"></i> Results
                                                             </button>
                                                             <button class="btn btn-sm btn-secondary mark-lab-seen ml-1"
                                                                 data-id="<?php echo $lab->id; ?>">
-                                                                <i class="fas fa-check"></i> Mark Seen
+                                                                <i class="fas fa-check"></i> Seen
                                                             </button>
                                                         <?php endif; ?>
                                                         <button class="btn btn-danger btn-sm delete-lab-workspace ml-1"

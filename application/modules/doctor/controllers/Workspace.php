@@ -64,17 +64,23 @@ class Workspace extends MX_Controller
         $all_vitals = $this->patient_model->getVitalSignByPatientId($patient_id);
         $data['vital_signs'] = array_slice($all_vitals, 0, 20);
 
-        // Lab Requests: Show only pending OR (complete AND NOT seen)
+        // Lab Requests: Show only pending OR (complete AND NOT seen) AND Today Only
         $all_labs = $this->lab_model->getLabByPatientId($patient_id);
-        $filtered_labs = array_filter($all_labs, function ($lab) {
-            // If doctor_seen exists, we use it. If not, we show all for now but will add the column.
+        $today_start = strtotime('today');
+        $today_end = strtotime('tomorrow');
+
+        $filtered_labs = array_filter($all_labs, function ($lab) use ($today_start, $today_end) {
             $is_seen = isset($lab->doctor_seen) ? $lab->doctor_seen : 0;
-            return ($lab->status == 'pending' || ($lab->status == 'complete' && !$is_seen));
+            $is_today = ($lab->date >= $today_start && $lab->date < $today_end);
+            return ($is_today && ($lab->status == 'pending' || ($lab->status == 'complete' && !$is_seen)));
         });
-        $data['lab_requests'] = array_slice($filtered_labs, 0, 20);
+        $data['lab_requests'] = array_values($filtered_labs);
 
         $all_prescriptions = $this->prescription_model->getPrescriptionByPatientId($patient_id);
-        $data['prescriptions'] = array_slice($all_prescriptions, 0, 20);
+        $filtered_prescriptions = array_filter($all_prescriptions, function ($p) use ($today_start, $today_end) {
+            return ($p->date >= $today_start && $p->date < $today_end);
+        });
+        $data['prescriptions'] = array_values($filtered_prescriptions);
 
         $all_histories = $this->patient_model->getMedicalHistoryByPatientId($patient_id);
         $data['medical_histories'] = array_slice($all_histories, 0, 20);
@@ -773,8 +779,26 @@ class Workspace extends MX_Controller
         });
 
         if (empty($data['prescriptions'])) {
-            echo "Record not found";
-            return;
+            // Check if there are at least labs if no prescriptions
+            $all_labs = $this->lab_model->getLabByPatientId($patient_id);
+            $day_start = $date;
+            $day_end = $date + 86400;
+            $data['labs'] = array_filter($all_labs, function ($l) use ($day_start, $day_end) {
+                return $l->date >= $day_start && $l->date < $day_end;
+            });
+
+            if (empty($data['labs'])) {
+                echo "Record not found";
+                return;
+            }
+        } else {
+            // Fetch labs for the same day
+            $all_labs = $this->lab_model->getLabByPatientId($patient_id);
+            $day_start = $date;
+            $day_end = $date + 86400;
+            $data['labs'] = array_filter($all_labs, function ($l) use ($day_start, $day_end) {
+                return $l->date >= $day_start && $l->date < $day_end;
+            });
         }
 
         // Get patient medical info (symptoms, diagnosis, notes)

@@ -14,7 +14,7 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
                         <div class="col-md-8">
                             <h3 class="document-title mb-1">LABORATORY REPORT #<?php echo $lab->id; ?></h3>
                             <p class="document-subtitle mb-0"><?php echo $patient->name; ?> | ID:
-                                P-<?php echo !empty($patient->hospital_patient_id) ? $patient->hospital_patient_id : $patient->id; ?>
+                                <?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . (!empty($patient->hospital_patient_id) ? $patient->hospital_patient_id : $patient->id); ?>
                                 | Invoice: <?php echo $invoice_details->id; ?>
                             </p>
                         </div>
@@ -62,7 +62,7 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
                                     <div class="info-row">
                                         <span class="info-label">Patient ID:</span>
                                         <span
-                                            class="info-value">P-<?php echo !empty($patient->hospital_patient_id) ? $patient->hospital_patient_id : $patient->id; ?></span>
+                                            class="info-value"><?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . (!empty($patient->hospital_patient_id) ? $patient->hospital_patient_id : $patient->id); ?></span>
                                     </div>
                                     <div class="info-row">
                                         <span class="info-label">Phone:</span>
@@ -140,6 +140,21 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
                                     foreach ($labs as $lab_item) {
                                         if (empty($lab_item->report))
                                             continue;
+
+                                        // Get Category Name for Title and Check for CBC
+                                        $category_name = lang('test');
+                                        if (!empty($lab_item->category_id)) {
+                                            $category = $this->finance_model->getPaymentCategoryById($lab_item->category_id);
+                                            if (!empty($category->category)) {
+                                                $category_name = $category->category;
+                                            }
+                                        }
+
+                                        // Skip CBC tests
+                                        if (stripos($category_name, 'cbc') !== false) {
+                                            continue;
+                                        }
+
                                         if ($count > 0) {
                                             echo '<br><hr style="border-top: 1px dashed #ccc;"><br>';
                                         }
@@ -148,14 +163,6 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
                                         <div class="lab-item-report mb-4">
                                             <h6 class="font-weight-bold" style="text-decoration: underline;">
                                                 <?php
-                                                // Get Category Name for Title
-                                                $category_name = lang('test');
-                                                if (!empty($lab_item->category_id)) {
-                                                    $category = $this->finance_model->getPaymentCategoryById($lab_item->category_id);
-                                                    if (!empty($category->category)) {
-                                                        $category_name = $category->category;
-                                                    }
-                                                }
                                                 echo $category_name . ' ' . lang('results');
                                                 ?>
                                                 <span style="float: right; font-size: 0.8em; font-weight: normal;">
@@ -166,7 +173,7 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
                                                 <?php echo $lab_item->report; ?>
                                             </div>
                                         </div>
-                                    <?php
+                                        <?php
                                     }
                                 } else if (!empty($lab->report)) {
                                     echo $lab->report;

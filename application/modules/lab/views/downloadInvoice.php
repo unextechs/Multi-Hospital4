@@ -123,7 +123,7 @@
                         <div class="invoice-info-row">
                             <span class="invoice-info-label"><?php echo lang('patient_id'); ?>:</span>
                             <span
-                                class="invoice-info-value">P-<?php echo !empty($patient_info->hospital_patient_id) ? $patient_info->hospital_patient_id : $patient_info->id; ?></span>
+                                class="invoice-info-value"><?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . (!empty($patient_info->hospital_patient_id) ? $patient_info->hospital_patient_id : $patient_info->id); ?></span>
                         </div>
                         <div class="invoice-info-row">
                             <span class="invoice-info-label"><?php echo lang('age'); ?> /
@@ -186,17 +186,23 @@
                 foreach ($labs as $lab_item) {
                     if (empty($lab_item->report))
                         continue;
+
+                    $category_name = lang('test');
+                    if (!empty($lab_item->category_id)) {
+                        $category = $this->finance_model->getPaymentCategoryById($lab_item->category_id);
+                        if (!empty($category->category)) {
+                            $category_name = $category->category;
+                        }
+                    }
+
+                    // Skip CBC tests
+                    if (stripos($category_name, 'cbc') !== false) {
+                        continue;
+                    }
                     ?>
                     <div class="invoice-info-box" style="margin-bottom: 25px;">
                         <h4 class="invoice-info-box-title">
                             <?php
-                            $category_name = lang('test');
-                            if (!empty($lab_item->category_id)) {
-                                $category = $this->finance_model->getPaymentCategoryById($lab_item->category_id);
-                                if (!empty($category->category)) {
-                                    $category_name = $category->category;
-                                }
-                            }
                             echo $category_name . ' ' . lang('results');
                             ?>
                             (ID: <?php echo $lab_item->id; ?>)
@@ -205,7 +211,7 @@
                             <?php echo $lab_item->report; ?>
                         </div>
                     </div>
-                <?php
+                    <?php
                 }
             } else if (!empty($lab->report)) {
                 ?>

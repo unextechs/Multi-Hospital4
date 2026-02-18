@@ -113,7 +113,7 @@ $patient = $this->patient_model->getPatientById($prescription->patient);
                                         <div class="info-row">
                                             <span class="info-label">Patient ID:</span>
                                             <span
-                                                class="info-value"><?php echo !empty($patient) ? 'P' . $patient->hospital_patient_id : 'Not specified'; ?></span>
+                                                class="info-value"><?php echo !empty($patient) ? (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . $patient->hospital_patient_id : 'Not specified'; ?></span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">

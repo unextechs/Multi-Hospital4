@@ -305,7 +305,8 @@
                 <?php if (!empty($patient_details->hospital_patient_id)): ?>
                     <div class="detail-line">
                         <span class="detail-label"><?php echo lang('patient_id'); ?>:</span>
-                        <span class="detail-value">P-<?php echo $patient_details->hospital_patient_id; ?></span>
+                        <span
+                            class="detail-value"><?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . $patient_details->hospital_patient_id; ?></span>
                     </div>
                 <?php endif; ?>
                 <?php if (!empty($patient_details->age)): ?>

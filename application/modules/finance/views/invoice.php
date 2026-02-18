@@ -106,7 +106,8 @@
                                                 <span class="info-value">
                                                     <?php
                                                     if (!empty($patient_info)) {
-                                                        echo 'P-' . (!empty($patient_info->hospital_patient_id) ? $patient_info->hospital_patient_id : $patient_info->id);
+                                                        $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+                                                        echo $prefix . (!empty($patient_info->hospital_patient_id) ? $patient_info->hospital_patient_id : $patient_info->id);
                                                     }
                                                     ?>
                                                 </span>

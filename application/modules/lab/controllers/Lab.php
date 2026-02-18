@@ -246,7 +246,8 @@ class Lab extends MX_Controller
 
 
 
-        $patient_id_display = !empty($patient->hospital_patient_id) ? $patient->hospital_patient_id : $patient->id;
+        $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+        $patient_id_display = !empty($patient->hospital_patient_id) ? $prefix . $patient->hospital_patient_id : $patient->id;
         $report_date = date('d-m-Y', $lab->date);
 
         $header = '       <div id="invoice_header">

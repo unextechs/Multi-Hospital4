@@ -1,4 +1,3 @@
-
 <!--main content start-->
 <section id="main-content">
     <section class="wrapper site-min-height">
@@ -25,7 +24,7 @@
                             <p>
                                 <?php echo $settings->title; ?> <br>
                                 <?php echo $settings->address; ?><br>
-                                Tel:  <?php echo $settings->phone; ?>
+                                Tel: <?php echo $settings->phone; ?>
                             </p>
                         </div>
                         <div class="col-lg-4 col-sm-4">
@@ -35,20 +34,22 @@
                                 $patient_info = $this->db->get_where('patient', array('id' => $patient_id))->row();
                                 echo $patient_info->name . ' <br>';
                                 echo $patient_info->address . '  <br/>';
-                                P: echo $patient_info->phone
+                                $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+                                echo lang('patient_id') . ': ' . $prefix . $patient_info->hospital_patient_id . ' <br>';
+                                echo lang('phone') . ': ' . $patient_info->phone;
                                 ?>
                             </p>
                         </div>
                         <div class="col-lg-4 col-sm-4">
                             <h4><?php echo lang('invoice_info'); ?></h4>
                             <ul class="unstyled">
-                                <li><?php echo lang('invoice_status'); ?>		: <strong class="invoice_status"><?php
-                                        if (!empty($payments)) {
-                                            echo 'Paid';
-                                        } else {
-                                            echo '';
-                                        }
-                                        ?></strong> </li>
+                                <li><?php echo lang('invoice_status'); ?> : <strong class="invoice_status"><?php
+                                    if (!empty($payments)) {
+                                        echo 'Paid';
+                                    } else {
+                                        echo '';
+                                    }
+                                    ?></strong> </li>
                             </ul>
                         </div>
                     </div>
@@ -89,13 +90,13 @@
                                         foreach ($category_name1 as $category_name2) {
                                             $category_name3 = explode('*', $category_name2);
                                             if ($category_name3[1] > 0) {
-                                                ?>                
+                                                ?>
                                                 <tr>
                                                     <td><?php echo $i = $i + 1; ?></td>
                                                     <td><?php echo $category_name3[0]; ?> </td>
                                                     <td><?php echo date('m/d/y', $payment->date); ?> </td>
-                                                    <td class=""><?php echo $settings->currency; ?> <?php echo $category_name3[1]; ?> </td>
-                                                </tr> 
+                                                    <td class=""><?php echo $settings->currency; ?>                     <?php echo $category_name3[1]; ?> </td>
+                                                </tr>
                                                 <?php
                                             }
                                         }
@@ -107,23 +108,25 @@
                         <div class="row">
                             <div class="col-lg-4 invoice-block float-right">
                                 <ul class="unstyled amounts">
-                                    <li><strong><?php echo lang('sub_total_amount'); ?> : </strong><?php echo $settings->currency; ?> <?php
-                                        if (!empty($amount)) {
-                                            echo array_sum($amount);
-                                        }
-                                        ?></li>
+                                    <li><strong><?php echo lang('sub_total_amount'); ?> :
+                                        </strong><?php echo $settings->currency; ?>     <?php
+                                                if (!empty($amount)) {
+                                                    echo array_sum($amount);
+                                                }
+                                                ?></li>
                                     <?php if (!empty($discount)) { ?>
                                         <li><strong>Discount</strong> <?php
-                                        ?> <?php echo array_sum($discount); ?> </li>
+                                        ?>         <?php echo array_sum($discount); ?> </li>
                                     <?php } ?>
                                     <?php if (!empty($flat_vat)) { ?>
-                                        <li><strong>VAT :</strong>   <?php ?> % = <?php echo $settings->currency . ' ' . array_sum($flat_vat); ?></li>
+                                        <li><strong>VAT :</strong> <?php ?> % =
+                                            <?php echo $settings->currency . ' ' . array_sum($flat_vat); ?></li>
                                     <?php } ?>
-                                        <li class="vat_amount"><strong>Total : </strong><?php echo $settings->currency; ?> <?php
-                                        if (!empty($gross_total)) {
-                                            echo array_sum($gross_total);
-                                        }
-                                        ?></li>
+                                    <li class="vat_amount"><strong>Total : </strong><?php echo $settings->currency; ?>     <?php
+                                            if (!empty($gross_total)) {
+                                                echo array_sum($gross_total);
+                                            }
+                                            ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -166,8 +169,9 @@
                                         <tr>
                                             <td><?php echo $i = $i + 1; ?></td>
                                             <td><?php echo date('m/d/y', $payment->date); ?> </td>
-                                            <td class=""><?php echo $settings->currency; ?> <?php echo $ot_payment->gross_total; ?> </td>
-                                        </tr> 
+                                            <td class=""><?php echo $settings->currency; ?>             <?php echo $ot_payment->gross_total; ?>
+                                            </td>
+                                        </tr>
                                         <?php
                                     }
                                 }
@@ -179,22 +183,24 @@
                         <div class="row">
                             <div class="col-lg-4 invoice-block float-right">
                                 <ul class="unstyled amounts">
-                                    <li><strong><?php echo lang('sub_total_amount'); ?> : </strong><?php echo $settings->currency; ?> <?php
-                                        if (!empty($ot_amount)) {
-                                            echo array_sum($ot_amount);
-                                        }
-                                        ?></li>
+                                    <li><strong><?php echo lang('sub_total_amount'); ?> :
+                                        </strong><?php echo $settings->currency; ?>     <?php
+                                                if (!empty($ot_amount)) {
+                                                    echo array_sum($ot_amount);
+                                                }
+                                                ?></li>
                                     <?php if (!empty($ot_discount)) { ?>
-                                        <li><strong>Discount</strong> <?php ?> <?php echo array_sum($ot_discount); ?> </li>
+                                        <li><strong>Discount</strong> <?php ?>         <?php echo array_sum($ot_discount); ?> </li>
                                     <?php } ?>
                                     <?php if (!empty($ot_flat_vat)) { ?>
-                                        <li><strong>VAT :</strong>   <?php ?> % = <?php echo $settings->currency . ' ' . array_sum($ot_flat_vat); ?></li>
+                                        <li><strong>VAT :</strong> <?php ?> % =
+                                            <?php echo $settings->currency . ' ' . array_sum($ot_flat_vat); ?></li>
                                     <?php } ?>
-                                    <li class="vat_amount"><strong >Total : </strong><?php echo $settings->currency; ?> <?php
-                                        if (!empty($ot_gross_total)) {
-                                            echo array_sum($ot_gross_total);
-                                        }
-                                        ?></li>
+                                    <li class="vat_amount"><strong>Total : </strong><?php echo $settings->currency; ?>     <?php
+                                            if (!empty($ot_gross_total)) {
+                                                echo array_sum($ot_gross_total);
+                                            }
+                                            ?></li>
                                 </ul>
                             </div>
                         </div>
@@ -204,12 +210,13 @@
 
                     <div class="row">
                         <div class="col-lg-4 invoice-block float-right">
-                            <ul class="unstyled amounts">         
-                                <li class="total_amount"><strong><?php echo lang('total_amount_to_be_paid'); ?> : </strong><?php echo $settings->currency; ?> <?php
-                                    if (!empty($ot_gross_total) || !empty($gross_total)) {
-                                        echo array_sum($ot_gross_total) + array_sum($gross_total);
-                                    }
-                                    ?>
+                            <ul class="unstyled amounts">
+                                <li class="total_amount"><strong><?php echo lang('total_amount_to_be_paid'); ?> :
+                                    </strong><?php echo $settings->currency; ?> <?php
+                                        if (!empty($ot_gross_total) || !empty($gross_total)) {
+                                            echo array_sum($ot_gross_total) + array_sum($gross_total);
+                                        }
+                                        ?>
                                 </li>
                             </ul>
                         </div>
@@ -217,7 +224,8 @@
 
 
                     <div class="text-center invoice-btn">
-                        <a class="btn btn-info btn-lg" onclick="javascript:window.print();"><i class="fa fa-print"></i> <?php echo lang('print'); ?> </a>
+                        <a class="btn btn-info btn-lg" onclick="javascript:window.print();"><i class="fa fa-print"></i>
+                            <?php echo lang('print'); ?> </a>
                     </div>
                 </div>
             </div>

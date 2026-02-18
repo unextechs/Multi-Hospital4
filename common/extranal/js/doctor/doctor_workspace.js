@@ -357,6 +357,14 @@
         });
     });
 
+    // Lab: Reprint Request
+    $(document).off('click', '.reprint-lab-workspace').on('click', '.reprint-lab-workspace', function(e) {
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        var url = window.base_url + 'doctor/workspace/print_lab_request?ids=' + id;
+        window.open(url, '_blank');
+    });
+
     // Lab: Delete Request
     $(document).off('click', '.delete-lab-workspace').on('click', '.delete-lab-workspace', function(e) {
         e.preventDefault();

@@ -408,7 +408,9 @@ class Patient extends MX_Controller
             }
 
             // Format patient number with P prefix (e.g., P1, P2, P3)
-            $patient_number = 'P' . $patient->hospital_patient_id;
+            $settings = $this->settings_model->getSettings();
+            $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+            $patient_number = $prefix . $patient->hospital_patient_id;
 
             $info_row = array(
                 $patient_number,
@@ -516,7 +518,9 @@ class Patient extends MX_Controller
             }
 
             // Format patient number with P prefix (e.g., P1, P2, P3)
-            $patient_number = 'P' . $patient->hospital_patient_id;
+            $settings = $this->settings_model->getSettings();
+            $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+            $patient_number = $prefix . $patient->hospital_patient_id;
 
             $info_row = array(
                 $patient_number,
@@ -772,7 +776,9 @@ class Patient extends MX_Controller
             $patient_details = $this->patient_model->getPatientById($case->patient_id);
             if (!empty($patient_details)) {
                 $patient_name = $patient_details->name;
-                $patient_id = "P" . $patient_details->hospital_patient_id;
+                $settings = $this->settings_model->getSettings();
+                $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+                $patient_id = $prefix . $patient_details->hospital_patient_id;
             } else {
                 $patient_name = $case->patient_name;
                 $patient_id = '';
@@ -840,7 +846,9 @@ class Patient extends MX_Controller
             $patient_details = $this->patient_model->getPatientById($document->patient);
             if (!empty($patient_details)) {
                 $patient_name = $patient_details->name;
-                $patient_id = "P" . $patient_details->hospital_patient_id;
+                $settings = $this->settings_model->getSettings();
+                $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+                $patient_id = $prefix . $patient_details->hospital_patient_id;
             } else {
                 $patient_name = $document->patient_name;
                 $patient_id = $document->patient;

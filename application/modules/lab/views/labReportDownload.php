@@ -203,10 +203,6 @@
                 foreach ($labs as $lab_item) {
                     if (empty($lab_item->report))
                         continue;
-                    if ($count > 0) {
-                        echo '<hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ccc;">';
-                    }
-                    $count++;
 
                     // Optional: Add Title for each report in PDF too
                     $category_name = lang('test');
@@ -216,6 +212,17 @@
                             $category_name = $category->category;
                         }
                     }
+
+                    // Skip CBC tests
+                    if (stripos($category_name, 'cbc') !== false) {
+                        continue;
+                    }
+
+                    if ($count > 0) {
+                        echo '<hr style="margin: 20px 0; border: 0; border-top: 1px dashed #ccc;">';
+                    }
+                    $count++;
+
                     echo '<h4 style="margin-bottom: 10px; text-decoration: underline;">' . $category_name . ' ' . lang('results') . ' (ID: ' . $lab_item->id . ')</h4>';
                     echo $lab_item->report;
                 }

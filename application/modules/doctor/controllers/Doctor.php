@@ -674,6 +674,7 @@ class Doctor extends MX_Controller
     {
         $id = $this->input->get('id');
         $data['response'] = $this->doctorvisit_model->getDoctorvisitById($id);
+        $data['settings'] = $this->settings_model->getSettings();
 
 
         echo json_encode($data);

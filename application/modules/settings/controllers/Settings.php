@@ -103,11 +103,23 @@ class Settings extends MX_Controller
         $followup_period = $this->input->post('followup_period');
         $daycare_fee = $this->input->post('daycare_fee');
         $emergency_fee = $this->input->post('emergency_fee');
+        $patient_id_prefix = $this->input->post('patient_id_prefix');
+        $patient_id_start_index = $this->input->post('patient_id_start_index');
 
         // Ensure followup_period column exists
         if (!$this->db->field_exists('followup_period', 'settings')) {
             $this->load->dbforge();
             $this->dbforge->add_column('settings', array('followup_period' => array('type' => 'INT', 'constraint' => 11, 'default' => 15)));
+        }
+
+        if (!$this->db->field_exists('patient_id_prefix', 'settings')) {
+            $this->load->dbforge();
+            $this->dbforge->add_column('settings', array('patient_id_prefix' => array('type' => 'VARCHAR', 'constraint' => 100, 'default' => 'P')));
+        }
+
+        if (!$this->db->field_exists('patient_id_start_index', 'settings')) {
+            $this->load->dbforge();
+            $this->dbforge->add_column('settings', array('patient_id_start_index' => array('type' => 'INT', 'constraint' => 11, 'default' => 0)));
         }
 
         if (!empty($email)) {
@@ -192,6 +204,8 @@ class Settings extends MX_Controller
                     'followup_period' => $followup_period,
                     'daycare_fee' => $daycare_fee,
                     'emergency_fee' => $emergency_fee,
+                    'patient_id_prefix' => $patient_id_prefix,
+                    'patient_id_start_index' => $patient_id_start_index,
                 );
 
                 if (!empty($file_name)) {

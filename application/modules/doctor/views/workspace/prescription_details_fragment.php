@@ -114,7 +114,7 @@
                                             <?php echo $parts[4]; ?>
                                         </td>
                                     </tr>
-                                <?php
+                                    <?php
                                 }
                             }
                         }
@@ -125,10 +125,50 @@
     </div>
 
     <?php if (!empty($patient->notes)): ?>
-        <div class="clinical-notes p-3 bg-light rounded border">
+        <div class="clinical-notes p-3 bg-light rounded border mb-4">
             <h6 class="font-weight-bold small text-muted text-uppercase mb-2">Clinical Notes & Advice</h6>
             <div class="small" style="line-height: 1.5;">
                 <?php echo nl2br($patient->notes); ?>
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if (!empty($labs)): ?>
+        <div class="labs-section">
+            <h6 class="font-weight-bold border-left border-info pl-2 mb-3">Lab Investigations Ordered</h6>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover border">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="small">Investigation</th>
+                            <th class="small">Date</th>
+                            <th class="small">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($labs as $lab): ?>
+                            <tr>
+                                <td><strong>
+                                        <?php
+                                        $cat_name = 'Unknown';
+                                        $pc = $this->finance_model->getPaymentCategoryById($lab->category_id);
+                                        if ($pc) {
+                                            $cat_name = $pc->category;
+                                        }
+                                        echo $cat_name;
+                                        ?>
+                                    </strong></td>
+                                <td><?php echo date('d M Y', $lab->date); ?></td>
+                                <td>
+                                    <span
+                                        class="badge badge-<?php echo ($lab->status == 'complete') ? 'success' : 'warning'; ?>">
+                                        <?php echo ucfirst($lab->status); ?>
+                                    </span>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     <?php endif; ?>
