@@ -21,7 +21,12 @@ class Schedule_model extends CI_model
 
     function getAvailableDoctorByDate($date)
     {
-
+        if (empty($date)) {
+            $date = time();
+        }
+        if (!is_numeric($date)) {
+            $date = strtotime($date);
+        }
         $weekday = date("l", $date);
         $this->db->where('date', $date);
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
@@ -53,7 +58,12 @@ class Schedule_model extends CI_model
 
     function getAvailableDoctorsByDateBySlot($date, $slot)
     {
-
+        if (empty($date)) {
+            $date = time();
+        }
+        if (!is_numeric($date)) {
+            $date = strtotime($date);
+        }
         $weekday = date("l", $date);
         $this->db->where('date', $date);
         $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
@@ -98,6 +108,12 @@ class Schedule_model extends CI_model
 
     function getAvailableSlotByDoctorByDate($date, $doctor)
     {
+        if (empty($date)) {
+            $date = time();
+        }
+        if (!is_numeric($date)) {
+            $date = strtotime($date);
+        }
         //$newDate = date("m-d-Y", strtotime($date));
         $weekday = date("l", $date);
 
@@ -121,10 +137,10 @@ class Schedule_model extends CI_model
             $availabletimeSlot = array();
             $bookedTimeSlot = array();
 
-            $this->db->where('hospital_id', $this->hospital_id);
+            $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
             $this->settings = $this->db->get('settings')->row();
 
-            $is_today = (date('Y-m-d', $date) == date('Y-m-d'));
+            $is_today = (date('Y-m-d', (int) $date) == date('Y-m-d'));
             $current_time_key = -1;
             if ($is_today) {
                 $current_time = date('h:i A');
@@ -165,6 +181,12 @@ class Schedule_model extends CI_model
 
     function getAvailableSlotByDoctorByDateByAppointmentId($date, $doctor, $appointment_id)
     {
+        if (empty($date)) {
+            $date = time();
+        }
+        if (!is_numeric($date)) {
+            $date = strtotime($date);
+        }
         //$newDate = date("m-d-Y", strtotime($date));
         $weekday = date("l", $date);
 
@@ -189,10 +211,10 @@ class Schedule_model extends CI_model
             $availabletimeSlot = array();
             $bookedTimeSlot = array();
 
-            $this->db->where('hospital_id', $this->hospital_id);
+            $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
             $this->settings = $this->db->get('settings')->row();
 
-            $is_today = (date('Y-m-d', $date) == date('Y-m-d'));
+            $is_today = (date('Y-m-d', (int) $date) == date('Y-m-d'));
             $current_time_key = -1;
             if ($is_today) {
                 $current_time = date('h:i A');

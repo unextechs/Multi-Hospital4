@@ -322,7 +322,7 @@ class Home extends MX_Controller
                         foreach ($categories_in_payment as $key => $category_in_payment) {
                             $category_id = explode('*', $category_in_payment);
                             if ($category_id[0] == $cat_name->id) {
-                                $category_total[$cat_name->id] = ($category_total[$cat_name->id] ?? 0) + ($category_id[1] ?? 0) * ($category_id[3] ?? 0);
+                                $category_total[$cat_name->id] = (float) ($category_total[$cat_name->id] ?? 0) + (float) ($category_id[1] ?? 0) * (float) ($category_id[3] ?? 0);
                             }
                         }
                     }

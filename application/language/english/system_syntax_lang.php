@@ -2830,3 +2830,8 @@ $lang['medicine_suppliers'] = 'Medicine Suppliers';
 $lang['medicine_batches'] = 'Medicine Batches';
 $lang['expiring_medicines'] = 'Expiring Medicines';
 $lang['sidebar_color'] = 'Sidebar Color';
+$lang['processing'] = 'Processing';
+$lang['toggle_sidebar'] = 'Toggle Sidebar';
+$lang['ai_services'] = 'AI Services';
+$lang['role_permission'] = 'Role Permission';
+
