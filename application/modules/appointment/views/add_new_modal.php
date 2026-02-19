@@ -116,18 +116,18 @@
     </div>
     <div class="form-group col-md-4 form_data">
         <label for="exampleInputEmail1"> <?php echo lang('visit'); ?> <?php echo lang('charges'); ?></label>
-        <input type="number" class="form-control form-control-lg" name="visit_charges" id="visit_charges" value=''
-            placeholder="" readonly="">
+        <input type="number" step="any" class="form-control form-control-lg" name="visit_charges" id="visit_charges"
+            value='' placeholder="">
     </div>
     <div class="form-group col-md-4 form_data">
         <label for="exampleInputEmail1"> <?php echo lang('discount'); ?></label>
-        <input type="number" class="form-control form-control-lg" name="discount" id="discount" value='0'
+        <input type="number" step="any" class="form-control form-control-lg" name="discount" id="discount" value='0'
             placeholder="">
     </div>
     <div class="form-group col-md-4 form_data">
         <label for="exampleInputEmail1"> <?php echo lang('grand_total'); ?></label>
-        <input type="number" class="form-control form-control-lg" name="grand_total" id="grand_total" value='0'
-            placeholder="" readonly="">
+        <input type="number" step="any" class="form-control form-control-lg" name="grand_total" id="grand_total"
+            value='0' placeholder="" readonly="">
     </div>
     <?php if (!$this->ion_auth->in_group(array('Nurse', 'Doctor'))) { ?>
         <div class="col-md-12">
@@ -233,9 +233,9 @@
                 <div class="form-group cardsubmit  right-six col-md-12 hidden">
                     <button type="submit" name="pay_now" id="submit-btn" class="btn btn-info row float-right" <?php if ($settings->payment_gateway == 'Stripe') {
                         ?>onClick="stripePay(event);" <?php }
-                    ?>         <?php if ($settings->payment_gateway == '2Checkout' && $twocheckout->status == 'live') {
-                                 ?>onClick="twoCheckoutPay(event);" <?php }
-                             ?>> <?php echo lang('submit'); ?></button>
+                    ?>             <?php if ($settings->payment_gateway == '2Checkout' && $twocheckout->status == 'live') {
+                                     ?>onClick="twoCheckoutPay(event);" <?php }
+                                 ?>> <?php echo lang('submit'); ?></button>
                 </div>
             </div>
         </div>

@@ -35,7 +35,7 @@
                                 echo $patient_info->name . ' <br>';
                                 echo $patient_info->address . '  <br/>';
                                 $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
-                                echo lang('patient_id') . ': ' . $prefix . $patient_info->hospital_patient_id . ' <br>';
+                                echo lang('patient_id') . ': ' . $prefix . (!empty($patient_info->hospital_patient_id) ? $patient_info->hospital_patient_id : $patient_info->id) . ' <br>';
                                 echo lang('phone') . ': ' . $patient_info->phone;
                                 ?>
                             </p>
@@ -134,14 +134,16 @@
                                     <?php } ?>
                                     <?php if (!empty($flat_vat)) { ?>
                                         <li><strong>VAT :</strong> <?php ?> % =
-                                            <?php echo $settings->currency . ' ' . array_sum($flat_vat); ?></li>
+                                            <?php echo $settings->currency . ' ' . array_sum($flat_vat); ?>
+                                        </li>
                                     <?php } ?>
                                     <li class="vat_amount"><strong>Total : </strong><?php echo $settings->currency; ?>
                                         <?php
                                         if (!empty($gross_total)) {
                                             echo array_sum($gross_total);
                                         }
-                                        ?></li>
+                                        ?>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -222,14 +224,16 @@
                                     <?php } ?>
                                     <?php if (!empty($ot_flat_vat)) { ?>
                                         <li><strong>VAT :</strong> <?php ?> % =
-                                            <?php echo $settings->currency . ' ' . array_sum($ot_flat_vat); ?></li>
+                                            <?php echo $settings->currency . ' ' . array_sum($ot_flat_vat); ?>
+                                        </li>
                                     <?php } ?>
                                     <li class="vat_amount"><strong>Total : </strong><?php echo $settings->currency; ?>
                                         <?php
                                         if (!empty($ot_gross_total)) {
                                             echo array_sum($ot_gross_total);
                                         }
-                                        ?></li>
+                                        ?>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -285,8 +289,7 @@
                             if (!empty($category->description)) {
                                 echo $category->description;
                             }
-                            ?>'
-                                placeholder="<?php echo $settings->currency; ?> ">
+                            ?>' placeholder="<?php echo $settings->currency; ?> ">
                         </div>
                         <input type="hidden" name="id" value="<?php echo $payment->id; ?>">
 

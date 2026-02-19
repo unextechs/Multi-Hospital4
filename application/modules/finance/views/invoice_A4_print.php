@@ -77,7 +77,7 @@
                             <div class="col-sm-4 invoice-col">
                                 <?php // Invoice heading removed as per request ?>
                                 <b><?php echo lang('patient_id') ?>:</b>
-                                <?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . $patient_info->hospital_patient_id ?><br>
+                                <?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . (!empty($patient_info->hospital_patient_id) ? $patient_info->hospital_patient_id : $patient_info->id); ?><br>
                                 <!-- <b>Account:</b> 968-34567 -->
                             </div>
                             <!-- /.col -->

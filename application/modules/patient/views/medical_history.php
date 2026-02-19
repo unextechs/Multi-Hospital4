@@ -24,7 +24,10 @@
                             <select class="custom-select pos_select" id="pos_select_patient" name="patient_id"
                                 style="font-weight:300 !important;">
                                 <option value="<?php echo $patient->id; ?>" selected>
-                                    <?php echo $patient->name . ' (' . lang('id') . ': ' . $patient->id . ' - ' . lang('phone') . ': ' . $patient->phone . ' - ' . lang('age') . ': ' . explode('-', $patient->age)[0] . ' ' . lang('years'); ?>
+                                    <?php
+                                    $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
+                                    $p_id = $prefix . (!empty($patient->hospital_patient_id) ? $patient->hospital_patient_id : $patient->id);
+                                    echo $patient->name . ' (' . lang('id') . ': ' . $p_id . ' - ' . lang('phone') . ': ' . $patient->phone . ' - ' . lang('age') . ': ' . explode('-', $patient->age)[0] . ' ' . lang('years'); ?>
                                 </option>
                             </select>
                         </div>
@@ -159,8 +162,9 @@
                                                                 <h5 class="font-weight-bold mb-0">
                                                                     <?php echo $patient->name; ?>
                                                                 </h5>
-                                                                <small class="text-muted">ID:
-                                                                    <?php echo $patient->id; ?></small>
+                                                                <small
+                                                                    class="text-muted"><?php echo lang('patient_id'); ?>:
+                                                                    <?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . (!empty($patient->hospital_patient_id) ? $patient->hospital_patient_id : $patient->id); ?></small>
                                                             </div>
 
                                                             <div class="col-lg-4">

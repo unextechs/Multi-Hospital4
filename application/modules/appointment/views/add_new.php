@@ -250,19 +250,19 @@
                                         <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
                                             <div class="d-flex justify-content-between mb-3">
                                                 <span class="text-muted"><?php echo lang('visit_charges'); ?></span>
-                                                <input type="number"
+                                                <input type="number" step="any"
                                                     class="form-control form-control-lg text-right w-50"
-                                                    name="visit_charges" id="visit_charges" readonly>
+                                                    name="visit_charges" id="visit_charges">
                                             </div>
                                             <div class="d-flex justify-content-between mb-3">
                                                 <span class="text-muted"><?php echo lang('discount'); ?></span>
-                                                <input type="number"
+                                                <input type="number" step="any"
                                                     class="form-control form-control-lg text-right w-50" name="discount"
                                                     id="discount" value="0">
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <span class="h5 mb-0"><?php echo lang('total_amount'); ?></span>
-                                                <input type="number"
+                                                <input type="number" step="any"
                                                     class="form-control form-control-lg text-right w-50 font-weight-bold"
                                                     name="grand_total" id="grand_total" readonly>
                                             </div>

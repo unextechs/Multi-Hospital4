@@ -135,7 +135,6 @@
                                                 style="font-weight: 700; color: #000;"><?php echo $patient_info->name; ?></span>
                                         </div>
                                         <div class="invoice-info-row">
-                                            <span class="invoice-info-label"><?php echo lang('patient_id'); ?>:</span>
                                             <span
                                                 class="invoice-info-value"><?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . (!empty($patient_info->hospital_patient_id) ? $patient_info->hospital_patient_id : $patient_info->id); ?></span>
                                         </div>

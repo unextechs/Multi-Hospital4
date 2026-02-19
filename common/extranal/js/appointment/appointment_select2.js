@@ -291,24 +291,21 @@ $(document).ready(function () {
       method: "GET",
       dataType: "json",
       success: function (response) {
-        var visit_charge = response.response.visit_charges;
-        var discount_percent = response.settings.discount_percent;
+        var visit_charge = parseFloat(response.response.visit_charges) || 0;
+        var discount_percent = parseFloat(response.settings.discount_percent) || 0;
         var discount_amount = (visit_charge * discount_percent) / 100;
 
-        $("#visit_charges").val(visit_charge).end();
-        $("#discount").val(discount_amount).end();
-        $("#grand_total")
-          .val(parseFloat(visit_charge - discount_amount))
-          .end();
+        $("#visit_charges").val(visit_charge).trigger('keyup');
+        $("#discount").val(discount_amount.toFixed(2)).trigger('keyup');
       },
     });
   });
-  $("#discount").keyup(function () {
-    var discount = $(this).val();
-    var price = $("#visit_charges").val();
-    $("#grand_total")
-      .val(parseFloat(price - discount))
-      .end();
+
+  $("#visit_charges, #discount").on('keyup change', function () {
+    var price = parseFloat($("#visit_charges").val()) || 0;
+    var discount = parseFloat($("#discount").val()) || 0;
+    var grand_total = price - discount;
+    $("#grand_total").val(grand_total.toFixed(2));
   });
 });
 
@@ -322,24 +319,21 @@ $(document).ready(function () {
       method: "GET",
       dataType: "json",
       success: function(response) {
-        var visit_charge = response.response.visit_charges;
-        var discount_percent = response.settings.discount_percent;
+        var visit_charge = parseFloat(response.response.visit_charges) || 0;
+        var discount_percent = parseFloat(response.settings.discount_percent) || 0;
         var discount_amount = (visit_charge * discount_percent) / 100;
 
-        $("#visit_charges1").val(visit_charge).end();
-        $("#discount1").val(discount_amount).end();
-        $("#grand_total1")
-          .val(parseFloat(visit_charge - discount_amount))
-          .end();
+        $("#visit_charges1").val(visit_charge).trigger('keyup');
+        $("#discount1").val(discount_amount.toFixed(2)).trigger('keyup');
       },
     });
   });
-  $("#discount1").keyup(function () {
-    var discount = $(this).val();
-    var price = $("#visit_charges1").val();
-    $("#grand_total1")
-      .val(parseFloat(price - discount))
-      .end();
+
+  $("#visit_charges1, #discount1").on('keyup change', function () {
+    var price = parseFloat($("#visit_charges1").val()) || 0;
+    var discount = parseFloat($("#discount1").val()) || 0;
+    var grand_total = price - discount;
+    $("#grand_total1").val(grand_total.toFixed(2));
   });
 });
 

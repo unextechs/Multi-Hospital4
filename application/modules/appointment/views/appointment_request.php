@@ -13,7 +13,8 @@
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb bg-transparent mb-0">
                             <li class="breadcrumb-item"><a href="home"><?php echo lang('home'); ?></a></li>
-                            <li class="breadcrumb-item"><a href="appointment"><?php echo lang('appointment'); ?></a></li>
+                            <li class="breadcrumb-item"><a href="appointment"><?php echo lang('appointment'); ?></a>
+                            </li>
                             <li class="breadcrumb-item active"><?php echo lang('request'); ?></li>
                         </ol>
                     </nav>
@@ -28,7 +29,8 @@
                 <div class="col-md-12">
                     <div class="card shadow-lg border-0">
                         <div class="card-header bg-light">
-                            <h3 class="card-title font-weight-bold"><?php echo lang('Appoitments requested from patients'); ?></h3>
+                            <h3 class="card-title font-weight-bold">
+                                <?php echo lang('Appoitments requested from patients'); ?></h3>
                         </div>
 
                         <div class="card-body bg-light p-4">
@@ -44,7 +46,8 @@
                                         <th class="font-weight-bold"><?php echo lang('description'); ?></th>
                                         <th class="font-weight-bold"><?php echo lang('invoice_id'); ?></th>
                                         <th class="font-weight-bold"><?php echo lang('amount'); ?></th>
-                                        <th class="font-weight-bold"><?php echo lang('bill'); ?> <?php echo lang('status'); ?></th>
+                                        <th class="font-weight-bold"><?php echo lang('bill'); ?>
+                                            <?php echo lang('status'); ?></th>
                                         <th class="font-weight-bold no-print"><?php echo lang('options'); ?></th>
                                     </tr>
                                 </thead>
@@ -87,11 +90,13 @@
                 </button>
             </div>
             <div class="modal-body row">
-                <form role="form" action="appointment/addNew" id="addAppointmentForm" method="post" class="clearfix" enctype="multipart/form-data">
+                <form role="form" action="appointment/addNew" id="addAppointmentForm" method="post" class="clearfix"
+                    enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>&#42;</label>
-                            <select class="form-control form-control-lg m-bot15 pos_select" id="pos_select" name="patient" value=''>
+                            <select class="form-control form-control-lg m-bot15 pos_select" id="pos_select"
+                                name="patient" value=''>
 
 
                             </select>
@@ -99,53 +104,61 @@
                         <input type="hidden" name="redirectlink" value="my_today">
                         <div class="pos_client clearfix col-md-6">
                             <div class="form-group payment pad_bot float-right patient_div">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('name'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('name'); ?></label>
                                 <input type="text" class="form-control pay_in" name="p_name" value='' placeholder="">
                             </div>
                             <div class="form-group payment pad_bot float-right">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('email'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('email'); ?></label>
                                 <input type="text" class="form-control pay_in" name="p_email" value='' placeholder="">
                             </div>
                             <div class="form-group payment pad_bot float-right">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('phone'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('phone'); ?></label>
                                 <input type="text" class="form-control pay_in" name="p_phone" value='' placeholder="">
                             </div>
                             <div class="form-group payment pad_bot float-right">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('age'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('age'); ?></label>
                                 <input type="text" class="form-control pay_in" name="p_age" value='' placeholder="">
                             </div>
                             <div class="form-group payment pad_bot">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('gender'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('gender'); ?></label>
                                 <select class="form-control form-control-lg" name="p_gender" value=''>
 
                                     <option value="Male" <?php
-                                                            if (!empty($patient->sex)) {
-                                                                if ($patient->sex == 'Male') {
-                                                                    echo 'selected';
-                                                                }
-                                                            }
-                                                            ?>> <?php echo lang('male'); ?> </option>
+                                    if (!empty($patient->sex)) {
+                                        if ($patient->sex == 'Male') {
+                                            echo 'selected';
+                                        }
+                                    }
+                                    ?>> <?php echo lang('male'); ?> </option>
                                     <option value="Female" <?php
-                                                            if (!empty($patient->sex)) {
-                                                                if ($patient->sex == 'Female') {
-                                                                    echo 'selected';
-                                                                }
-                                                            }
-                                                            ?>> <?php echo lang('female'); ?> </option>
+                                    if (!empty($patient->sex)) {
+                                        if ($patient->sex == 'Female') {
+                                            echo 'selected';
+                                        }
+                                    }
+                                    ?>> <?php echo lang('female'); ?> </option>
 
                                 </select>
                             </div>
                         </div>
                         <div class="form-group col-md-6 doctor_div">
                             <label for="exampleInputEmail1"> <?php echo lang('doctor'); ?>&#42;</label>
-                            <select class="form-control form-control-lg m-bot15" id="adoctors" name="doctor" value='' required>
+                            <select class="form-control form-control-lg m-bot15" id="adoctors" name="doctor" value=''
+                                required>
 
                             </select>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1"> <?php echo lang('date'); ?>&#42;</label>
-                            <input type="text" class="form-control form-control-lg default-date-picker" id="date" required="" onkeypress="return false;" name="date" id="exampleInputEmail1" value='' placeholder="" autocomplete="off">
+                            <input type="text" class="form-control form-control-lg default-date-picker" id="date"
+                                required="" onkeypress="return false;" name="date" id="exampleInputEmail1" value=''
+                                placeholder="" autocomplete="off">
                         </div>
                         <div class="form-group col-md-6 aslots">
                             <label for="exampleInputEmail1"> <?php echo lang('available_slots'); ?></label>
@@ -154,49 +167,59 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1"> <?php echo lang('appointment'); ?> <?php echo lang('status'); ?></label>
+                            <label for="exampleInputEmail1"> <?php echo lang('appointment'); ?>
+                                <?php echo lang('status'); ?></label>
                             <select class="form-control form-control-lg m-bot15" name="status" value=''>
-                                <option value="Pending Confirmation" <?php ?>> <?php echo lang('pending_confirmation'); ?> </option>
+                                <option value="Pending Confirmation" <?php ?>>
+                                    <?php echo lang('pending_confirmation'); ?> </option>
                                 <option value="Confirmed" <?php
-                                                            ?>> <?php echo lang('confirmed'); ?> </option>
+                                ?>> <?php echo lang('confirmed'); ?> </option>
                                 <option value="Treated" <?php
-                                                        ?>> <?php echo lang('treated'); ?> </option>
+                                ?>> <?php echo lang('treated'); ?> </option>
                                 <option value="Cancelled" <?php
-                                                            ?>> <?php echo lang('cancelled'); ?> </option>
+                                ?>> <?php echo lang('cancelled'); ?> </option>
                             </select>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1"> <?php echo lang('remarks'); ?></label>
-                            <input type="text" class="form-control form-control-lg" name="remarks" id="exampleInputEmail1" value='' placeholder="">
+                            <input type="text" class="form-control form-control-lg" name="remarks"
+                                id="exampleInputEmail1" value='' placeholder="">
                         </div>
                         <div class="form-group col-md-12">
 
                             <label class=""><?php echo lang('visit'); ?> <?php echo lang('description'); ?>&#42;</label>
 
-                            <select class="form-control form-control-lg m-bot15" name="visit_description" id="visit_description" value='' required>
+                            <select class="form-control form-control-lg m-bot15" name="visit_description"
+                                id="visit_description" value='' required>
 
                             </select>
 
                         </div>
                         <div class="form-group col-md-4 form_data">
-                            <label for="exampleInputEmail1"> <?php echo lang('visit'); ?> <?php echo lang('charges'); ?></label>
-                            <input type="number" class="form-control form-control-lg" name="visit_charges" id="visit_charges" value='' placeholder="" readonly="">
+                            <label for="exampleInputEmail1"> <?php echo lang('visit'); ?>
+                                <?php echo lang('charges'); ?></label>
+                            <input type="number" step="any" class="form-control form-control-lg" name="visit_charges"
+                                id="visit_charges" value='' placeholder="">
                         </div>
                         <div class="form-group col-md-4 form_data">
                             <label for="exampleInputEmail1"> <?php echo lang('discount'); ?></label>
-                            <input type="number" class="form-control form-control-lg" name="discount" id="discount" value='0' placeholder="">
+                            <input type="number" step="any" class="form-control form-control-lg" name="discount"
+                                id="discount" value='0' placeholder="">
                         </div>
                         <div class="form-group col-md-4 form_data">
                             <label for="exampleInputEmail1"> <?php echo lang('grand_total'); ?></label>
-                            <input type="number" class="form-control form-control-lg" name="grand_total" id="grand_total" value='0' placeholder="" readonly="">
+                            <input type="number" step="any" class="form-control form-control-lg" name="grand_total"
+                                id="grand_total" value='0' placeholder="" readonly="">
                         </div>
                         <?php if (!$this->ion_auth->in_group(array('Nurse', 'Doctor'))) { ?>
                             <div class="form-group col-md-12">
-                                <input type="checkbox" id="pay_now_appointment" name="pay_now_appointment" value="pay_now_appointment">
+                                <input type="checkbox" id="pay_now_appointment" name="pay_now_appointment"
+                                    value="pay_now_appointment">
                                 <label for=""> <?php echo lang('pay_now'); ?></label><br>
                                 <?php if (!$this->ion_auth->in_group(array('Patient'))) { ?>
-                                    <span class="info_message"><?php echo lang('if_pay_now_checked_please_select_status_to_confirmed') ?></span>
+                                    <span
+                                        class="info_message"><?php echo lang('if_pay_now_checked_please_select_status_to_confirmed') ?></span>
                                 <?php } ?>
                             </div>
 
@@ -204,7 +227,8 @@
                                 <label for="exampleInputEmail1"> <?php echo lang('deposit_type'); ?></label>
 
                                 <div class="">
-                                    <select class="form-control form-control-lg m-bot15 js-example-basic-single selecttype" id="selecttype" name="deposit_type" value=''>
+                                    <select class="form-control form-control-lg m-bot15 js-example-basic-single selecttype"
+                                        id="selecttype" name="deposit_type" value=''>
                                         <?php if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) { ?>
                                             <option value="Cash"> <?php echo lang('cash'); ?> </option>
                                             <option value="Card"> <?php echo lang('card'); ?> </option>
@@ -226,7 +250,8 @@
                                     <hr>
                                     <?php if ($payment_gateway != 'Paymob') { ?>
                                         <div class="col-md-12 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('accepted'); ?> <?php echo lang('cards'); ?></label>
+                                            <label for="exampleInputEmail1"> <?php echo lang('accepted'); ?>
+                                                <?php echo lang('cards'); ?></label>
                                             <div class="payment pad_bot">
                                                 <img src="uploads/card.png" width="100%">
                                             </div>
@@ -236,41 +261,51 @@
 
                                     <?php
                                     if ($payment_gateway == 'PayPal') {
-                                    ?>
+                                        ?>
                                         <div class="form-group col-md-12 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('card'); ?> <?php echo lang('type'); ?></label>
+                                            <label for="exampleInputEmail1"> <?php echo lang('card'); ?>
+                                                <?php echo lang('type'); ?></label>
                                             <select class="form-control form-control-lg m-bot15" name="card_type" value=''>
 
                                                 <option value="Mastercard"> <?php echo lang('mastercard'); ?> </option>
                                                 <option value="Visa"> <?php echo lang('visa'); ?> </option>
-                                                <option value="American Express"> <?php echo lang('american_express'); ?> </option>
+                                                <option value="American Express"> <?php echo lang('american_express'); ?>
+                                                </option>
                                             </select>
                                         </div>
                                     <?php } ?>
                                     <?php if ($payment_gateway == '2Checkout' || $payment_gateway == 'PayPal') {
-                                    ?>
+                                        ?>
                                         <div class="form-group col-md-12 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('cardholder'); ?> <?php echo lang('name'); ?></label>
-                                            <input type="text" id="cardholder" class="form-control pay_in" name="cardholder" value='' placeholder="">
+                                            <label for="exampleInputEmail1"> <?php echo lang('cardholder'); ?>
+                                                <?php echo lang('name'); ?></label>
+                                            <input type="text" id="cardholder" class="form-control pay_in" name="cardholder"
+                                                value='' placeholder="">
                                         </div>
                                     <?php } ?>
                                     <?php if ($payment_gateway != 'Pay U Money' && $payment_gateway != 'Paystack' && $payment_gateway != 'SSLCOMMERZ' && $payment_gateway != 'Paytm') { ?>
                                         <div class="form-group col-md-12 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('card'); ?> <?php echo lang('number'); ?></label>
-                                            <input type="text" id="card" class="form-control pay_in" name="card_number" value='' placeholder="">
+                                            <label for="exampleInputEmail1"> <?php echo lang('card'); ?>
+                                                <?php echo lang('number'); ?></label>
+                                            <input type="text" id="card" class="form-control pay_in" name="card_number" value=''
+                                                placeholder="">
                                         </div>
 
 
 
                                         <div class="form-group col-md-8 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('expire'); ?> <?php echo lang('date'); ?></label>
-                                            <input type="text" class="form-control pay_in" id="expire" data-date="" data-date-format="MM YY" placeholder="Expiry (MM/YY)" name="expire_date" maxlength="7" aria-describedby="basic-addon1" value='' placeholder="">
+                                            <label for="exampleInputEmail1"> <?php echo lang('expire'); ?>
+                                                <?php echo lang('date'); ?></label>
+                                            <input type="text" class="form-control pay_in" id="expire" data-date=""
+                                                data-date-format="MM YY" placeholder="Expiry (MM/YY)" name="expire_date"
+                                                maxlength="7" aria-describedby="basic-addon1" value='' placeholder="">
                                         </div>
                                         <div class="form-group col-md-4 payment pad_bot">
                                             <label for="exampleInputEmail1"> <?php echo lang('cvv'); ?> </label>
-                                            <input type="text" class="form-control pay_in" id="cvv" maxlength="3" name="cvv" value='' placeholder="">
+                                            <input type="text" class="form-control pay_in" id="cvv" maxlength="3" name="cvv"
+                                                value='' placeholder="">
                                         </div>
-                                    <?php
+                                        <?php
                                     }
                                     ?>
                                 </div>
@@ -283,21 +318,24 @@
                                 <div class="form-group col-md-9">
                                     <?php $twocheckout = $this->db->get_where('paymentGateway', array('name =' => '2Checkout'))->row(); ?>
                                     <div class="form-group cashsubmit payment  right-six col-md-12">
-                                        <button type="submit" name="submit2" id="submit1" class="btn btn-info row float-right"> <?php echo lang('submit'); ?></button>
+                                        <button type="submit" name="submit2" id="submit1"
+                                            class="btn btn-info row float-right"> <?php echo lang('submit'); ?></button>
                                     </div>
                                     <?php $twocheckout = $this->db->get_where('paymentGateway', array('name =' => '2Checkout'))->row(); ?>
                                     <div class="form-group cardsubmit  right-six col-md-12 d-none">
-                                        <button type="submit" name="pay_now" id="submit-btn" class="btn btn-info row float-right" <?php if ($settings->payment_gateway == 'Stripe') {
-                                                                                                                                    ?>onClick="stripePay(event);" <?php }
-                                                                                                                                                                    ?> <?php if ($settings->payment_gateway == '2Checkout' && $twocheckout->status == 'live') {
-                                                                                                                                                                        ?>onClick="twoCheckoutPay(event);" <?php }
-                                                                                                                                                                                                            ?>> <?php echo lang('submit'); ?></button>
+                                        <button type="submit" name="pay_now" id="submit-btn"
+                                            class="btn btn-info row float-right" <?php if ($settings->payment_gateway == 'Stripe') {
+                                                ?>onClick="stripePay(event);" <?php }
+                                            ?>     <?php if ($settings->payment_gateway == '2Checkout' && $twocheckout->status == 'live') {
+                                                     ?>onClick="twoCheckoutPay(event);" <?php }
+                                                 ?>> <?php echo lang('submit'); ?></button>
                                     </div>
                                 </div>
                             </div>
                         <?php } else { ?>
                             <div class="form-group  payment  right-six col-md-12">
-                                <button type="submit" name="submit2" id="submit1" class="btn btn-info row float-right"> <?php echo lang('submit'); ?></button>
+                                <button type="submit" name="submit2" id="submit1" class="btn btn-info row float-right">
+                                    <?php echo lang('submit'); ?></button>
                             </div>
                         <?php } ?>
                     </div>
@@ -337,63 +375,73 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body row">
-                <form role="form" id="editAppointmentForm" action="appointment/addNew" class="clearfix" method="post" enctype="multipart/form-data">
+                <form role="form" id="editAppointmentForm" action="appointment/addNew" class="clearfix" method="post"
+                    enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>&#42;</label>
-                            <select class="form-control form-control-lg m-bot15  pos_select1 patient" id="pos_select1" name="patient" value='' required>
+                            <select class="form-control form-control-lg m-bot15  pos_select1 patient" id="pos_select1"
+                                name="patient" value='' required>
 
                             </select>
                         </div>
                         <div class="pos_client1 clearfix col-md-6">
                             <div class="form-group payment pad_bot float-right">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('name'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('name'); ?></label>
                                 <input type="text" class="form-control pay_in" name="p_name" value='' placeholder="">
                             </div>
                             <div class="form-group payment pad_bot float-right">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('email'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('email'); ?></label>
                                 <input type="text" class="form-control pay_in" name="p_email" value='' placeholder="">
                             </div>
                             <div class="form-group payment pad_bot float-right">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('phone'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('phone'); ?></label>
                                 <input type="text" class="form-control pay_in" name="p_phone" value='' placeholder="">
                             </div>
                             <div class="form-group payment pad_bot float-right">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('age'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('age'); ?></label>
                                 <input type="text" class="form-control pay_in" name="p_age" value='' placeholder="">
                             </div>
                             <div class="form-group payment pad_bot">
-                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?> <?php echo lang('gender'); ?></label>
+                                <label for="exampleInputEmail1"> <?php echo lang('patient'); ?>
+                                    <?php echo lang('gender'); ?></label>
                                 <select class="form-control form-control-lg" name="p_gender" value=''>
 
                                     <option value="Male" <?php
-                                                            if (!empty($patient->sex)) {
-                                                                if ($patient->sex == 'Male') {
-                                                                    echo 'selected';
-                                                                }
-                                                            }
-                                                            ?>> <?php echo lang('male'); ?> </option>
+                                    if (!empty($patient->sex)) {
+                                        if ($patient->sex == 'Male') {
+                                            echo 'selected';
+                                        }
+                                    }
+                                    ?>> <?php echo lang('male'); ?> </option>
                                     <option value="Female" <?php
-                                                            if (!empty($patient->sex)) {
-                                                                if ($patient->sex == 'Female') {
-                                                                    echo 'selected';
-                                                                }
-                                                            }
-                                                            ?>> <?php echo lang('female'); ?> </option>
+                                    if (!empty($patient->sex)) {
+                                        if ($patient->sex == 'Female') {
+                                            echo 'selected';
+                                        }
+                                    }
+                                    ?>> <?php echo lang('female'); ?> </option>
 
                                 </select>
                             </div>
                         </div>
                         <div class="form-group col-md-6 doctor_div1">
                             <label for="exampleInputEmail1"> <?php echo lang('doctor'); ?>&#42;</label>
-                            <select class="form-control form-control-lg m-bot15 doctor" id="adoctors1" name="doctor" value='' required>
+                            <select class="form-control form-control-lg m-bot15 doctor" id="adoctors1" name="doctor"
+                                value='' required>
 
                             </select>
                         </div>
                         <input type="hidden" name="redirectlink" value="my_today">
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1"> <?php echo lang('date'); ?>&#42;</label>
-                            <input type="text" class="form-control form-control-lg default-date-picker" id="date1" required="" onkeypress="return false;" name="date" id="exampleInputEmail1" value='' placeholder="" autocomplete="off">
+                            <input type="text" class="form-control form-control-lg default-date-picker" id="date1"
+                                required="" onkeypress="return false;" name="date" id="exampleInputEmail1" value=''
+                                placeholder="" autocomplete="off">
                         </div>
                         <div class="form-group col-md-6 aslots">
                             <label for="exampleInputEmail1"> <?php echo lang('available_slots'); ?></label>
@@ -402,9 +450,11 @@
                             </select>
                         </div>
                         <div class="form-group col-md-6">
-                            <label for="exampleInputEmail1"> <?php echo lang('appointment'); ?> <?php echo lang('status'); ?></label>
+                            <label for="exampleInputEmail1"> <?php echo lang('appointment'); ?>
+                                <?php echo lang('status'); ?></label>
                             <select class="form-control form-control-lg m-bot15" name="status" value=''>
-                                <option value="Pending Confirmation" <?php ?>> <?php echo lang('pending_confirmation'); ?> </option>
+                                <option value="Pending Confirmation" <?php ?>>
+                                    <?php echo lang('pending_confirmation'); ?> </option>
                                 <option value="Confirmed" <?php ?>> <?php echo lang('confirmed'); ?> </option>
                                 <option value="Treated" <?php ?>> <?php echo lang('treated'); ?> </option>
                                 <option value="Cancelled" <?php ?>> <?php echo lang('cancelled'); ?> </option>
@@ -413,13 +463,15 @@
 
                         <div class="form-group col-md-6">
                             <label for="exampleInputEmail1"> <?php echo lang('remarks'); ?></label>
-                            <input type="text" class="form-control form-control-lg" name="remarks" id="exampleInputEmail1" value='' placeholder="">
+                            <input type="text" class="form-control form-control-lg" name="remarks"
+                                id="exampleInputEmail1" value='' placeholder="">
                         </div>
                         <div class="form-group col-md-12">
 
                             <label class=""><?php echo lang('visit'); ?> <?php echo lang('description'); ?>&#42;</label>
 
-                            <select class="form-control form-control-lg m-bot15" name="visit_description" id="visit_description1" value='' required>
+                            <select class="form-control form-control-lg m-bot15" name="visit_description"
+                                id="visit_description1" value='' required>
 
                             </select>
 
@@ -427,26 +479,33 @@
 
                         <input type="hidden" name="id" id="appointment_id" value=''>
                         <div class="form-group col-md-4 d-none consultant_fee_div">
-                            <label for="exampleInputEmail1"> <?php echo lang('visit'); ?> <?php echo lang('charges'); ?></label>
-                            <input type="number" class="form-control form-control-lg" name="visit_charges" id="visit_charges1" value='' placeholder="" readonly="">
+                            <label for="exampleInputEmail1"> <?php echo lang('visit'); ?>
+                                <?php echo lang('charges'); ?></label>
+                            <input type="number" step="any" class="form-control form-control-lg" name="visit_charges"
+                                id="visit_charges1" value='' placeholder="">
                         </div>
                         <div class="form-group col-md-4 d-none consultant_fee_div">
                             <label for="exampleInputEmail1"> <?php echo lang('discount'); ?></label>
-                            <input type="number" class="form-control form-control-lg" name="discount" id="discount1" value='0' placeholder="">
+                            <input type="number" step="any" class="form-control form-control-lg" name="discount"
+                                id="discount1" value='0' placeholder="">
                         </div>
                         <div class="form-group col-md-4 d-none consultant_fee_div">
                             <label for="exampleInputEmail1"> <?php echo lang('grand_total'); ?></label>
-                            <input type="number" class="form-control form-control-lg" name="grand_total" id="grand_total1" value='0' placeholder="" readonly="">
+                            <input type="number" step="any" class="form-control form-control-lg" name="grand_total"
+                                id="grand_total1" value='0' placeholder="" readonly="">
                         </div>
                         <?php if (!$this->ion_auth->in_group(array('Nurse', 'Doctor'))) { ?>
                             <div class="col-md-12 d-none pay_now">
-                                <input type="checkbox" id="pay_now_appointment1" name="pay_now_appointment" value="pay_now_appointment">
+                                <input type="checkbox" id="pay_now_appointment1" name="pay_now_appointment"
+                                    value="pay_now_appointment">
                                 <label for=""> <?php echo lang('pay_now'); ?></label><br>
-                                <span class="info_message"><?php echo lang('if_pay_now_checked_please_select_status_to_confirmed') ?></span>
+                                <span
+                                    class="info_message"><?php echo lang('if_pay_now_checked_please_select_status_to_confirmed') ?></span>
                             </div>
                             <div class="col-md-12 d-none payment_status form-group">
-                                <label for=""> <?php echo lang('payment'); ?> <?php echo lang('status'); ?></label><br>
-                                <input type="text" class="form-control form-control-lg" id="pay_now_appointment" name="payment_status_appointment" value="paid" readonly="">
+                                <label for=""> <?php echo lang('payment'); ?>     <?php echo lang('status'); ?></label><br>
+                                <input type="text" class="form-control form-control-lg" id="pay_now_appointment"
+                                    name="payment_status_appointment" value="paid" readonly="">
 
 
                             </div>
@@ -454,7 +513,8 @@
                                 <label for="exampleInputEmail1"> <?php echo lang('deposit_type'); ?></label>
 
                                 <div class="">
-                                    <select class="form-control form-control-lg m-bot15 js-example-basic-single selecttype1" id="selecttype1" name="deposit_type" value=''>
+                                    <select class="form-control form-control-lg m-bot15 js-example-basic-single selecttype1"
+                                        id="selecttype1" name="deposit_type" value=''>
                                         <?php if ($this->ion_auth->in_group(array('admin', 'Accountant', 'Receptionist'))) { ?>
                                             <option value="Cash"> <?php echo lang('cash'); ?> </option>
                                             <option value="Card"> <?php echo lang('card'); ?> </option>
@@ -476,51 +536,62 @@
                                     <hr>
                                     <?php if ($payment_gateway != 'Paymob') { ?>
                                         <div class="col-md-12 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('accepted'); ?> <?php echo lang('cards'); ?></label>
+                                            <label for="exampleInputEmail1"> <?php echo lang('accepted'); ?>
+                                                <?php echo lang('cards'); ?></label>
                                             <div class="payment pad_bot">
                                                 <img src="uploads/card.png" width="100%">
                                             </div>
                                         </div>
-                                    <?php
+                                        <?php
                                     }
                                     ?>
                                     <?php
                                     if ($payment_gateway == 'PayPal') {
-                                    ?>
+                                        ?>
                                         <div class="form-group col-md-12 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('card'); ?> <?php echo lang('type'); ?></label>
+                                            <label for="exampleInputEmail1"> <?php echo lang('card'); ?>
+                                                <?php echo lang('type'); ?></label>
                                             <select class="form-control form-control-lg m-bot15" name="card_type" value=''>
 
                                                 <option value="Mastercard"> <?php echo lang('mastercard'); ?> </option>
                                                 <option value="Visa"> <?php echo lang('visa'); ?> </option>
-                                                <option value="American Express"> <?php echo lang('american_express'); ?> </option>
+                                                <option value="American Express"> <?php echo lang('american_express'); ?>
+                                                </option>
                                             </select>
                                         </div>
                                     <?php } ?>
                                     <?php if ($payment_gateway == '2Checkout' || $payment_gateway == 'PayPal') {
-                                    ?>
+                                        ?>
                                         <div class="form-group col-md-12 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('cardholder'); ?> <?php echo lang('name'); ?></label>
-                                            <input type="text" id="cardholder1" class="form-control pay_in" name="cardholder" value='' placeholder="">
+                                            <label for="exampleInputEmail1"> <?php echo lang('cardholder'); ?>
+                                                <?php echo lang('name'); ?></label>
+                                            <input type="text" id="cardholder1" class="form-control pay_in" name="cardholder"
+                                                value='' placeholder="">
                                         </div>
                                     <?php } ?>
                                     <?php if ($payment_gateway != 'Pay U Money' && $payment_gateway != 'Paystack' && $payment_gateway != 'SSLCOMMERZ' && $payment_gateway != 'Paytm') { ?>
                                         <div class="form-group col-md-12 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('card'); ?> <?php echo lang('number'); ?></label>
-                                            <input type="text" id="card1" class="form-control pay_in" name="card_number" value='' placeholder="">
+                                            <label for="exampleInputEmail1"> <?php echo lang('card'); ?>
+                                                <?php echo lang('number'); ?></label>
+                                            <input type="text" id="card1" class="form-control pay_in" name="card_number"
+                                                value='' placeholder="">
                                         </div>
 
 
 
                                         <div class="form-group col-md-8 payment pad_bot">
-                                            <label for="exampleInputEmail1"> <?php echo lang('expire'); ?> <?php echo lang('date'); ?></label>
-                                            <input type="text" class="form-control pay_in" id="expire1" data-date="" data-date-format="MM YY" placeholder="Expiry (MM/YY)" name="expire_date" maxlength="7" aria-describedby="basic-addon1" value='' placeholder="">
+                                            <label for="exampleInputEmail1"> <?php echo lang('expire'); ?>
+                                                <?php echo lang('date'); ?></label>
+                                            <input type="text" class="form-control pay_in" id="expire1" data-date=""
+                                                data-date-format="MM YY" placeholder="Expiry (MM/YY)" name="expire_date"
+                                                maxlength="7" aria-describedby="basic-addon1" value='' placeholder="">
                                         </div>
                                         <div class="form-group col-md-4 payment pad_bot">
                                             <label for="exampleInputEmail1"> <?php echo lang('cvv'); ?> </label>
-                                            <input type="text" class="form-control pay_in" id="cvv1" maxlength="3" name="cvv" value='' placeholder="">
+                                            <input type="text" class="form-control pay_in" id="cvv1" maxlength="3" name="cvv"
+                                                value='' placeholder="">
                                         </div>
-                                    <?php
+                                        <?php
                                     }
                                     ?>
                                 </div>
@@ -533,21 +604,24 @@
                                 <div class="form-group col-md-9">
                                     <?php $twocheckout = $this->db->get_where('paymentGateway', array('name =' => '2Checkout'))->row(); ?>
                                     <div class="form-group cashsubmit1 payment  right-six col-md-12">
-                                        <button type="submit" name="submit2" id="submit1" class="btn btn-info row float-right"> <?php echo lang('submit'); ?></button>
+                                        <button type="submit" name="submit2" id="submit1"
+                                            class="btn btn-info row float-right"> <?php echo lang('submit'); ?></button>
                                     </div>
                                     <?php $twocheckout = $this->db->get_where('paymentGateway', array('name =' => '2Checkout'))->row(); ?>
                                     <div class="form-group cardsubmit1  right-six col-md-12 d-none">
-                                        <button type="submit" name="pay_now" id="submit-btn1" class="btn btn-info row float-right" <?php if ($settings->payment_gateway == 'Stripe') {
-                                                                                                                                    ?>onClick="stripePay1(event);" <?php }
-                                                                                                                                                                    ?> <?php if ($settings->payment_gateway == '2Checkout' && $twocheckout->status == 'live') {
-                                                                                                                                                                        ?>onClick="twoCheckoutPay1(event);" <?php }
-                                                                                                                                                                                                            ?>> <?php echo lang('submit'); ?></button>
+                                        <button type="submit" name="pay_now" id="submit-btn1"
+                                            class="btn btn-info row float-right" <?php if ($settings->payment_gateway == 'Stripe') {
+                                                ?>onClick="stripePay1(event);" <?php }
+                                            ?>     <?php if ($settings->payment_gateway == '2Checkout' && $twocheckout->status == 'live') {
+                                                     ?>onClick="twoCheckoutPay1(event);" <?php }
+                                                 ?>> <?php echo lang('submit'); ?></button>
                                     </div>
                                 </div>
                             </div>
                         <?php } else { ?>
                             <div class="form-group  payment  right-six col-md-12">
-                                <button type="submit" name="submit2" id="submit1" class="btn btn-info row float-right"> <?php echo lang('submit'); ?></button>
+                                <button type="submit" name="submit2" id="submit1" class="btn btn-info row float-right">
+                                    <?php echo lang('submit'); ?></button>
                             </div>
                         <?php } ?>
                     </div>
