@@ -2,17 +2,18 @@
 <html lang="en" <?php
 if (!$this->ion_auth->in_group(array('superadmin'))) {
 
-  $this->db->where('hospital_id', $this->hospital_id);
-  $settings_lang = $this->db->get('settings')->row()->language;
+  $settings_lang_row = $this->db->get('settings')->row();
+  $settings_lang = !empty($settings_lang_row) ? $settings_lang_row->language : 'english';
   if ($this->language == 'arabic') {
-    ?>
-      dir="rtl" <?php } else { ?> dir="ltr" <?php
+    ?> dir="rtl" <?php } else { ?> dir="ltr"
+      <?php
   }
 } else {
-  $this->db->where('hospital_id', 'superadmin');
-  $settings_lang = $this->db->get('settings')->row()->language;
+  $settings_lang_row_sa = $this->db->get('settings')->row();
+  $settings_lang = !empty($settings_lang_row_sa) ? $settings_lang_row_sa->language : 'english';
   if ($this->language == 'arabic') {
-    ?> dir="rtl" <?php } else { ?> dir="ltr" <?php
+    ?> dir="rtl" <?php } else { ?>
+      dir="ltr" <?php
   }
 }
 ?>>
@@ -34,12 +35,12 @@ if (!$this->ion_auth->in_group(array('superadmin'))) {
     if ($this->ion_auth->in_group(array('superadmin'))) {
       $this->db->where('hospital_id', 'superadmin');
     } else {
-      $this->db->where('hospital_id', $this->hospital_id);
+      $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
     }
     ?>
     <?php
     $settings = $this->db->get('settings')->row();
-    echo $settings->system_vendor;
+    echo !empty($settings) ? $settings->system_vendor : 'HMS';
     ?>
   </title>
 
@@ -225,7 +226,8 @@ if ($this->session->userdata('darkMode') == 1) {
             <a href="#" id="timezone-display" class="nav-link nav-link-enhanced timezone-link" data-toggle="modal"
               data-target="#timezoneModal" title="<?php echo lang('timezone'); ?>">
               <i class="fas fa-clock nav-icon"></i>
-              <span id="current-timezone" class="timezone-text"><?php echo $settings->timezone ?? 'UTC'; ?></span>
+              <span id="current-timezone"
+                class="timezone-text"><?php echo !empty($settings) ? ($settings->timezone ?? 'UTC') : 'UTC'; ?></span>
               <i class="fas fa-edit timezone-edit-icon"></i>
             </a>
           </li>
@@ -410,7 +412,7 @@ if ($this->session->userdata('darkMode') == 1) {
                 title="<?php echo lang('payment'); ?>">
                 <i class="fas fa-credit-card nav-icon"></i>
                 <?php
-                $this->db->where('hospital_id', $this->hospital_id);
+                $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
                 $query = $this->db->get('payment');
                 $query = $query->result();
                 $payment_number = 0;
@@ -450,7 +452,7 @@ if ($this->session->userdata('darkMode') == 1) {
                 title="<?php echo lang('patient'); ?>">
                 <i class="fas fa-user-plus nav-icon"></i>
                 <?php
-                $this->db->where('hospital_id', $this->hospital_id);
+                $this->db->where('hospital_id', $this->session->userdata('hospital_id'));
                 $this->db->where('add_date', date('m/d/y'));
                 $query = $this->db->get('patient');
                 $query = $query->result();
@@ -583,17 +585,17 @@ if ($this->session->userdata('darkMode') == 1) {
       <a href="home" class="brand-link py-6 bg-gradient-to-r from-indigo-900 to-purple-900">
         <?php if (!$this->ion_auth->in_group(array('superadmin'))) { ?>
           <div class="flex items-center justify-center py-1">
-            <img src="<?php echo $settings->logo_title; ?>" alt="HMS"
-              class="brand-image w-24 h-24 rounded-full shadow-2xl border-4 border-white">
+            <img src="<?php echo !empty($settings) ? $settings->logo_title : ''; ?>" alt="HMS"
+              class="brand-image img-circle elevation-3 shadow-sm" style="opacity: .9">
             <span
-              class="brand-text text-3xl font-black text-white tracking-widest uppercase"><?php echo $settings->title; ?></span>
+              class="brand-text text-3xl font-black text-white tracking-widest uppercase"><?php echo !empty($settings) ? $settings->title : 'HMS'; ?></span>
           </div>
         <?php } else { ?>
           <div class="flex flex-col items-center justify-center">
-            <img src="<?php echo $settings->logo_title; ?>" alt="HMS"
-              class="brand-image w-24 h-24 rounded-full shadow-2xl border-4 border-white">
+            <img src="<?php echo !empty($settings) ? $settings->logo_title : ''; ?>" alt="HMS"
+              class="brand-image img-circle elevation-3 shadow-sm" style="opacity: .9">
             <span
-              class="brand-text text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"><?php echo $settings->title; ?></span>
+              class="brand-text text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600"><?php echo !empty($settings) ? $settings->title : 'HMS'; ?></span>
           </div>
         <?php } ?>
       </a>
@@ -1608,7 +1610,7 @@ if ($this->session->userdata('darkMode') == 1) {
 
             <select id="timezoneSelect" class="timezone-select" size="10">
               <?php foreach ($timezones as $value => $label): ?>
-                <option value="<?php echo $value; ?>" <?php echo ($settings->timezone == $value) ? 'selected' : ''; ?>>
+                <option value="<?php echo $value; ?>" <?php echo (!empty($settings) && $settings->timezone == $value) ? 'selected' : ''; ?>>
                   <?php echo $label; ?>
                 </option>
               <?php endforeach; ?>
@@ -1636,7 +1638,7 @@ if ($this->session->userdata('darkMode') == 1) {
     <script>
       $(document).ready(function () {
         // Timezone functionality
-        let currentTimezone = '<?php echo $settings->timezone ?? "UTC"; ?>';
+        let currentTimezone = '<?php echo !empty($settings) ? ($settings->timezone ?? "UTC") : "UTC"; ?>';
 
         // Update preview when timezone changes
         function updatePreview() {

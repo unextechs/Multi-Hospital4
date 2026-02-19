@@ -47,9 +47,11 @@ function required()
 
     if ($CI->router->fetch_class() == 'site' && $CI->router->fetch_method() == 'index') {
         $hospital_username = $CI->uri->segment(2);
-        $CI->hospital_id = $CI->db->get_where('hospital', array('username' => $hospital_username))->row()->id;
+        $hospital_row = $CI->db->get_where('hospital', array('username' => $hospital_username))->row();
+        $CI->hospital_id = !empty($hospital_row) ? $hospital_row->id : NULL;
 
-        $modules = $CI->db->get_where('hospital', array('id' => $CI->hospital_id))->row()->module;
+        $hospital_row_m = !empty($CI->hospital_id) ? $CI->db->get_where('hospital', array('id' => $CI->hospital_id))->row() : NULL;
+        $modules = !empty($hospital_row_m) ? $hospital_row_m->module : '';
         $CI->modules = explode(',', $modules);
 
         if (!in_array('frontend', $CI->modules)) {
@@ -67,7 +69,8 @@ function required()
             redirect('home/permission');
         }
         $CI->db->where('hospital_id', $CI->session->userdata('site_id'));
-        $language = $CI->db->get('site_settings')->row()->language;
+        $site_settings_row = $CI->db->get('site_settings')->row();
+        $language = !empty($site_settings_row) ? $site_settings_row->language : 'english';
 
 
         if (!empty($CI->session->userdata('language_site'))) {
@@ -136,7 +139,8 @@ function required()
                     $group_id = $CI->db->get_where('users_groups', array('user_id' => $current_user_id))->row()->group_id;
                     $group_name = $CI->db->get_where('groups', array('id' => $group_id))->row()->name;
                     $group_name = strtolower($group_name);
-                    $CI->hospital_id = $CI->db->get_where($group_name, array('ion_user_id' => $current_user_id))->row()->hospital_id;
+                    $group_row = $CI->db->get_where($group_name, array('ion_user_id' => $current_user_id))->row();
+                    $CI->hospital_id = !empty($group_row) ? $group_row->hospital_id : NULL;
                     if (!empty($CI->hospital_id)) {
                         $newdata = array(
                             'hospital_id' => $CI->hospital_id,
@@ -157,10 +161,12 @@ function required()
 
         if ($RTR->class != "frontend" && !$CI->ion_auth->in_group(array('superadmin'))) {
             $CI->db->where('hospital_id', $CI->hospital_id);
-            $CI->timezone = $CI->db->get('settings')->row()->timezone;
+            $settings_row = $CI->db->get('settings')->row();
+            $CI->timezone = !empty($settings_row) ? $settings_row->timezone : 'UTC';
         } else {
             $CI->db->where('hospital_id', 'superadmin');
-            $CI->timezone = $CI->db->get('settings')->row()->timezone;
+            $settings_row = $CI->db->get('settings')->row();
+            $CI->timezone = !empty($settings_row) ? $settings_row->timezone : 'UTC';
         }
         $timezone = $CI->timezone;
         if (!empty($timezone)) {
@@ -174,11 +180,13 @@ function required()
         if ($RTR->class != "cronjobs" && $RTR->class != "frontend" && $RTR->class != "payu" && $RTR->class != "status" && $RTR->class != "request" && $RTR->class != "api" && strtolower($RTR->class) != "tv") {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {
                 $CI->db->where('hospital_id', $CI->hospital_id);
-                $CI->language = $CI->db->get('settings')->row()->language;
+                $settings_row = $CI->db->get('settings')->row();
+                $CI->language = !empty($settings_row) ? $settings_row->language : 'english';
                 $CI->hospital_language = $CI->language;
                 $CI->lang->load('system_syntax', $CI->language);
                 if ($CI->ion_auth->in_group(array('Patient'))) {
-                    $CI->language = $CI->db->get_where('patient', array('ion_user_id' => $current_user_id))->row()->language;
+                    $patient_row = $CI->db->get_where('patient', array('ion_user_id' => $current_user_id))->row();
+                    $CI->language = !empty($patient_row) ? $patient_row->language : '';
                     if (empty($CI->language)) {
                         $CI->language = $CI->hospital_language;
                     }
@@ -187,7 +195,8 @@ function required()
                     }
                 }
                 if ($CI->ion_auth->in_group(array('Doctor'))) {
-                    $CI->language = $CI->db->get_where('doctor', array('ion_user_id' => $current_user_id))->row()->language;
+                    $doctor_row = $CI->db->get_where('doctor', array('ion_user_id' => $current_user_id))->row();
+                    $CI->language = !empty($doctor_row) ? $doctor_row->language : '';
                     if (empty($CI->language)) {
                         $CI->language = $CI->hospital_language;
                     }
@@ -197,13 +206,15 @@ function required()
                 }
             } else {
                 $CI->db->where('hospital_id', 'superadmin');
-                $CI->language = $CI->db->get('settings')->row()->language;
+                $settings_row = $CI->db->get('settings')->row();
+                $CI->language = !empty($settings_row) ? $settings_row->language : 'english';
                 $CI->lang->load('system_syntax', $CI->language);
             }
         }
         if ($RTR->class == "frontend" || $RTR->class == "request") {
             $CI->db->where('hospital_id', 'superadmin');
-            $CI->language = $CI->db->get('settings')->row()->language;
+            $settings_row = $CI->db->get('settings')->row();
+            $CI->language = !empty($settings_row) ? $settings_row->language : 'english';
             $CI->lang->load('system_syntax', $CI->language);
         }
 
@@ -222,7 +233,8 @@ function required()
 
         if ($RTR->class == "auth" && $CI->router->fetch_method() == 'login') {
             $CI->db->where('hospital_id', 'superadmin');
-            $CI->language = $CI->db->get('settings')->row()->language;
+            $settings_row = $CI->db->get('settings')->row();
+            $CI->language = !empty($settings_row) ? $settings_row->language : 'english';
             $CI->lang->load('system_syntax', $CI->language);
         }
         // Language
@@ -233,10 +245,12 @@ function required()
         if ($RTR->class != "cronjobs" && $RTR->class != "payu" && $RTR->class != "status" && $RTR->class != "auth" && $RTR->class != "frontend" && $RTR->class != "site") {
             if (!$CI->ion_auth->in_group(array('superadmin'))) {
                 $CI->db->where('hospital_id', $CI->hospital_id);
-                $CI->currency = $CI->db->get('settings')->row()->currency;
+                $settings_row = $CI->db->get('settings')->row();
+                $CI->currency = !empty($settings_row) ? $settings_row->currency : '$';
             } else {
                 $CI->db->where('hospital_id', 'superadmin');
-                $CI->currency = $CI->db->get('settings')->row()->currency;
+                $settings_row = $CI->db->get('settings')->row();
+                $CI->currency = !empty($settings_row) ? $settings_row->currency : '$';
             }
         }
         // Currency
@@ -249,11 +263,11 @@ function required()
                 $CI->db->where('hospital_id', 'superadmin');
                 $CI->settings = $CI->db->get('settings')->row();
             }
-            if ($CI->settings->emailtype == 'Domain Email') {
+            if (!empty($CI->settings) && $CI->settings->emailtype == 'Domain Email') {
 
                 $CI->load->library('email');
             }
-            if ($CI->settings->emailtype == 'Smtp') {
+            if (!empty($CI->settings) && $CI->settings->emailtype == 'Smtp') {
 
 
                 $email_Settings = $CI->db->get_where('email_settings', array('type' => $CI->settings->emailtype, 'hospital_id' => $CI->hospital_id))->row();
@@ -280,7 +294,8 @@ function required()
             if (!$CI->ion_auth->in_group(array('superadmin'))) {
                 if ($CI->ion_auth->in_group(array('admin'))) {
                     $current_user_id = $CI->ion_auth->user()->row()->id;
-                    $modules = $CI->db->get_where('hospital', array('ion_user_id' => $current_user_id))->row()->module;
+                    $hospital_row_adm = $CI->db->get_where('hospital', array('ion_user_id' => $current_user_id))->row();
+                    $modules = !empty($hospital_row_adm) ? $hospital_row_adm->module : '';
                     $CI->modules = explode(',', $modules);
                 } else {
                     $current_user_id = $CI->ion_auth->user()->row()->id;
@@ -297,7 +312,8 @@ function required()
                     if (!empty($group_modules_row)) {
                         $modules = $group_modules_row->modules;
                     } else {
-                        $modules = $CI->db->get_where('hospital', array('id' => $hospital_id))->row()->module;
+                        $hospital_row_std = $CI->db->get_where('hospital', array('id' => $hospital_id))->row();
+                        $modules = !empty($hospital_row_std) ? $hospital_row_std->module : '';
                     }
 
                     $CI->modules = explode(',', $modules);
@@ -307,7 +323,8 @@ function required()
         if ($RTR->class != "cronjobs" && $RTR->class != "payu" && $RTR->class != "status" && $RTR->class != "" && $RTR->class != "" && $RTR->class != "auth") {
             if ($CI->ion_auth->in_group(array('superadmin'))) {
                 $current_user_id = $CI->ion_auth->user()->row()->id;
-                $super_modules = $CI->db->get_where('superadmin', array('ion_user_id' => $current_user_id))->row()->module;
+                $superadmin_row = $CI->db->get_where('superadmin', array('ion_user_id' => $current_user_id))->row();
+                $super_modules = !empty($superadmin_row) ? $superadmin_row->module : '';
                 $CI->super_modules = explode(',', $super_modules);
                 $CI->modules = $CI->super_modules; // Also set $modules for consistency
             }

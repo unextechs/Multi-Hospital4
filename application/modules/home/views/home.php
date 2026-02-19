@@ -14,21 +14,22 @@
                         <div class="d-flex align-items-center">
                             <div class="user-image-container mr-3">
                                 <img src="<?php echo $user_image ? base_url() . $user_image : base_url() . $default_image; ?>"
-                                    alt="User Image"
-                                    class="img-circle elevation-2"
+                                    alt="User Image" class="img-circle elevation-2"
                                     style="width: 70px; height: 70px; object-fit: cover; margin-top: -20px;">
                             </div>
                             <div>
                                 <h1 class="font-weight-bold welcome-text title-spacing mb-0">
-                                    <?php echo lang('welcome') ?>, 
+                                    <?php echo lang('welcome') ?>,
                                     <?php
                                     $username = $this->ion_auth->user()->row()->username;
                                     if (!empty($username)) {
                                         echo $username;
                                     }
                                     ?>!
-                                </h1> 
-                                <p class="welcome-text mt-2">Welcome to the dashboard of <?php echo $settings->title ?? ''; ?></p>
+                                </h1>
+                                <p class="welcome-text mt-2">Welcome to the dashboard of
+                                    <?php echo !empty($settings) ? ($settings->title ?? '') : ''; ?>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -59,10 +60,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="<?php if ($this->ion_auth->in_group(array('admin'))) {
-                                echo 'col-md-6 col-lg-6 col-12';
-                            } else {
-                                echo 'col-12';
-                            } ?>">
+                    echo 'col-md-6 col-lg-6 col-12';
+                } else {
+                    echo 'col-12';
+                } ?>">
                     <div class="">
                         <div class="modal fade" role="dialog" id="cmodal">
                             <div class="modal-dialog modal-xl header_modal" role="document">
@@ -119,20 +120,26 @@
                                                     <?php
                                                     foreach ($appointments as $appointment) {
                                                         if ($appointment->date == strtotime(date('Y-m-d'))) {
-                                                    ?>
+                                                            ?>
                                                             <tr class="">
-                                                                <td> <?php echo $this->db->get_where('patient', array('id' => $appointment->patient))->row()->id; ?></td>
-                                                                <td> <?php echo $this->db->get_where('patient', array('id' => $appointment->patient))->row()->name; ?></td>
+                                                                <td> <?php echo $this->db->get_where('patient', array('id' => $appointment->patient))->row()->id; ?>
+                                                                </td>
+                                                                <td> <?php echo $this->db->get_where('patient', array('id' => $appointment->patient))->row()->name; ?>
+                                                                </td>
 
-                                                                <td class="center"> <strong> <?php echo $appointment->s_time; ?> </strong></td>
+                                                                <td class="center"> <strong> <?php echo $appointment->s_time; ?>
+                                                                    </strong></td>
                                                                 <td>
                                                                     <?php echo $appointment->status; ?>
                                                                 </td>
                                                                 <td>
-                                                                    <a class="btn detailsbutton" title="<?php lang('history') ?>" href="patient/medicalHistory?id=<?php echo $appointment->patient ?>"><i class="fa fa-stethoscope"></i> <?php echo lang('history'); ?></a>
+                                                                    <a class="btn detailsbutton" title="<?php lang('history') ?>"
+                                                                        href="patient/medicalHistory?id=<?php echo $appointment->patient ?>"><i
+                                                                            class="fa fa-stethoscope"></i>
+                                                                        <?php echo lang('history'); ?></a>
                                                                 </td>
                                                             </tr>
-                                                    <?php
+                                                            <?php
                                                         }
                                                     }
                                                     ?>
@@ -345,16 +352,23 @@
                                                     <a href="finance/payment">
                                                         <div class="card-body stat-card-body">
 
-                                                            <p class="badge badge-primary text-sm mb-0 bg-transparent"><?php echo lang('total'); ?> <?php echo lang('bill'); ?></p> <br>
+                                                            <p class="badge badge-primary text-sm mb-0 bg-transparent">
+                                                                <?php echo lang('total'); ?>             <?php echo lang('bill'); ?>
+                                                            </p> <br>
                                                             <span class="sub-text fw-bold"><?php echo lang('this_month'); ?> </span>
-                                                            <h2 class="dashboard-title text-primary"><?php echo $settings->currency ?? ''; ?><?php echo format_number_short($this_month['payment'] ?? 0); ?></h2>
+                                                            <h2 class="dashboard-title text-primary">
+                                                                <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                                <?php echo format_number_short($this_month['payment'] ?? 0); ?>
+                                                            </h2>
                                                             <div class="percentage-change text-xs">
                                                                 <?php
                                                                 $percentage_change_bill = isset($percentage_change_bill) ? $percentage_change_bill : 0;
                                                                 if ($percentage_change_bill > 0): ?>
-                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i> <?php echo $percentage_change_bill; ?>%</span>
+                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i>
+                                                                        <?php echo $percentage_change_bill; ?>%</span>
                                                                 <?php elseif ($percentage_change_bill < 0): ?>
-                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i> <?php echo $percentage_change_bill; ?>%</span>
+                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i>
+                                                                        <?php echo $percentage_change_bill; ?>%</span>
                                                                 <?php else: ?>
                                                                     <span><?php echo $percentage_change_bill; ?>%</span>
                                                                 <?php endif; ?>
@@ -372,16 +386,23 @@
                                                 <div class="card stat-card h-100 shadow-lg custom-rounded mr-2 text-center">
                                                     <a href="finance/payment">
                                                         <div class="card-body stat-card-body">
-                                                            <p class="badge badge-primary text-sm mb-0 bg-transparent"><?php echo lang('total'); ?> <?php echo lang('deposit'); ?></p><br>
+                                                            <p class="badge badge-primary text-sm mb-0 bg-transparent">
+                                                                <?php echo lang('total'); ?>             <?php echo lang('deposit'); ?>
+                                                            </p><br>
                                                             <span class="sub-text fw-bold"><?php echo lang('this_month'); ?> </span>
-                                                            <h2 class="dashboard-title text-success"><?php echo $settings->currency ?? ''; ?><?php echo format_number_short($this_month['deposit'] ?? 0, 2, '.', ','); ?></h2>
+                                                            <h2 class="dashboard-title text-success">
+                                                                <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                                <?php echo format_number_short($this_month['deposit'] ?? 0); ?>
+                                                            </h2>
                                                             <div class="percentage-change text-xs">
                                                                 <?php
                                                                 $percentage_change_deposit = isset($percentage_change_deposit) ? $percentage_change_deposit : 0;
                                                                 if ($percentage_change_deposit > 0): ?>
-                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i> <?php echo $percentage_change_deposit; ?>%</span>
+                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i>
+                                                                        <?php echo $percentage_change_deposit; ?>%</span>
                                                                 <?php elseif ($percentage_change_deposit < 0): ?>
-                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i> <?php echo $percentage_change_deposit; ?>%</span>
+                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i>
+                                                                        <?php echo $percentage_change_deposit; ?>%</span>
                                                                 <?php else: ?>
                                                                     <span><?php echo $percentage_change_deposit; ?>%</span>
                                                                 <?php endif; ?>
@@ -397,16 +418,23 @@
                                                 <div class="card stat-card h-100 shadow-lg custom-rounded ml-2 text-center">
                                                     <a href="finance/dueCollection">
                                                         <div class="card-body stat-card-body">
-                                                            <p class="badge badge-primary text-sm mb-0 bg-transparent"><?php echo lang('pending'); ?></p><br>
+                                                            <p class="badge badge-primary text-sm mb-0 bg-transparent">
+                                                                <?php echo lang('pending'); ?>
+                                                            </p><br>
                                                             <span class="sub-text fw-bold"><?php echo lang('this_month'); ?> </span>
-                                                            <h2 class="dashboard-title text-orange"><?php echo $settings->currency ?? ''; ?><?php echo format_number_short($this_month['due'] ?? 0, 2, '.', ','); ?></h2>
+                                                            <h2 class="dashboard-title text-orange">
+                                                                <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                                <?php echo format_number_short($this_month['due'] ?? 0); ?>
+                                                            </h2>
                                                             <div class="percentage-change text-xs">
 
                                                                 <?php
                                                                 if ($percentage_change_due > 0): ?>
-                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i> <?php echo $percentage_change_due; ?>%</span>
+                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i>
+                                                                        <?php echo $percentage_change_due; ?>%</span>
                                                                 <?php elseif ($percentage_change_due < 0): ?>
-                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i> <?php echo $percentage_change_due; ?>%</span>
+                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i>
+                                                                        <?php echo $percentage_change_due; ?>%</span>
                                                                 <?php else: ?>
                                                                     <span><?php echo $percentage_change_due; ?>%</span>
                                                                 <?php endif; ?>
@@ -422,17 +450,24 @@
                                                 <div class="card stat-card h-100 shadow-lg custom-rounded mr-2 text-center">
                                                     <a href="finance/expense">
                                                         <div class="card-body stat-card-body">
-                                                            <p class="badge badge-primary text-sm mb-0 bg-transparent"><?php echo lang('total'); ?> <?php echo lang('expense'); ?></p><br>
+                                                            <p class="badge badge-primary text-sm mb-0 bg-transparent">
+                                                                <?php echo lang('total'); ?>             <?php echo lang('expense'); ?>
+                                                            </p><br>
                                                             <span class="sub-text fw-bold"><?php echo lang('this_month'); ?> </span>
-                                                            <h2 class="dashboard-title text-info"><?php echo $settings->currency ?? ''; ?><?php echo format_number_short($this_month['expense'] ?? 0, 2, '.', ','); ?></h2>
+                                                            <h2 class="dashboard-title text-info">
+                                                                <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                                <?php echo format_number_short($this_month['expense'] ?? 0); ?>
+                                                            </h2>
                                                             <div class="percentage-change text-xs">
 
                                                                 <?php
                                                                 $percentage_change_expense = isset($percentage_change_expense) ? $percentage_change_expense : 0;
                                                                 if ($percentage_change_expense > 0): ?>
-                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i> <?php echo $percentage_change_expense; ?>%</span>
+                                                                    <span class="text-success"><i class="fas fa-arrow-up"></i>
+                                                                        <?php echo $percentage_change_expense; ?>%</span>
                                                                 <?php elseif ($percentage_change_expense < 0): ?>
-                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i> <?php echo $percentage_change_expense; ?>%</span>
+                                                                    <span class="text-danger"><i class="fas fa-arrow-down"></i>
+                                                                        <?php echo $percentage_change_expense; ?>%</span>
                                                                 <?php else: ?>
                                                                     <span><?php echo $percentage_change_expense; ?>%</span>
                                                                 <?php endif; ?>
@@ -451,7 +486,10 @@
                                                 <div class="col-lg-12 col-sm-12">
                                                     <div class="card card-custom shadow-lg custom-rounded mx-1 m-2">
                                                         <div class="card-body">
-                                                            <h5 class="border-bottom pb-4 py-2 text-sm fw-bold"><?php echo lang('sales_vs_expenses') ?> <span class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('this_year') ?></span></h5>
+                                                            <h5 class="border-bottom pb-4 py-2 text-sm fw-bold">
+                                                                <?php echo lang('sales_vs_expenses') ?> <span
+                                                                    class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('this_year') ?></span>
+                                                            </h5>
                                                             <div id="sales_expense_chart" style="width: 100%; height: 300px;"></div>
                                                             <script type="text/javascript">
                                                                 google.charts.load('current', {
@@ -507,19 +545,19 @@
 
                                                                         backgroundColor: 'transparent',
                                                                         titleTextStyle: {
-                                                                            color: $('body').hasClass('dark-mode') ? '#FFFFFF' : '#333333'
+                                                                            color: (typeof jQuery !== 'undefined' && jQuery('body').hasClass('dark-mode')) ? '#FFFFFF' : '#333333'
                                                                         },
                                                                         legendTextStyle: {
-                                                                            color: $('body').hasClass('dark-mode') ? '#FFFFFF' : '#333333'
+                                                                            color: (typeof jQuery !== 'undefined' && jQuery('body').hasClass('dark-mode')) ? '#FFFFFF' : '#333333'
                                                                         },
                                                                         vAxis: {
                                                                             textStyle: {
-                                                                                color: $('body').hasClass('dark-mode') ? '#FFFFFF' : '#333333'
+                                                                                color: (typeof jQuery !== 'undefined' && jQuery('body').hasClass('dark-mode')) ? '#FFFFFF' : '#333333'
                                                                             }
                                                                         },
                                                                         hAxis: {
                                                                             textStyle: {
-                                                                                color: $('body').hasClass('dark-mode') ? '#FFFFFF' : '#333333'
+                                                                                color: (typeof jQuery !== 'undefined' && jQuery('body').hasClass('dark-mode')) ? '#FFFFFF' : '#333333'
                                                                             }
                                                                         }
 
@@ -566,9 +604,13 @@
                                                             </table>
                                                             <div class="d-flex justify-content-between">
                                                                 <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
-                                                                    <a class="btn btn-success btn-sm" href="notice/addNewView"><?php echo lang('add'); ?> <?php echo lang('notice'); ?></a>
+                                                                    <a class="btn btn-success btn-sm"
+                                                                        href="notice/addNewView"><?php echo lang('add'); ?>
+                                                                        <?php echo lang('notice'); ?></a>
                                                                 <?php } ?>
-                                                                <a class="btn btn-success btn-sm my-3" href="notice"><?php echo lang('all'); ?> <?php echo lang('notice'); ?></a>
+                                                                <a class="btn btn-success btn-sm my-3"
+                                                                    href="notice"><?php echo lang('all'); ?>
+                                                                    <?php echo lang('notice'); ?></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -583,7 +625,8 @@
                                             <div class="col-md-12">
                                                 <div class="card card-custom shadow-lg custom-rounded m-2">
                                                     <div class="card-header py-4">
-                                                        <h5 class="mb-0 font-weight-bold text-sm"><?php echo lang('latest_logs'); ?></h5>
+                                                        <h5 class="mb-0 font-weight-bold text-sm"><?php echo lang('latest_logs'); ?>
+                                                        </h5>
                                                     </div>
                                                     <div class="card-body p-0">
                                                         <div class="list-group">
@@ -591,13 +634,15 @@
                                                             $this->load->model('logs/logs_model');
                                                             $latest_logs = $this->logs_model->getLogsByLimit(5, 0, 'id', 'desc');
                                                             foreach ($latest_logs as $log) { ?>
-                                                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                                <div
+                                                                    class="list-group-item d-flex justify-content-between align-items-center">
                                                                     <div>
                                                                         <h6 class="mb-1 fw-bold"><?php echo $log->name; ?></h6>
                                                                         <small class="text-muted"><?php echo $log->role; ?></small>
                                                                     </div>
                                                                     <div class="text-end">
-                                                                        <small class="text-muted"><?php echo date('M d, Y H:i', strtotime($log->date_time)); ?></small>
+                                                                        <small
+                                                                            class="text-muted"><?php echo date('M d, Y H:i', strtotime($log->date_time)); ?></small>
                                                                         <div><?php echo $log->email; ?></div>
                                                                     </div>
                                                                 </div>
@@ -606,7 +651,8 @@
                                                     </div>
                                                     <div class="card-footer badge-white">
                                                         <div class="d-flex justify-content-end">
-                                                            <a class="btn btn-info btn-sm" href="logs"><?php echo lang('all'); ?> <?php echo lang('logs'); ?></a>
+                                                            <a class="btn btn-info btn-sm" href="logs"><?php echo lang('all'); ?>
+                                                                <?php echo lang('logs'); ?></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -617,7 +663,9 @@
                                             <div class="col-md-12">
                                                 <div class="card card-custom shadow-lg custom-rounded m-2">
                                                     <div class="card-header py-4">
-                                                        <h5 class="mb-0 font-weight-bold text-sm"><?php echo lang('latest_transaction_logs'); ?></h5>
+                                                        <h5 class="mb-0 font-weight-bold text-sm">
+                                                            <?php echo lang('latest_transaction_logs'); ?>
+                                                        </h5>
                                                     </div>
                                                     <div class="card-body p-0">
                                                         <div class="table-responsive">
@@ -625,10 +673,18 @@
                                                                 <thead class="thead-light">
                                                                     <tr>
                                                                         <th class="border-top-0"><?php echo lang('time'); ?></th>
-                                                                        <th class="border-top-0 text-right"><?php echo lang('invoice'); ?></th>
-                                                                        <th class="border-top-0 text-right"><?php echo lang('patient'); ?></th>
-                                                                        <th class="border-top-0 text-right"><?php echo lang('amount'); ?></th>
-                                                                        <th class="border-top-0 text-right"><?php echo lang('action'); ?></th>
+                                                                        <th class="border-top-0 text-right">
+                                                                            <?php echo lang('invoice'); ?>
+                                                                        </th>
+                                                                        <th class="border-top-0 text-right">
+                                                                            <?php echo lang('patient'); ?>
+                                                                        </th>
+                                                                        <th class="border-top-0 text-right">
+                                                                            <?php echo lang('amount'); ?>
+                                                                        </th>
+                                                                        <th class="border-top-0 text-right">
+                                                                            <?php echo lang('action'); ?>
+                                                                        </th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -656,17 +712,24 @@
                                                                             default:
                                                                                 $action = '<span class="badge badge-info">' . lang('updated') . ' ' . lang('deposited') . '</span>';
                                                                         }
-                                                                    ?>
+                                                                        ?>
                                                                         <tr>
                                                                             <td class="border-0">
-                                                                                <strong><?php echo date('M d, Y', strtotime($log->date_time)); ?></strong> <br>
-                                                                                <span class="text-muted text-sm"><?php echo date('H:i', strtotime($log->date_time)); ?></span>
+                                                                                <strong><?php echo date('M d, Y', strtotime($log->date_time)); ?></strong>
+                                                                                <br>
+                                                                                <span
+                                                                                    class="text-muted text-sm"><?php echo date('H:i', strtotime($log->date_time)); ?></span>
                                                                             </td>
                                                                             <td class="text-right border-0"><a target="_blank" <?php if ($log->action != 'deleted') {
-                                                                                                                                    echo 'href="' . site_url('finance/invoice?id=' . $log->invoice_id) . '"';
-                                                                                                                                } ?>><?php echo $log->invoice_id; ?></a></td>
-                                                                            <td class="text-right border-0"><?php echo $log->patientname; ?></td>
-                                                                            <td class="text-right border-0"><?php echo number_format($log->amount, 2); ?></td>
+                                                                                echo 'href="' . site_url('finance/invoice?id=' . $log->invoice_id) . '"';
+                                                                            } ?>><?php echo $log->invoice_id; ?></a></td>
+                                                                            <td class="text-right border-0">
+                                                                                <?php echo $log->patientname; ?>
+                                                                            </td>
+                                                                            <td class="text-right border-0">
+                                                                                <?php echo number_format((float) ($log->amount ?? 0), 2); ?>
+                                                                            </td>
+
                                                                             <td class="text-right border-0"><?php echo $action; ?></td>
                                                                         </tr>
                                                                     <?php } ?>
@@ -676,7 +739,9 @@
                                                     </div>
                                                     <div class="card-footer badge-white">
                                                         <div class="d-flex justify-content-end">
-                                                            <a class="btn btn-success btn-sm" href="logs/transactionLogs"><?php echo lang('all'); ?> <?php echo lang('transaction_logs'); ?></a>
+                                                            <a class="btn btn-info btn-sm"
+                                                                href="logs/transactionLogs"><?php echo lang('all'); ?>
+                                                                <?php echo lang('transaction_logs'); ?></a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -695,7 +760,9 @@
                                                 <div class="col-md-12">
                                                     <div class="card card-custom shadow-lg custom-rounded m-2">
                                                         <div class="card-header badge-transparent text-left pt-4 pb-3">
-                                                            <h5 class="fw-bold text-sm"><?php echo lang('appointment'); ?> <?php echo lang('calendar'); ?></h5>
+                                                            <h5 class="fw-bold text-sm"><?php echo lang('appointment'); ?>
+                                                                <?php echo lang('calendar'); ?>
+                                                            </h5>
                                                         </div>
                                                         <div class="card-body">
                                                             <div id="calendar"></div>
@@ -736,7 +803,9 @@
                                                         ?>
                                                     </h3>
 
-                                                    <p class="text-lg"><?php echo lang('total'); ?> <?php echo lang('hospitals'); ?></p>
+                                                    <p class="text-lg"><?php echo lang('total'); ?>
+                                                        <?php echo lang('hospitals'); ?>
+                                                    </p>
                                                 </div>
                                                 <div class="icon">
                                                     <i class="fa fa-hospital"></i>
@@ -770,7 +839,9 @@
                                                         ?>
                                                     </h3>
 
-                                                    <p class="text-lg"><?php echo lang('active'); ?> <?php echo lang('hospitals'); ?></p>
+                                                    <p class="text-lg"><?php echo lang('active'); ?>
+                                                        <?php echo lang('hospitals'); ?>
+                                                    </p>
                                                 </div>
                                                 <div class="icon">
                                                     <i class="fa fa-check"></i>
@@ -804,7 +875,9 @@
                                                         ?>
                                                     </h3>
 
-                                                    <p class="text-lg"><?php echo lang('inactive'); ?> <?php echo lang('hospitals'); ?></p>
+                                                    <p class="text-lg"><?php echo lang('inactive'); ?>
+                                                        <?php echo lang('hospitals'); ?>
+                                                    </p>
                                                 </div>
                                                 <div class="icon">
                                                     <i class="fa fa-pause"></i>
@@ -875,15 +948,17 @@
                                             <div class="card-body">
 
                                                 <div class="home_section">
-                                                    <?php echo lang('monthly'); ?> <?php echo lang('subscription'); ?>: <?php echo $settings->currency; ?> <?php echo format_number_short($this_day['payment'], 2, '.', ','); ?>
-                                                    <hr>
-                                                </div>
-                                                <div class="home_section">
-                                                    <?php echo lang('yearly'); ?> <?php echo lang('subscription'); ?>: <?php echo $settings->currency; ?> <?php echo format_number_short($this_day['payment_yearly'], 2, '.', ','); ?>
-                                                    <hr>
-                                                </div>
-                                                <div class="home_section">
-                                                    <?php echo lang('total'); ?> <?php echo lang('income'); ?> : <?php echo $settings->currency; ?> <?php echo format_number_short($this_day['payment'] + $this_day['payment_yearly'], 2, '.', ','); ?>
+                                                    <?php echo lang('monthly'); ?>         <?php echo lang('subscription'); ?>:
+                                                    <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                    <?php echo format_number_short($this_day['payment'] ?? 0, 2, '.', ','); ?>
+                                                    <br>
+                                                    <?php echo lang('yearly'); ?>         <?php echo lang('subscription'); ?>:
+                                                    <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                    <?php echo format_number_short($this_day['payment_yearly'] ?? 0); ?>
+                                                    <br>
+                                                    <?php echo lang('total'); ?>         <?php echo lang('income'); ?> :
+                                                    <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                    <?php echo format_number_short(($this_day['payment'] ?? 0) + ($this_day['payment_yearly'] ?? 0)); ?>
                                                     <hr>
                                                 </div>
 
@@ -900,15 +975,17 @@
                                             <div class="card-body">
 
                                                 <div class="home_section">
-                                                    <?php echo lang('monthly'); ?> <?php echo lang('subscription'); ?>: <?php echo $settings->currency; ?> <?php echo format_number_short($this_monthly['payment'], 2, '.', ','); ?>
-                                                    <hr>
-                                                </div>
-                                                <div class="home_section">
-                                                    <?php echo lang('yearly'); ?> <?php echo lang('subscription'); ?> : <?php echo $settings->currency; ?> <?php echo format_number_short($this_year['payment'], 2, '.', ','); ?>
-                                                    <hr>
-                                                </div>
-                                                <div class="home_section">
-                                                    <?php echo lang('total'); ?> <?php echo lang('income'); ?> : <?php echo $settings->currency; ?> <?php echo format_number_short($this_year['payment'] + $this_monthly['payment'], 2, '.', ','); ?>
+                                                    <?php echo lang('monthly'); ?>         <?php echo lang('subscription'); ?>:
+                                                    <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                    <?php echo format_number_short($this_monthly['payment'] ?? 0, 2, '.', ','); ?>
+                                                    <br>
+                                                    <?php echo lang('yearly'); ?>         <?php echo lang('subscription'); ?> :
+                                                    <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                    <?php echo format_number_short($this_year['payment'] ?? 0, 2, '.', ','); ?>
+                                                    <br>
+                                                    <?php echo lang('total'); ?>         <?php echo lang('income'); ?> :
+                                                    <?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>
+                                                    <?php echo format_number_short(($this_year['payment'] ?? 0) + ($this_monthly['payment'] ?? 0), 2, '.', ','); ?>
                                                     <hr>
                                                 </div>
 
@@ -926,15 +1003,21 @@
                                             <div class="card-body">
 
                                                 <div class="home_section">
-                                                    <?php echo lang('monthly'); ?> <?php echo lang('subscription'); ?> : <?php echo $settings->currency; ?> <?php echo format_number_short($this_month_payment['payment'], 2, '.', ','); ?>
+                                                    <?php echo lang('monthly'); ?>         <?php echo lang('subscription'); ?> :
+                                                    <?php echo $settings->currency; ?>
+                                                    <?php echo format_number_short($this_month_payment['payment'], 2, '.', ','); ?>
                                                     <hr>
                                                 </div>
                                                 <div class="home_section">
-                                                    <?php echo lang('yearly'); ?> <?php echo lang('subscription'); ?> : <?php echo $settings->currency; ?> <?php echo format_number_short($this_year_payment['payment'], 2, '.', ','); ?>
+                                                    <?php echo lang('yearly'); ?>         <?php echo lang('subscription'); ?> :
+                                                    <?php echo $settings->currency; ?>
+                                                    <?php echo format_number_short($this_year_payment['payment'], 2, '.', ','); ?>
                                                     <hr>
                                                 </div>
                                                 <div class="home_section">
-                                                    <?php echo lang('total'); ?> <?php echo lang('income'); ?> : <?php echo $settings->currency; ?> <?php echo format_number_short($this_year_payment['payment'] + $this_month_payment['payment'], 2, '.', ','); ?>
+                                                    <?php echo lang('total'); ?>         <?php echo lang('income'); ?> :
+                                                    <?php echo $settings->currency; ?>
+                                                    <?php echo format_number_short($this_year_payment['payment'] + $this_month_payment['payment'], 2, '.', ','); ?>
                                                     <hr>
                                                 </div>
 
@@ -1048,7 +1131,8 @@
                                 <div class="">
                                     <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold">
                                         <?php echo lang('top_diagnoses') ?>
-                                        <span class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('last_30_days') ?></span>
+                                        <span
+                                            class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('last_30_days') ?></span>
                                     </h5>
                                 </div>
 
@@ -1140,7 +1224,9 @@
 
                         <div class="card shadow-lg custom-rounded m-2 mb-3">
                             <div class="p-3">
-                                <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold"><?php echo lang('disease_outbreak_alerts') ?></h5>
+                                <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold">
+                                    <?php echo lang('disease_outbreak_alerts') ?>
+                                </h5>
                                 <p class="text-muted mb-3"><?php echo lang('last_7_days') ?></p>
 
                                 <?php
@@ -1150,7 +1236,7 @@
                                         // Ensure that $case_key and $ratio are valid and not null
                                         $diagnosisName = $this->home_model->getDiagnosisName($case_key);
                                         if (!is_null($diagnosisName) && isset($ratio)) {
-                                ?>
+                                            ?>
                                             <div class="disease-alert mb-3">
                                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                                     <h6 class="fw-bold mb-0"><?php echo htmlspecialchars($diagnosisName); ?></h6>
@@ -1170,13 +1256,17 @@
                                                         $alertText = lang('red_alert');
                                                     }
                                                     ?>
-                                                    <span class="badge <?php echo $alertClass; ?> px-3 py-2"><?php echo $alertText; ?></span>
+                                                    <span
+                                                        class="badge <?php echo $alertClass; ?> px-3 py-2"><?php echo $alertText; ?></span>
                                                 </div>
                                                 <div class="progress" style="height: 6px;">
-                                                    <div class="progress-bar <?php echo $alertClass; ?>" role="progressbar" style="width: <?php echo min(floatval($ratio) * 100, 100); ?>%" aria-valuenow="<?php echo floatval($ratio); ?>" aria-valuemin="0" aria-valuemax="1"></div>
+                                                    <div class="progress-bar <?php echo $alertClass; ?>" role="progressbar"
+                                                        style="width: <?php echo min(floatval($ratio) * 100, 100); ?>%"
+                                                        aria-valuenow="<?php echo floatval($ratio); ?>" aria-valuemin="0"
+                                                        aria-valuemax="1"></div>
                                                 </div>
                                             </div>
-                                <?php
+                                            <?php
                                         }
                                     }
                                 } else {
@@ -1189,7 +1279,9 @@
 
                         <div class="card shadow-lg custom-rounded m-2 mb-3">
                             <div class="p-3">
-                                <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold"><?php echo lang('hospital') ?> <?php echo lang('analytics') ?></h5>
+                                <h5 class="border-bottom pb-3 pt-2 text-sm fw-bold"><?php echo lang('hospital') ?>
+                                    <?php echo lang('analytics') ?>
+                                </h5>
                                 <ul class="list-group list-group-flush">
                                     <?php
                                     // Define hospital ID
@@ -1219,27 +1311,29 @@
                                     ?>
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
-                                        <span><?php echo lang('total') ?> <?php echo lang('patients') ?></span>
+                                        <span><?php echo lang('total') ?>     <?php echo lang('patients') ?></span>
                                         <span class="badge badge-primary badge-pill"><?php echo $totalPatients; ?></span>
                                     </li>
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
-                                        <span><?php echo lang('total') ?> <?php echo lang('doctors') ?></span>
+                                        <span><?php echo lang('total') ?>     <?php echo lang('doctors') ?></span>
                                         <span class="badge badge-primary badge-pill"><?php echo $totalDoctors; ?></span>
                                     </li>
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
-                                        <span><?php echo lang('total') ?> <?php echo lang('appointments') ?></span>
-                                        <span class="badge badge-primary badge-pill"><?php echo $totalAppointments; ?></span>
+                                        <span><?php echo lang('total') ?>     <?php echo lang('appointments') ?></span>
+                                        <span
+                                            class="badge badge-primary badge-pill"><?php echo $totalAppointments; ?></span>
                                     </li>
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
-                                        <span><?php echo lang('total') ?> <?php echo lang('prescriptions') ?></span>
-                                        <span class="badge badge-primary badge-pill"><?php echo $totalPrescriptions; ?></span>
+                                        <span><?php echo lang('total') ?>     <?php echo lang('prescriptions') ?></span>
+                                        <span
+                                            class="badge badge-primary badge-pill"><?php echo $totalPrescriptions; ?></span>
                                     </li>
 
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
-                                        <span><?php echo lang('total') ?> <?php echo lang('nurses') ?></span>
+                                        <span><?php echo lang('total') ?>     <?php echo lang('nurses') ?></span>
                                         <span class="badge badge-primary badge-pill"><?php echo $totalNurses; ?></span>
                                     </li>
                                 </ul>
@@ -1261,22 +1355,26 @@
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
                                         <span><?php echo lang('pharmacists_on_duty') ?></span>
-                                        <span class="badge badge-primary badge-pill"><?php echo $pharmacistsOnDuty; ?></span>
+                                        <span
+                                            class="badge badge-primary badge-pill"><?php echo $pharmacistsOnDuty; ?></span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
                                         <span><?php echo lang('laboratorists_on_duty') ?></span>
-                                        <span class="badge badge-primary badge-pill"><?php echo $laboratoristsOnDuty; ?></span>
+                                        <span
+                                            class="badge badge-primary badge-pill"><?php echo $laboratoristsOnDuty; ?></span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
                                         <span><?php echo lang('receptionists_on_duty') ?></span>
-                                        <span class="badge badge-primary badge-pill"><?php echo $receptionistsOnDuty; ?></span>
+                                        <span
+                                            class="badge badge-primary badge-pill"><?php echo $receptionistsOnDuty; ?></span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
                                         <span><?php echo lang('accountants_on_duty') ?></span>
-                                        <span class="badge badge-primary badge-pill"><?php echo $accountantsOnDuty; ?></span>
+                                        <span
+                                            class="badge badge-primary badge-pill"><?php echo $accountantsOnDuty; ?></span>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-center pl-0">
-                                        <span><?php echo lang('patients') ?> <?php echo lang('admitted') ?></span>
+                                        <span><?php echo lang('patients') ?>     <?php echo lang('admitted') ?></span>
                                         <span class="badge badge-primary badge-pill"><?php echo $patientAdmitted; ?></span>
                                     </li>
                                 </ul>
@@ -1353,7 +1451,10 @@
 
                         <div class="card shadow-lg custom-rounded m-2 mb-3">
                             <div class="p-3">
-                                <h5 class="border-bottom pb-4 py-2 text-sm fw-bold"><?php echo lang('top_treatments') ?> <span class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('last_30_days') ?></span></h5>
+                                <h5 class="border-bottom pb-4 py-2 text-sm fw-bold"><?php echo lang('top_treatments') ?>
+                                    <span
+                                        class="text-xs badge badge-secondary ml-2 p-2"><?php echo lang('last_30_days') ?></span>
+                                </h5>
 
                                 <div id="topTreatmentsChart"></div>
                                 <script type="text/javascript">
@@ -1434,20 +1535,30 @@
 
                         <div class="card shadow-lg custom-rounded m-2 mb-3 bg-transparent">
                             <div class="">
-                                <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('today'); ?> - <?php echo lang('overview'); ?></h5>
+                                <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('today'); ?> -
+                                    <?php echo lang('overview'); ?>
+                                </h5>
                                 <div class="row text-center">
                                     <div class="col-6 mb-3">
                                         <div class="stat-card bg-light p-3 ml-3 border rounded">
                                             <i class="fas fa-user-plus bg-success fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('admitted'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $admittedToday ?? 0; ?></p>
+                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                <?php echo lang('admitted'); ?>
+                                            </h6>
+                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                <?php echo $admittedToday ?? 0; ?>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <div class="stat-card bg-light p-3 mr-3 border rounded">
                                             <i class="fas fa-user-times bg-danger fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('discharged'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $dischargedToday ?? 0; ?></p>
+                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                <?php echo lang('discharged'); ?>
+                                            </h6>
+                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                <?php echo $dischargedToday ?? 0; ?>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -1455,162 +1566,234 @@
                                     <div class="col-6 mb-3">
                                         <div class="stat-card bg-light p-3 ml-3 border rounded">
                                             <i class="fas fa-user-check bg-info fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('registered'); ?> </h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $registeredToday ?? 0; ?></p>
+                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                <?php echo lang('registered'); ?>
+                                            </h6>
+                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                <?php echo $registeredToday ?? 0; ?>
+                                            </p>
                                         </div>
                                     </div>
                                     <div class="col-6 mb-3">
                                         <div class="stat-card bg-light p-3 mr-3 border rounded">
                                             <i class="fas fa-dollar-sign bg-primary fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('income'); ?> </h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_day['payment'] ?? 0, 2, '.', ','); ?></p>
+                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                <?php echo lang('income'); ?>
+                                            </h6>
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                                    <i
+                                                        class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('expense'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $settings->currency; ?>
+                                                        <?php echo format_number_short($this_day['expense'] ?? 0, 2, '.', ','); ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                                    <i
+                                                        class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('appointments'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $this_day['appointment'] ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row text-center">
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
-                                            <i class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('expense'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_day['expense'] ?? 0, 2, '.', ','); ?></p>
+
+
+                                <div class="card shadow-lg custom-rounded m-2 mb-3 bg-transparent">
+                                    <div class="">
+                                        <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('this_month'); ?> -
+                                            <?php echo lang('overview'); ?>
+                                        </h5>
+                                        <div class="row text-center">
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                                    <i class="fas fa-user-plus bg-success fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('admitted'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $admittedThisMonth ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                                    <i class="fas fa-user-times bg-danger fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('discharged'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $dischargedThisMonth ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
-                                            <i class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('appointments'); ?> </h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $this_day['appointment'] ?? 0; ?></p>
+                                        <div class="row text-center">
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                                    <i class="fas fa-user-check bg-info fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('registered'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $registeredThisMonth ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                                    <i class="fas fa-dollar-sign bg-primary fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('income'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $settings->currency; ?>
+                                                        <?php echo format_number_short($this_month['payment'] ?? 0, 2, '.', ','); ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center">
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                                    <i
+                                                        class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('expense'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $settings->currency; ?>
+                                                        <?php echo format_number_short($this_month['expense'] ?? 0, 2, '.', ','); ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                                    <i
+                                                        class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('appointment'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $this_month['appointment'] ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+
+                                <div class="card shadow-lg custom-rounded m-2 bg-transparent">
+                                    <div class="">
+                                        <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('this_year'); ?> -
+                                            <?php echo lang('overview'); ?>
+                                        </h5>
+                                        <div class="row text-center">
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                                    <i class="fas fa-user-plus bg-success fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('admitted'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $admittedThisYear ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                                    <i class="fas fa-user-times bg-danger fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('discharged'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $dischargedThisYear ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center">
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                                    <i class="fas fa-user-check bg-info fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('registered'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $registeredThisYear ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                                    <i class="fas fa-dollar-sign bg-primary fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('income'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $settings->currency; ?>
+                                                        <?php echo format_number_short($this_year['payment'] ?? 0, 2, '.', ','); ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row text-center">
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 ml-3 border rounded">
+                                                    <i
+                                                        class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('expense'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $settings->currency; ?>
+                                                        <?php echo format_number_short($this_year['expense'] ?? 0, 2, '.', ','); ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 mb-3">
+                                                <div class="stat-card bg-light p-3 mr-3 border rounded">
+                                                    <i
+                                                        class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
+                                                    <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted">
+                                                        <?php echo lang('appointment'); ?>
+                                                    </h6>
+                                                    <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;">
+                                                        <?php echo $this_year['appointment'] ?? 0; ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                        </div>
 
 
-                        <div class="card shadow-lg custom-rounded m-2 mb-3 bg-transparent">
-                            <div class="">
-                                <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('this_month'); ?> - <?php echo lang('overview'); ?></h5>
-                                <div class="row text-center">
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
-                                            <i class="fas fa-user-plus bg-success fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"> <?php echo lang('admitted'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $admittedThisMonth ?? 0; ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
-                                            <i class="fas fa-user-times bg-danger fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"> <?php echo lang('discharged'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $dischargedThisMonth ?? 0; ?></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
-                                            <i class="fas fa-user-check bg-info fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"> <?php echo lang('registered'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $registeredThisMonth ?? 0; ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
-                                            <i class="fas fa-dollar-sign bg-primary fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('income'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_month['payment'] ?? 0, 2, '.', ','); ?></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
-                                            <i class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('expense'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_month['expense'] ?? 0, 2, '.', ','); ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
-                                            <i class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('appointment'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $this_month['appointment'] ?? 0; ?></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
 
-                        <div class="card shadow-lg custom-rounded m-2 bg-transparent">
-                            <div class="">
-                                <h5 class="my-4 fw-bold text-center text-sm"><?php echo lang('this_year'); ?> - <?php echo lang('overview'); ?></h5>
-                                <div class="row text-center">
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
-                                            <i class="fas fa-user-plus bg-success fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('admitted'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $admittedThisYear ?? 0; ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
-                                            <i class="fas fa-user-times bg-danger fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('discharged'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $dischargedThisYear ?? 0; ?></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
-                                            <i class="fas fa-user-check bg-info fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('registered'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $registeredThisYear ?? 0; ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
-                                            <i class="fas fa-dollar-sign bg-primary fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('income'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_year['payment'] ?? 0, 2, '.', ','); ?></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row text-center">
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 ml-3 border rounded">
-                                            <i class="fas fa-money-bill-wave bg-warning fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('expense'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $settings->currency; ?><?php echo format_number_short($this_year['expense'] ?? 0, 2, '.', ','); ?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 mb-3">
-                                        <div class="stat-card bg-light p-3 mr-3 border rounded">
-                                            <i class="fas fa-calendar-check bg-secondary fa-lg p-2 rounded-circle"></i>
-                                            <h6 class="fw-bold mt-2 text-dark title-spacing text-sm text-muted"><?php echo lang('appointment'); ?></h6>
-                                            <p class="fw-bold text-dark mb-0" style="font-size: 1.1rem;"><?php echo $this_year['appointment'] ?? 0; ?></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
+
+                        <?php } ?>
+
+
+                        <!-- /.col -->
                     </div>
-
-
-
-
-
-
-                <?php } ?>
-
-
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-        </div>
-        <!-- /.container-fluid -->
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
     </section>
 
     <!-- /.content -->
@@ -1679,7 +1862,7 @@ if (!$this->ion_auth->in_group(array('superadmin'))) {
     var expense = "<?php echo lang('expense') ?>";
 </script>
 <script type="text/javascript">
-    var currency = "<?php echo $settings->currency ?>";
+    var currency = "<?php echo !empty($settings) ? ($settings->currency ?? '') : ''; ?>";
 </script>
 <script type="text/javascript">
     var months_lang = "<?php echo lang('months') ?>";
@@ -1712,7 +1895,7 @@ if (!$this->ion_auth->in_group(array('superadmin'))) {
     </script>
 <?php } ?>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
     var this_year = <?php echo json_encode($this_year['payment_per_month']); ?>;
     var monthly_subscription_lang = '<?php echo lang('monthly'); ?> <?php echo lang('subscription'); ?>';
     var yearly_subscription_lang = '<?php echo lang('yearly'); ?> <?php echo lang('subscription'); ?>';

@@ -555,7 +555,7 @@
                         <p><?php echo lang('request'); ?></p>
                     </a></li>
                 <li class="nav-item"><a class="nav-link text-white no-ajax"
-                        href="<?php echo site_url('appointment/tv?hospital_id=' . $this->hospital_id); ?>"
+                        href="<?php echo site_url('appointment/tv?hospital_id=' . $this->session->userdata('hospital_id')); ?>"
                         onclick="window.open(this.href, '_blank'); return false;"><i class="nav-icon fas fa-tv"></i>
                         <p>TV Queue</p>
                     </a></li>
@@ -1459,7 +1459,7 @@ if ($this->ion_auth->in_group(array('Accountant', 'Receptionist'))) {
 
 
                 <li class="nav-item">
-                    <a class="nav-link" href="mailto:<?php echo $this->settings->email; ?>">
+                    <a class="nav-link" href="mailto:<?php echo !empty($this->settings) ? $this->settings->email : ''; ?>">
                         <i class="nav-icon fas fa-envelope"></i>
                         <p><?php echo lang('contact_us'); ?></p>
                     </a>
