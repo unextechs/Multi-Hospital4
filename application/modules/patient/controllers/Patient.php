@@ -61,6 +61,7 @@ class Patient extends MX_Controller
         $phone = $this->input->post('phone');
         $sex = $this->input->post('sex');
         $birthdate = $this->input->post('birthdate');
+        $age = $this->input->post('age');
         $bloodgroup = $this->input->post('bloodgroup');
         $doctor = $this->input->post('doctor');
         $national_id = $this->input->post('national_id');
@@ -96,8 +97,13 @@ class Patient extends MX_Controller
         // Validating Gender Field
         $this->form_validation->set_rules('sex', 'Gender', 'trim|required|xss_clean');
 
-        // Validating Birthdate Field
-        $this->form_validation->set_rules('birthdate', 'Date of Birth', 'trim|required|xss_clean');
+        // Validating Address Field
+        $this->form_validation->set_rules('address', 'Address', 'trim|required|xss_clean');
+
+        // Validating Birthdate Field (required only if age not provided)
+        if (empty($age)) {
+            $this->form_validation->set_rules('birthdate', 'Date of Birth', 'trim|required|xss_clean');
+        }
 
         if ($this->form_validation->run() == FALSE) {
             if (!empty($id)) {
@@ -142,6 +148,13 @@ class Patient extends MX_Controller
                     show_swal($error, 'error', lang('error'));
                     redirect($_SERVER["HTTP_REFERER"]);
                 }
+            }
+
+            // If birthdate is empty but age is provided, compute birthdate from age
+            if (empty($birthdate) && !empty($age)) {
+                $age = intval($age);
+                $birth_year = date('Y') - $age;
+                $birthdate = $birth_year . '-01-01';
             }
 
             // Prepare data array
@@ -281,6 +294,7 @@ class Patient extends MX_Controller
                 $diff = date_diff(date_create($dateOfBirth), date_create($today));
                 $age = $diff->format('%y') . '-' . $diff->format('%m') . '-' . $diff->format('%d');
                 $data['age'] = $age;
+                $data['age_years'] = $diff->format('%y');
             }
         }
 
@@ -316,11 +330,14 @@ class Patient extends MX_Controller
                 $diff = date_diff(date_create($dateOfBirth), date_create($today));
                 $age = $diff->format('%y years %m months %d days');
                 $data['age'] = $age;
+                $data['age_years'] = $diff->format('%y');
             } else {
                 $data['age'] = '';
+                $data['age_years'] = '';
             }
         } else {
             $data['age'] = '';
+            $data['age_years'] = '';
         }
 
         echo json_encode($data);
@@ -1025,6 +1042,63 @@ class Patient extends MX_Controller
                 if ($element) {
                     $data['advice'][] = $element->name;
                 }
+            }
+        }
+
+        // Compute patient age
+        $data['patient_age'] = '';
+        if (!empty($data['patient']->birthdate) && strtotime($data['patient']->birthdate)) {
+            $diff = date_diff(date_create($data['patient']->birthdate), date_create('today'));
+            $data['patient_age'] = $diff->format('%y');
+        }
+
+        // Fetch prescriptions for this patient
+        $data['prescriptions'] = array();
+        $this->load->model('prescription/prescription_model');
+        $prescriptions = $this->prescription_model->getPrescriptionByPatientId($data['case']->patient_id);
+        if (!empty($prescriptions)) {
+            foreach ($prescriptions as $rx) {
+                $rx_item = new stdClass();
+                $rx_item->id = $rx->id;
+                $rx_item->date = date('d M, Y', strtotime($rx->date));
+                // Get prescription medicines
+                $medicines = $this->db->get_where('prescription_details', array('prescription_id' => $rx->id))->result();
+                $rx_item->medicines = array();
+                if (!empty($medicines)) {
+                    foreach ($medicines as $med) {
+                        $medicine = $this->db->get_where('medicine', array('id' => $med->medicine_id))->row();
+                        $med_item = new stdClass();
+                        $med_item->name = !empty($medicine) ? $medicine->name : 'Unknown';
+                        $med_item->dosage = !empty($med->dosage) ? $med->dosage : '';
+                        $med_item->frequency = !empty($med->frequency) ? $med->frequency : '';
+                        $med_item->duration = !empty($med->days) ? $med->days : '';
+                        $med_item->instruction = !empty($med->instruction) ? $med->instruction : '';
+                        $rx_item->medicines[] = $med_item;
+                    }
+                }
+                $data['prescriptions'][] = $rx_item;
+            }
+        }
+
+        // Fetch lab reports for this patient
+        $data['lab_reports'] = array();
+        $this->load->model('lab/lab_model');
+        $labs = $this->lab_model->getLabByPatientId($data['case']->patient_id);
+        if (!empty($labs)) {
+            foreach ($labs as $lab) {
+                $lab_item = new stdClass();
+                $lab_item->id = $lab->id;
+                $lab_item->date = !empty($lab->date) ? date('d M, Y', strtotime($lab->date)) : '';
+                $lab_item->report = !empty($lab->report) ? $lab->report : '';
+                $lab_item->status = !empty($lab->status) ? $lab->status : '';
+                // Get test name from payment_category
+                $test_name = '';
+                if (!empty($lab->category_id)) {
+                    $cat = $this->db->get_where('payment_category', array('id' => $lab->category_id))->row();
+                    $test_name = !empty($cat) ? $cat->category : '';
+                }
+                $lab_item->test_name = $test_name;
+                $data['lab_reports'][] = $lab_item;
             }
         }
 

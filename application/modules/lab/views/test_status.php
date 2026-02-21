@@ -36,16 +36,25 @@
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <p class="mb-1"><?php echo lang('for_every_paid_diagnostic_test_there_is_a_row_in_this_table'); ?></p>
-                                <p class="mb-1"><?php echo lang('if_you_change_the_status_from_not_done_to_done_it_will_appear_on_the_lab_test_lab_reports_section'); ?>.</p>
-                                <p class="mb-1"><?php echo lang('there_you_can_add_report_or_insert_results_for_a_test_by_clicking_on_the_report_button'); ?>.</p>
-                                <p class="mb-1"><?php echo lang('on_the_report_page_after_writing_the_report_if_you_click_save_and_ready_to_deliver_report_will_be_generated_and_will_be_be_available_on_the_lab_tests_report_delivery_section'); ?>.</p>
+                                <p class="mb-1">
+                                    <?php echo lang('for_every_paid_diagnostic_test_there_is_a_row_in_this_table'); ?>
+                                </p>
+                                <p class="mb-1">
+                                    <?php echo lang('if_you_change_the_status_from_not_done_to_done_it_will_appear_on_the_lab_test_lab_reports_section'); ?>.
+                                </p>
+                                <p class="mb-1">
+                                    <?php echo lang('there_you_can_add_report_or_insert_results_for_a_test_by_clicking_on_the_report_button'); ?>.
+                                </p>
+                                <p class="mb-1">
+                                    <?php echo lang('on_the_report_page_after_writing_the_report_if_you_click_save_and_ready_to_deliver_report_will_be_generated_and_will_be_be_available_on_the_lab_tests_report_delivery_section'); ?>.
+                                </p>
                             </div>
 
                             <div class="row mb-4">
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('status'); ?></label>
+                                        <label
+                                            class="text-uppercase font-weight-bold text-muted"><?php echo lang('status'); ?></label>
                                         <select class="form-control form-control-lg shadow-sm status">
                                             <option value="all"><?php echo lang('all'); ?></option>
                                             <option value="done"><?php echo lang('done'); ?></option>
@@ -55,31 +64,52 @@
                                 </div>
                                 <div class="col-md-2">
                                     <div class="form-group">
-                                        <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('category'); ?></label>
+                                        <label
+                                            class="text-uppercase font-weight-bold text-muted"><?php echo lang('category'); ?></label>
                                         <select class="form-control form-control-lg shadow-sm category">
                                             <option value="all"><?php echo lang('all'); ?></option>
                                             <?php foreach ($categories as $category) { ?>
-                                                <option value="<?php echo $category->id; ?>"><?php echo $category->category; ?></option>
+                                                <option value="<?php echo $category->id; ?>">
+                                                    <?php echo $category->category; ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('from'); ?></label>
-                                        <input type="text" class="form-control form-control-lg shadow-sm pay_in default-date-picker readonly" name="" id="from_date" readonly="">
+                                        <label
+                                            class="text-uppercase font-weight-bold text-muted"><?php echo lang('from'); ?></label>
+                                        <input type="text"
+                                            class="form-control form-control-lg shadow-sm pay_in default-date-picker readonly"
+                                            name="" id="from_date" readonly="">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('to'); ?></label>
-                                        <input type="text" class="form-control form-control-lg shadow-sm pay_in default-date-picker readonly" name="" id="to_date" readonly="">
+                                        <label
+                                            class="text-uppercase font-weight-bold text-muted"><?php echo lang('to'); ?></label>
+                                        <input type="text"
+                                            class="form-control form-control-lg shadow-sm pay_in default-date-picker readonly"
+                                            name="" id="to_date" readonly="">
                                     </div>
                                 </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('date_filter'); ?></label>
-                                        <button class="btn btn-success btn-lg btn-block shadow-sm dateFilter"><?php echo lang('filter'); ?></button>
+                                <div class="col-md-3">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label
+                                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('date_filter'); ?></label>
+                                                <button
+                                                    class="btn btn-success btn-lg btn-block shadow-sm dateFilter"><?php echo lang('filter'); ?></button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="text-uppercase font-weight-bold text-muted">Today</label>
+                                                <button
+                                                    class="btn btn-primary btn-lg btn-block shadow-sm todayFilter">Today</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -87,7 +117,8 @@
                             <table class="table table-hover datatables" id="editable-sample1" width="100%">
                                 <thead>
                                     <tr class="bg-light">
-                                        <th class="font-weight-bold text-uppercase"><?php echo lang('patient_id'); ?></th>
+                                        <th class="font-weight-bold text-uppercase"><?php echo lang('patient_id'); ?>
+                                        </th>
                                         <th class="font-weight-bold"><?php echo lang('patient'); ?></th>
                                         <th class="font-weight-bold"><?php echo lang('invoice_no'); ?></th>
                                         <th class="font-weight-bold"><?php echo lang('invoice_date_time'); ?></th>
@@ -141,7 +172,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary done_by_btn"><?php echo lang('save_changes'); ?></button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo lang('close'); ?></button>
+                <button type="button" class="btn btn-secondary"
+                    data-dismiss="modal"><?php echo lang('close'); ?></button>
             </div>
         </div>
     </div>
@@ -160,7 +192,7 @@
 <script src="common/extranal/js/lab/lab.js"></script>
 <script src="common/extranal/js/description.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         let status = $('.status').val();
         let category = $('.category').val();
         let fromDate = $('#from_date').val();
@@ -177,7 +209,7 @@
                 url: "lab/getTestStatusLab?status=" + status + "&category=" + category + "&from=" + fromDate + '&to=' + toDate,
                 type: 'POST',
                 cache: true,
-                dataSrc: function(json) {
+                dataSrc: function (json) {
                     return json.data;
                 }
             },
@@ -187,35 +219,35 @@
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             buttons: {
                 buttons: [{
-                        extend: 'copyHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    },
-                    {
-                        extend: 'csvHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
-                    },
-                    {
-                        extend: 'print',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
-                        }
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
                     }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                    }
+                },
+                {
+                    extend: 'print',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                    }
+                }
                 ],
                 dom: {
                     button: {
@@ -244,7 +276,7 @@
         table.buttons().container().appendTo('.custom_buttons');
     });
 
-    $('.status').on("change", function() {
+    $('.status').on("change", function () {
         let status = $('.status').val();
         let category = $('.category').val();
         let fromDate = $('#from_date').val();
@@ -270,35 +302,35 @@
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
             buttons: [{
-                    extend: 'copyHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
-                {
-                    extend: 'csvHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
             ],
             aLengthMenu: [
                 [10, 25, 50, 100, -1],
@@ -318,7 +350,7 @@
         table.buttons().container().appendTo('.custom_buttons');
     })
 
-    $('.category').on("change", function() {
+    $('.category').on("change", function () {
         let status = $('.status').val();
         let category = $('.category').val();
         let fromDate = $('#from_date').val();
@@ -344,35 +376,35 @@
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
             buttons: [{
-                    extend: 'copyHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
-                {
-                    extend: 'csvHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                    }
-                },
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                }
+            },
             ],
             aLengthMenu: [
                 [10, 25, 50, 100, -1],
@@ -392,7 +424,7 @@
         table.buttons().container().appendTo('.custom_buttons');
     })
 
-    $(document).on("change", '.test_status', function() {
+    $(document).on("change", '.test_status', function () {
         let id = $(this).data("id");
         let status = $(this).val();
         if (status == 'not_done') {
@@ -427,35 +459,35 @@
                             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
                         buttons: [{
-                                extend: 'copyHtml5',
-                                exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                                }
-                            },
-                            {
-                                extend: 'excelHtml5',
-                                exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                                }
-                            },
-                            {
-                                extend: 'csvHtml5',
-                                exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                                }
-                            },
-                            {
-                                extend: 'pdfHtml5',
-                                exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                                }
-                            },
-                            {
-                                extend: 'print',
-                                exportOptions: {
-                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                                }
-                            },
+                            extend: 'copyHtml5',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                            }
+                        },
+                        {
+                            extend: 'excelHtml5',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                            }
+                        },
+                        {
+                            extend: 'csvHtml5',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                            }
+                        },
+                        {
+                            extend: 'print',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                            }
+                        },
                         ],
                         aLengthMenu: [
                             [10, 25, 50, 100, -1],
@@ -484,7 +516,7 @@
         }
     })
 
-    $(document).on("click", '.done_by_btn', function() {
+    $(document).on("click", '.done_by_btn', function () {
         let id = $('#done_by_id').val();
         let status = $('#done_by_status').val();
         let done_by = $('#done_by').val();
@@ -519,35 +551,35 @@
                         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
                     buttons: [{
-                            extend: 'copyHtml5',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                            }
-                        },
-                        {
-                            extend: 'excelHtml5',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                            }
-                        },
-                        {
-                            extend: 'csvHtml5',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                            }
-                        },
-                        {
-                            extend: 'pdfHtml5',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                            }
-                        },
-                        {
-                            extend: 'print',
-                            exportOptions: {
-                                columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
-                            }
-                        },
+                        extend: 'copyHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                        }
+                    },
+                    {
+                        extend: 'excelHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                        }
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                        }
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+                        }
+                    },
                     ],
                     aLengthMenu: [
                         [10, 25, 50, 100, -1],
@@ -570,7 +602,7 @@
 
     })
 
-    $('.dateFilter').on("click", function() {
+    $('.dateFilter').on("click", function () {
         let status = $('.status').val();
         let category = $('.category').val();
         let fromDate = $('#from_date').val();
@@ -596,35 +628,35 @@
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
 
             buttons: [{
-                    extend: 'copyHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    }
-                },
-                {
-                    extend: 'excelHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    }
-                },
-                {
-                    extend: 'csvHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    }
-                },
-                {
-                    extend: 'pdfHtml5',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    }
-                },
-                {
-                    extend: 'print',
-                    exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-                    }
-                },
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                }
+            },
+            {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                }
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                }
+            },
             ],
             aLengthMenu: [
                 [10, 25, 50, 100, -1],
@@ -644,4 +676,16 @@
         table.buttons().container().appendTo('.custom_buttons');
 
     })
+
+    $('.todayFilter').on("click", function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
+
+        today = dd + '-' + mm + '-' + yyyy;
+        $('#from_date').val(today);
+        $('#to_date').val(today);
+        $('.dateFilter').trigger('click');
+    });
 </script>

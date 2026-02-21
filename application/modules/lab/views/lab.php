@@ -77,11 +77,21 @@
                                             class="form-control form-control-lg shadow-sm pay_in default-date-picker readonly"
                                             name="" id="to_date" readonly="" style="z-index: 99999;">
                                     </div>
-                                    <div class="col-md-2">
-                                        <label class="text-uppercase font-weight-bold text-muted">Date
-                                            Filter</label><br>
-                                        <button
-                                            class="btn btn-primary btn-lg p-2 btn-block shadow-lg py-3 dateFilter">Filter</button>
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label class="text-uppercase font-weight-bold text-muted">Date
+                                                    Filter</label><br>
+                                                <button
+                                                    class="btn btn-primary btn-lg p-2 btn-block shadow-lg py-3 dateFilter">Filter</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="text-uppercase font-weight-bold text-muted">Today
+                                                    Filter</label><br>
+                                                <button
+                                                    class="btn btn-success btn-lg p-2 btn-block shadow-lg py-3 todayFilter">Today</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -440,4 +450,16 @@
         table.buttons().container().appendTo('.custom_buttons');
 
     })
+
+    $('.todayFilter').on("click", function () {
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
+
+        today = dd + '-' + mm + '-' + yyyy;
+        $('#from_date').val(today);
+        $('#to_date').val(today);
+        $('.dateFilter').trigger('click');
+    });
 </script>

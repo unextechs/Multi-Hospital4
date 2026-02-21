@@ -19,6 +19,7 @@ class Medicine_model extends CI_model
 
         // Capture initial quantity if provided, then set to 0 for dynamic calculation
         $initial_qty = isset($data2['quantity']) ? (float) $data2['quantity'] : 0;
+        $e_date = isset($data2['e_date']) ? $data2['e_date'] : null;
         $data2['quantity'] = 0;
 
         $this->db->insert('medicine', $data2);
@@ -26,11 +27,11 @@ class Medicine_model extends CI_model
 
         // If there's initial stock, create an "Opening Stock" entry
         if ($initial_qty > 0) {
-            $this->createOpeningStockEntry($medicine_id, $initial_qty);
+            $this->createOpeningStockEntry($medicine_id, $initial_qty, $e_date);
         }
     }
 
-    private function createOpeningStockEntry($medicine_id, $quantity)
+    private function createOpeningStockEntry($medicine_id, $quantity, $e_date = null)
     {
         $hospital_id = $this->session->userdata('hospital_id');
 
@@ -82,7 +83,7 @@ class Medicine_model extends CI_model
             'purchase_item_id' => $purchase_item_id,
             'initial_stock' => $quantity,
             'current_stock' => $quantity,
-            'expiry_date' => date('Y-m-d', strtotime('+2 years')),
+            'expiry_date' => !empty($e_date) ? date('Y-m-d', strtotime(str_replace('/', '-', $e_date))) : date('Y-m-d', strtotime('+2 years')),
             'hospital_id' => $hospital_id
         );
         $this->db->insert('medicine_batches', $batch_data);
@@ -272,6 +273,7 @@ class Medicine_model extends CI_model
     {
         // Capture manual quantity if provided
         $qty = isset($data['quantity']) ? (float) $data['quantity'] : null;
+        $e_date = isset($data['e_date']) ? $data['e_date'] : null;
 
         $this->db->where('id', $id);
         $this->db->update('medicine', $data);
@@ -282,7 +284,7 @@ class Medicine_model extends CI_model
             if ($dyn_stock < $qty) {
                 // Manually increased stock - create opening stock entry
                 $diff = $qty - $dyn_stock;
-                $this->createOpeningStockEntry($id, $diff);
+                $this->createOpeningStockEntry($id, $diff, $e_date);
             } elseif ($dyn_stock > $qty) {
                 // Manually decreased stock - create adjustment sale
                 $diff = $dyn_stock - $qty;

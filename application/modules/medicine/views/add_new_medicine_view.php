@@ -150,6 +150,20 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group mb-4">
+                                            <label
+                                                class="text-uppercase text-sm"><?php echo lang('expiry_date'); ?></label>
+                                            <input type="text"
+                                                class="form-control form-control-lg default-date-picker readonly"
+                                                name="e_date" value='<?php
+                                                if (!empty($medicine->e_date)) {
+                                                    echo $medicine->e_date;
+                                                }
+                                                ?>'>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group mb-4">
                                             <label class="text-uppercase text-sm"><?php echo lang('generic'); ?>
                                                 <?php echo lang('name'); ?> <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control form-control-lg" name="generic"

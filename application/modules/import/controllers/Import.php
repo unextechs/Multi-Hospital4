@@ -262,6 +262,7 @@ class Import extends MX_Controller
 
     function importMedicine($file, $tablename)
     {
+        $this->load->model('medicine/medicine_model');
         $object = PHPExcel_IOFactory::load($file);
         $message2 = '';
         foreach ($object->getWorksheetIterator() as $worksheet) {
@@ -283,13 +284,22 @@ class Import extends MX_Controller
 
                     for ($column = 0; $column < $highestColumn; $column++) {
 
+                        $header_col = strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue());
                         $rowData2[] = $worksheet->getCellByColumnAndRow($column, 1)->getValue();
-                        $rowData[] = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
 
+                        $cell = $worksheet->getCellByColumnAndRow($column, $row);
+                        $val = $cell->getValue();
 
+                        if ($header_col === 'e_date' || $header_col === 'expiry_date') {
+                            if (PHPExcel_Shared_Date::isDateTime($cell)) {
+                                $val = date('d/m/Y', PHPExcel_Shared_Date::ExcelToPHP($val));
+                            }
+                        }
 
-                        if (strtolower($worksheet->getCellByColumnAndRow($column, 1)->getValue()) === 'name') {
-                            $name = $worksheet->getCellByColumnAndRow($column, $row)->getValue();
+                        $rowData[] = $val;
+
+                        if ($header_col === 'name') {
+                            $name = $val;
                         }
                     }
 
@@ -304,16 +314,13 @@ class Import extends MX_Controller
                         array_push($rowData2, 'add_date');
                         array_push($rowData, $this->session->userdata('hospital_id'));
                         array_push($rowData2, 'hospital_id');
-                        // Set quantity to 0 - batches must be added separately
-                        array_push($rowData, 0);
-                        array_push($rowData2, 'quantity');
+
                         $data = array_combine($rowData2, $rowData);
 
-                        $this->import_model->dataEntry($data, $tablename);
+                        $this->medicine_model->insertMedicine($data);
                     }
                 }
                 show_swal(lang('successful_data_import'), 'success');
-                show_swal('Important: Medicine quantities are set to 0. Please add batches with expiry dates and stock quantities separately.', 'info');
                 if ($message2 != '') {
                     show_swal($message2, 'warning');
                 }

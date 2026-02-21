@@ -183,8 +183,10 @@ class Prescription extends MX_Controller
             }
         } else {
             $data = array();
-            $patientname = $this->patient_model->getPatientById($patient)->name;
-            $doctorname = $this->doctor_model->getDoctorById($doctor)->name;
+            $patient_details = $this->patient_model->getPatientById($patient);
+            $patientname = !empty($patient_details) ? $patient_details->name : '';
+            $doctor_details = !empty($doctor) ? $this->doctor_model->getDoctorById($doctor) : null;
+            $doctorname = !empty($doctor_details) ? $doctor_details->name : '';
             $data = array(
                 'date' => $date,
                 'patient' => $patient,

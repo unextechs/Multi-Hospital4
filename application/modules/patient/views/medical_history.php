@@ -2279,84 +2279,179 @@
 <!--footer start-->
 
 <div class="modal fade modal-enhanced" id="caseModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title no-print">
+            <div class="modal-header bg-gradient-primary text-white no-print">
+                <h5 class="modal-title">
                     <i class="fas fa-file-medical mr-2"></i>
                     <?php echo lang('case'); ?> <?php echo lang('details'); ?>
+                    <small class="ml-2 case_date_header"></small>
                 </h5>
-                <button type="button" class="close no-print" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <div class="ml-auto d-flex align-items-center">
+                    <a class="btn btn-light btn-sm mr-2" id="printButtonn">
+                        <i class="fa fa-print mr-1"></i> <?php echo lang('print'); ?>
+                    </a>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </div>
-            <div class="modal-body">
+            <div class="modal-body p-0" style="max-height: 80vh; overflow-y: auto;">
 
-                <div class="card mb-3 shadow-sm">
-                    <div class="card-body">
-                        <table class="table table-bordered">
-                            <tr>
-                                <td><label for="exampleInputEmail1"><?php echo lang('case'); ?>
-                                        <?php echo lang('creation'); ?> <?php echo lang('date'); ?></label></td>
-                                <td class="case_date"></td>
-                            </tr>
-                            <tr>
-                                <td><?php echo lang('patient'); ?></td>
-                                <td class="case_patient"></td>
-                            </tr>
-                            <tr>
-                                <td><?php echo lang('patient_id'); ?></td>
-                                <td class="case_patient_id"></td>
-                            </tr>
-                            <tr>
-                                <td><?php echo lang('doctor'); ?></td>
-                                <td class="case_doctor"></td>
-                            </tr>
-                            <tr>
-                                <td><?php echo lang('title'); ?></td>
-                                <td class="case_title"></td>
-                            </tr>
-                            <tr>
-                                <td><?php echo lang('symptom'); ?></td>
-                                <td class="case_symptom"></td>
-                            </tr>
-                            <tr>
-                                <td><?php echo lang('lab_test'); ?></td>
-                                <td class="case_test"></td>
-                            </tr>
-
-                            <tr>
-                                <td><?php echo lang('diagnosis'); ?></td>
-                                <td class="case_diagnosis"></td>
-                            </tr>
-                            <tr>
-                                <td><?php echo lang('treatment'); ?></td>
-                                <td class="case_treatment"></td>
-                            </tr>
-                            <tr>
-                                <td><?php echo lang('advice'); ?></td>
-                                <td class="case_advice"></td>
-                            </tr>
-
-                            <tr>
-                                <td><?php echo lang('history'); ?></td>
-                                <td class="case_details"></td>
-                            </tr>
-                        </table>
-                        <br>
-                        <div class="col-md-9">
-                            <h5 class="float-right">
-                                <?php echo $settings->title . '<br>' . $settings->address; ?>
-                            </h5>
+                <!-- Patient Header Card -->
+                <div class="bg-light border-bottom p-3">
+                    <div class="row align-items-center">
+                        <div class="col-auto">
+                            <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
+                                style="width:60px;height:60px;font-size:24px;">
+                                <i class="fas fa-user"></i>
+                            </div>
                         </div>
-
-                        <div class="col-md-3 no-print">
-                            <a class="btn btn-info invoice_button float-right" id="printButtonn"><i
-                                    class="fa fa-print"></i> <?php echo lang('print'); ?> </a>
+                        <div class="col">
+                            <h4 class="mb-0 font-weight-bold case_patient"></h4>
+                            <div class="d-flex flex-wrap mt-1">
+                                <span class="badge badge-secondary mr-2 px-2 py-1"><i class="fas fa-id-card mr-1"></i>
+                                    <span class="case_patient_id"></span></span>
+                                <span class="badge badge-info mr-2 px-2 py-1"><i class="fas fa-birthday-cake mr-1"></i>
+                                    <span class="case_patient_age_val"></span> yrs</span>
+                                <span class="badge badge-light border mr-2 px-2 py-1"><i
+                                        class="fas fa-venus-mars mr-1"></i> <span
+                                        class="case_patient_gender"></span></span>
+                                <span class="badge badge-light border mr-2 px-2 py-1"><i class="fas fa-phone mr-1"></i>
+                                    <span class="case_patient_phone"></span></span>
+                                <span class="badge badge-danger mr-2 px-2 py-1"><i class="fas fa-tint mr-1"></i> <span
+                                        class="case_patient_bloodgroup"></span></span>
+                            </div>
+                        </div>
+                        <div class="col-auto text-right">
+                            <div class="text-muted small"><i class="far fa-calendar-alt mr-1"></i>
+                                <?php echo lang('case'); ?> <?php echo lang('date'); ?></div>
+                            <div class="font-weight-bold case_date"></div>
+                            <div class="text-muted small mt-1"><i class="fas fa-user-md mr-1"></i> <span
+                                    class="case_doctor"></span></div>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- Case Title & Description -->
+                <div class="p-3 border-bottom">
+                    <div class="d-flex align-items-center mb-2">
+                        <span class="badge badge-primary px-3 py-2 mr-2"><i class="fas fa-heading mr-1"></i>
+                            <?php echo lang('title'); ?></span>
+                        <h5 class="mb-0 font-weight-bold case_title"></h5>
+                    </div>
+                </div>
+
+                <!-- Clinical Information -->
+                <div class="p-3">
+                    <div class="row">
+                        <!-- Symptoms -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-left-warning h-100">
+                                <div class="card-body p-3">
+                                    <h6 class="font-weight-bold text-warning mb-2">
+                                        <i class="fas fa-thermometer-half mr-1"></i> <?php echo lang('symptom'); ?>
+                                    </h6>
+                                    <div class="case_symptom"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Diagnosis -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-left-danger h-100">
+                                <div class="card-body p-3">
+                                    <h6 class="font-weight-bold text-danger mb-2">
+                                        <i class="fas fa-stethoscope mr-1"></i> <?php echo lang('diagnosis'); ?>
+                                    </h6>
+                                    <div class="case_diagnosis"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Treatment -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-left-success h-100">
+                                <div class="card-body p-3">
+                                    <h6 class="font-weight-bold text-success mb-2">
+                                        <i class="fas fa-prescription mr-1"></i> <?php echo lang('treatment'); ?>
+                                    </h6>
+                                    <div class="case_treatment"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Advice -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-left-info h-100">
+                                <div class="card-body p-3">
+                                    <h6 class="font-weight-bold text-info mb-2">
+                                        <i class="fas fa-comment-medical mr-1"></i> <?php echo lang('advice'); ?>
+                                    </h6>
+                                    <div class="case_advice"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Lab Tests -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-left-primary h-100">
+                                <div class="card-body p-3">
+                                    <h6 class="font-weight-bold text-primary mb-2">
+                                        <i class="fas fa-flask mr-1"></i> <?php echo lang('lab_test'); ?>
+                                    </h6>
+                                    <div class="case_test"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Clinical Notes -->
+                        <div class="col-md-6 mb-3">
+                            <div class="card border-left-secondary h-100">
+                                <div class="card-body p-3">
+                                    <h6 class="font-weight-bold text-secondary mb-2">
+                                        <i class="fas fa-notes-medical mr-1"></i> <?php echo lang('history'); ?>
+                                    </h6>
+                                    <div class="case_details small"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Prescriptions Section -->
+                <div class="p-3 border-top">
+                    <h6 class="font-weight-bold text-primary mb-3">
+                        <i class="fas fa-prescription-bottle-alt mr-2"></i> Prescriptions
+                        <span class="badge badge-light ml-1 case_rx_count">0</span>
+                    </h6>
+                    <div id="casePrescriptionsContainer">
+                        <p class="text-muted text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+                    </div>
+                </div>
+
+                <!-- Lab Reports Section -->
+                <div class="p-3 border-top">
+                    <h6 class="font-weight-bold text-success mb-3">
+                        <i class="fas fa-vials mr-2"></i> Lab Reports
+                        <span class="badge badge-light ml-1 case_lab_count">0</span>
+                    </h6>
+                    <div id="caseLabReportsContainer">
+                        <p class="text-muted text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</p>
+                    </div>
+                </div>
+
+                <!-- Patient History Timeline -->
+                <div class="p-3 border-top">
+                    <h6 class="font-weight-bold text-dark mb-3">
+                        <i class="fas fa-history mr-2"></i> Full Case History
+                    </h6>
+                    <div id="fullPatientHistoryTimeline" class="list-group" style="max-height:300px; overflow-y:auto;">
+                    </div>
+                </div>
+
+                <!-- Hospital Footer -->
+                <div class="p-3 border-top bg-light text-right">
+                    <h6 class="mb-0">
+                        <?php echo $settings->title . '<br><small class="text-muted">' . $settings->address . '</small>'; ?>
+                    </h6>
+                </div>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

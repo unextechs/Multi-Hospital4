@@ -159,17 +159,28 @@ $(".table").on("click", ".case", function () {
     $("#loader").show();
     var iid = $(this).attr('data-id');
 
+    // Clear all fields
     $('.case_date').html("").end();
+    $('.case_date_header').html("").end();
     $('.case_details').html("").end();
     $('.case_title').html("").end();
     $('.case_patient').html("").end();
     $('.case_doctor').html("").end();
     $('.case_patient_id').html("").end();
-    $('.case_diagnosis').html("").end();  // Add this
-    $('.case_treatment').html("").end();  // Add this
+    $('.case_patient_age_val').html("").end();
+    $('.case_patient_gender').html("").end();
+    $('.case_patient_phone').html("").end();
+    $('.case_patient_bloodgroup').html("").end();
+    $('.case_diagnosis').html("").end();
+    $('.case_treatment').html("").end();
     $('.case_symptom').html("").end();
     $('.case_test').html("").end();
     $('.case_advice').html("").end();
+    $('.case_rx_count').html("0").end();
+    $('.case_lab_count').html("0").end();
+    $('#casePrescriptionsContainer').html('<p class="text-muted text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</p>');
+    $('#caseLabReportsContainer').html('<p class="text-muted text-center"><i class="fas fa-spinner fa-spin"></i> Loading...</p>');
+
     $.ajax({
         url: 'patient/getCaseDetailsByJason?id=' + iid,
         method: 'GET',
@@ -179,7 +190,6 @@ $(".table").on("click", ".case", function () {
             "use strict";
             var de = response.case.date * 1000;
             var d = new Date(de);
-
 
             var monthNames = [
                 "January", "February", "March",
@@ -193,11 +203,13 @@ $(".table").on("click", ".case", function () {
             var year = d.getFullYear();
             var da = day + ' ' + monthNames[monthIndex] + ', ' + year;
             $('.case_date').html(da);
+            $('.case_date_header').html('— ' + da);
             $('.case_doctor').html(response.doctor.name);
             $('.case_patient').html(response.patient.name);
             $('.case_patient_id').html('ID: ' + response.patient.id);
             $('.case_patient_bloodgroup').html(response.patient.bloodgroup || 'N/A');
-            $('.case_patient_age').html(response.patient.age || 'N/A');
+            $('.case_patient_age_val').html(response.patient_age || 'N/A');
+            $('.case_patient_gender').html(response.patient.sex || response.patient.gender || 'N/A');
             $('.case_patient_phone').html(response.patient.phone || 'N/A');
             $('.case_title').html(response.case.title);
             $('.case_details').html(response.case.description);
@@ -211,13 +223,14 @@ $(".table").on("click", ".case", function () {
             if (response.all_history && response.all_history.length > 0) {
                 $.each(response.all_history, function (index, history) {
                     var isCurrent = (history.id == response.case.id) ? 'bg-light border-primary' : '';
+                    var currentBadge = (history.id == response.case.id) ? '<span class="badge badge-primary ml-2">Current</span>' : '';
                     var timelineItem = `
                         <div class="list-group-item list-group-item-action flex-column align-items-start ${isCurrent} p-3">
                             <div class="d-flex w-100 justify-content-between">
-                                <h6 class="mb-1 font-weight-bold text-primary">${history.title}</h6>
+                                <h6 class="mb-1 font-weight-bold text-primary">${history.title}${currentBadge}</h6>
                                 <small class="text-muted font-weight-bold"><i class="far fa-calendar-alt mr-1"></i> ${history.formatted_date}</small>
                             </div>
-                            <div class="mb-1 small text-dark">${history.description}</div>
+                            <div class="mb-1 small text-dark">${history.description || ''}</div>
                             <div class="mt-2">
                                 <span class="badge badge-light border text-muted px-2 py-1"><i class="fas fa-user-md mr-1"></i> ${response.doctor.name}</span>
                             </div>
@@ -230,30 +243,110 @@ $(".table").on("click", ".case", function () {
 
             // Display Diagnosis
             if (response.diagnosis && response.diagnosis.length > 0) {
-                $('.case_diagnosis').html('<span class="badge badge-primary px-3 py-2 mr-1">' + response.diagnosis.join('</span> <span class="badge badge-primary px-3 py-2 mr-1">') + '</span>');
+                var diagHtml = response.diagnosis.map(function(d) {
+                    return '<span class="badge badge-danger px-3 py-2 mr-1 mb-1">' + d + '</span>';
+                }).join(' ');
+                $('.case_diagnosis').html(diagHtml);
             } else {
-                $('.case_diagnosis').html('<span class="text-muted italic">None recorded</span>');
+                $('.case_diagnosis').html('<span class="text-muted font-italic">None recorded</span>');
             }
 
             // Display Symptoms
             if (response.symptom && response.symptom.length > 0) {
-                $('.case_symptom').html(response.symptom.join(', '));
+                var sympHtml = response.symptom.map(function(s) {
+                    return '<span class="badge badge-warning px-3 py-2 mr-1 mb-1">' + s + '</span>';
+                }).join(' ');
+                $('.case_symptom').html(sympHtml);
             } else {
-                $('.case_symptom').html('<span class="text-muted italic">None</span>');
+                $('.case_symptom').html('<span class="text-muted font-italic">None</span>');
             }
 
             // Display Treatment
             if (response.treatment && response.treatment.length > 0) {
-                $('.case_treatment').html(response.treatment.join(', '));
+                var treatHtml = response.treatment.map(function(t) {
+                    return '<span class="badge badge-success px-3 py-2 mr-1 mb-1">' + t + '</span>';
+                }).join(' ');
+                $('.case_treatment').html(treatHtml);
             } else {
-                $('.case_treatment').html('<span class="text-muted italic">None</span>');
+                $('.case_treatment').html('<span class="text-muted font-italic">None</span>');
+            }
+
+            // Display Tests
+            if (response.test && response.test.length > 0) {
+                var testHtml = response.test.map(function(t) {
+                    return '<span class="badge badge-primary px-3 py-2 mr-1 mb-1">' + t + '</span>';
+                }).join(' ');
+                $('.case_test').html(testHtml);
+            } else {
+                $('.case_test').html('<span class="text-muted font-italic">None</span>');
             }
 
             // Display Advice
             if (response.advice && response.advice.length > 0) {
-                $('.case_advice').html(response.advice.join(', '));
+                var advHtml = response.advice.map(function(a) {
+                    return '<span class="badge badge-info px-3 py-2 mr-1 mb-1">' + a + '</span>';
+                }).join(' ');
+                $('.case_advice').html(advHtml);
             } else {
-                $('.case_advice').html('<span class="text-muted italic">None</span>');
+                $('.case_advice').html('<span class="text-muted font-italic">None</span>');
+            }
+
+            // Display Prescriptions
+            if (response.prescriptions && response.prescriptions.length > 0) {
+                $('.case_rx_count').html(response.prescriptions.length);
+                var rxHtml = '<div class="table-responsive"><table class="table table-sm table-hover mb-0">';
+                rxHtml += '<thead class="thead-light"><tr><th>Date</th><th>Medicine</th><th>Dosage</th><th>Frequency</th><th>Duration</th><th>Instructions</th></tr></thead><tbody>';
+                $.each(response.prescriptions, function(i, rx) {
+                    if (rx.medicines && rx.medicines.length > 0) {
+                        $.each(rx.medicines, function(j, med) {
+                            rxHtml += '<tr>';
+                            if (j === 0) {
+                                rxHtml += '<td rowspan="' + rx.medicines.length + '" class="align-middle font-weight-bold">' + rx.date + '</td>';
+                            }
+                            rxHtml += '<td><i class="fas fa-pills mr-1 text-primary"></i>' + med.name + '</td>';
+                            rxHtml += '<td>' + (med.dosage || '-') + '</td>';
+                            rxHtml += '<td>' + (med.frequency || '-') + '</td>';
+                            rxHtml += '<td>' + (med.duration ? med.duration + ' days' : '-') + '</td>';
+                            rxHtml += '<td><small>' + (med.instruction || '-') + '</small></td>';
+                            rxHtml += '</tr>';
+                        });
+                    } else {
+                        rxHtml += '<tr><td class="font-weight-bold">' + rx.date + '</td><td colspan="5" class="text-muted font-italic">No medicines listed</td></tr>';
+                    }
+                });
+                rxHtml += '</tbody></table></div>';
+                $('#casePrescriptionsContainer').html(rxHtml);
+            } else {
+                $('#casePrescriptionsContainer').html('<p class="text-muted text-center py-3"><i class="fas fa-prescription-bottle-alt fa-2x d-block mb-2"></i>No prescriptions found</p>');
+            }
+
+            // Display Lab Reports
+            if (response.lab_reports && response.lab_reports.length > 0) {
+                $('.case_lab_count').html(response.lab_reports.length);
+                var labHtml = '<div class="table-responsive"><table class="table table-sm table-hover mb-0">';
+                labHtml += '<thead class="thead-light"><tr><th>Date</th><th>Test</th><th>Status</th><th>Report</th></tr></thead><tbody>';
+                $.each(response.lab_reports, function(i, lab) {
+                    var statusBadge = '';
+                    if (lab.status) {
+                        var statusColor = 'secondary';
+                        if (lab.status.toLowerCase() === 'completed' || lab.status.toLowerCase() === 'done') statusColor = 'success';
+                        else if (lab.status.toLowerCase() === 'pending') statusColor = 'warning';
+                        else if (lab.status.toLowerCase() === 'in progress') statusColor = 'info';
+                        statusBadge = '<span class="badge badge-' + statusColor + ' px-2 py-1">' + lab.status + '</span>';
+                    } else {
+                        statusBadge = '<span class="badge badge-secondary px-2 py-1">N/A</span>';
+                    }
+                    labHtml += '<tr>';
+                    labHtml += '<td class="font-weight-bold">' + (lab.date || '-') + '</td>';
+                    labHtml += '<td><i class="fas fa-vial mr-1 text-success"></i>' + (lab.test_name || '-') + '</td>';
+                    labHtml += '<td>' + statusBadge + '</td>';
+                    labHtml += '<td><small>' + (lab.report || '-') + '</small></td>';
+                    labHtml += '</tr>';
+                });
+                labHtml += '</tbody></table></div>';
+                $('#caseLabReportsContainer').html(labHtml);
+            } else {
+                $('#caseLabReportsContainer').html('<p class="text-muted text-center py-3"><i class="fas fa-vials fa-2x d-block mb-2"></i>No lab reports found</p>');
             }
 
             // Initialize Select2 for the integrated lab request

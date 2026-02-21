@@ -127,6 +127,12 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-4">
+                                        <label class="text-uppercase text-sm"><?php echo lang('initial'); ?>
+                                            <?php echo lang('quantity'); ?></label>
+                                        <input type="number" step="0.01" class="form-control form-control-lg"
+                                            name="quantity" value='0'>
+                                    </div>
+                                    <div class="form-group mb-4">
                                         <label class="text-uppercase text-sm"><?php echo lang('generic_name'); ?> <span
                                                 class="text-danger">*</span></label>
                                         <input type="text" class="form-control form-control-lg" name="generic" value=''

@@ -78,7 +78,7 @@
             </div>
             <div class="modal-body p-4">
                 <form action="patient/addNew" method="post" enctype="multipart/form-data">
-                    <!-- Personal Information -->
+                    <!-- Personal Information - Required Fields First -->
                     <div class="row mb-5">
                         <div class="col-12 mb-4">
                             <h3 class="border-bottom border-primary pb-3 text-uppercase font-weight-900">
@@ -99,47 +99,13 @@
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('email_address'); ?></label>
-                                <input type="email" class="form-control form-control-lg shadow-sm" name="email"
-                                    placeholder="<?php echo lang('email'); ?>">
-                            </div>
-                        </div>
-
-
-
-                        <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label
                                     class="text-uppercase font-weight-bold text-muted"><?php echo lang('contact_number'); ?>
                                     <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control form-control-lg shadow-sm" name="phone"
                                     required>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('date_of_birth'); ?>
-                                    <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-lg shadow-sm default-date-picker"
-                                    name="birthdate" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('national_id'); ?></label>
-                                <input type="text" class="form-control form-control-lg shadow-sm" name="national_id"
-                                    placeholder="<?php echo lang('government_id_number'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-12 mb-4">
-                            <h3 class="border-bottom border-danger pb-3 text-uppercase font-weight-900">
-                                <i class="fas fa-heartbeat mr-3 text-danger"></i><?php echo lang('medical_profile'); ?>
-                            </h3>
-                        </div>
+
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('sex'); ?>
@@ -151,7 +117,63 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('residential_address'); ?>
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control shadow-sm" rows="2" name="address"
+                                    placeholder="<?php echo lang('complete_residential_address'); ?>"
+                                    required></textarea>
+                            </div>
+                        </div>
 
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('date_of_birth'); ?>
+                                    <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg shadow-sm default-date-picker"
+                                    name="birthdate" id="addModalBirthdate">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('age'); ?>
+                                    <span
+                                        class="text-muted font-weight-normal">(<?php echo lang('years'); ?>)</span></label>
+                                <input type="number" class="form-control form-control-lg shadow-sm" name="age"
+                                    id="addModalAge" min="0" max="150" placeholder="e.g. 49">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('email_address'); ?></label>
+                                <input type="email" class="form-control form-control-lg shadow-sm" name="email"
+                                    placeholder="<?php echo lang('email'); ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('national_id'); ?></label>
+                                <input type="text" class="form-control form-control-lg shadow-sm" name="national_id"
+                                    placeholder="<?php echo lang('government_id_number'); ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical Profile -->
+                    <div class="row mb-5">
+                        <div class="col-12 mb-4">
+                            <h3 class="border-bottom border-danger pb-3 text-uppercase font-weight-900">
+                                <i class="fas fa-heartbeat mr-3 text-danger"></i><?php echo lang('medical_profile'); ?>
+                            </h3>
+                        </div>
 
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
@@ -170,6 +192,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('height'); ?>
@@ -188,8 +211,6 @@
                             </div>
                         </div>
 
-
-
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label
@@ -207,6 +228,7 @@
                                     placeholder="<?php echo lang('brief_medical_history_or_ongoing_conditions'); ?>"></textarea>
                             </div>
                         </div>
+
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label
@@ -248,14 +270,6 @@
                             </h3>
                         </div>
 
-                        <div class="col-md-12 mb-4">
-                            <div class="form-group">
-                                <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('residential_address'); ?></label>
-                                <textarea class="form-control shadow-sm" rows="3" name="address"
-                                    placeholder="<?php echo lang('complete_residential_address'); ?>"></textarea>
-                            </div>
-                        </div>
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label
@@ -340,7 +354,7 @@
             <div class="modal-body p-4">
                 <form role="form" id="editPatientForm" action="patient/addNew" method="post"
                     enctype="multipart/form-data">
-                    <!-- Personal Information -->
+                    <!-- Personal Information - Required Fields First -->
                     <div class="row mb-5">
                         <div class="col-12 mb-4">
                             <h3 class="border-bottom border-primary pb-3 text-uppercase font-weight-900">
@@ -361,54 +375,13 @@
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('email_address'); ?></label>
-                                <input type="email" class="form-control form-control-lg shadow-sm" name="email"
-                                    placeholder="<?php echo lang('email'); ?>">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('password'); ?>
-                                    <span class="text-danger">*</span></label>
-                                <input type="password" class="form-control form-control-lg shadow-sm" name="password">
-                            </div>
-                        </div>
-
-                        <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label
                                     class="text-uppercase font-weight-bold text-muted"><?php echo lang('contact_number'); ?>
                                     <span class="text-danger">*</span></label>
                                 <input type="number" class="form-control form-control-lg shadow-sm" name="phone"
                                     required>
                             </div>
                         </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('date_of_birth'); ?>
-                                    <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control form-control-lg shadow-sm default-date-picker"
-                                    name="birthdate" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-4">
-                            <div class="form-group">
-                                <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('national_id'); ?></label>
-                                <input type="text" class="form-control form-control-lg shadow-sm" name="national_id"
-                                    placeholder="<?php echo lang('government_id_number'); ?>">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-5">
-                        <div class="col-12 mb-4">
-                            <h3 class="border-bottom border-danger pb-3 text-uppercase font-weight-900">
-                                <i class="fas fa-heartbeat mr-3 text-danger"></i><?php echo lang('medical_profile'); ?>
-                            </h3>
-                        </div>
+
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('sex'); ?>
@@ -420,7 +393,70 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('residential_address'); ?>
+                                    <span class="text-danger">*</span></label>
+                                <textarea class="form-control shadow-sm" rows="2" name="address"
+                                    placeholder="<?php echo lang('address'); ?>" required></textarea>
+                            </div>
+                        </div>
 
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('date_of_birth'); ?>
+                                    <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control form-control-lg shadow-sm default-date-picker"
+                                    name="birthdate" id="editModalBirthdate">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('age'); ?>
+                                    <span class="text-muted font-weight-normal">(<?php echo lang('years'); ?>)</span></label>
+                                <input type="number" class="form-control form-control-lg shadow-sm" name="age"
+                                    id="editModalAge" min="0" max="150" placeholder="e.g. 49">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('email_address'); ?></label>
+                                <input type="email" class="form-control form-control-lg shadow-sm" name="email"
+                                    placeholder="<?php echo lang('email'); ?>">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('password'); ?></label>
+                                <input type="password" class="form-control form-control-lg shadow-sm" name="password">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+                            <div class="form-group">
+                                <label
+                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('national_id'); ?></label>
+                                <input type="text" class="form-control form-control-lg shadow-sm" name="national_id"
+                                    placeholder="<?php echo lang('government_id_number'); ?>">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medical Profile -->
+                    <div class="row mb-5">
+                        <div class="col-12 mb-4">
+                            <h3 class="border-bottom border-danger pb-3 text-uppercase font-weight-900">
+                                <i class="fas fa-heartbeat mr-3 text-danger"></i><?php echo lang('medical_profile'); ?>
+                            </h3>
+                        </div>
 
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
@@ -439,6 +475,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label class="text-uppercase font-weight-bold text-muted"><?php echo lang('height'); ?>
@@ -457,8 +494,6 @@
                             </div>
                         </div>
 
-
-
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label
@@ -476,6 +511,7 @@
                                     placeholder="<?php echo lang('brief_medical_history_or_ongoing_conditions'); ?>"></textarea>
                             </div>
                         </div>
+
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label
@@ -495,14 +531,6 @@
                             </h3>
                         </div>
 
-                        <div class="col-md-12 mb-4">
-                            <div class="form-group">
-                                <label
-                                    class="text-uppercase font-weight-bold text-muted"><?php echo lang('residential_address'); ?></label>
-                                <textarea class="form-control shadow-sm" rows="3" name="address"
-                                    placeholder="<?php echo lang('address'); ?>"></textarea>
-                            </div>
-                        </div>
                         <div class="col-md-6 mb-4">
                             <div class="form-group">
                                 <label

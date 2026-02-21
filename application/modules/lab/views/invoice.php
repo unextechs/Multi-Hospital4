@@ -3,36 +3,164 @@
 <link href="common/css/invoice_components.css" rel="stylesheet" type="text/css" media="screen">
 
 <style>
-    .lab-report-content {
-        padding: 15px 0;
-        margin-top: 15px;
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+        --primary-color: #007bff;
+        --secondary-color: #6c757d;
+        --dark-color: #212529;
+        --border-color: #dee2e6;
+        --font-family: 'Outfit', sans-serif;
     }
 
-    .lab-report-content p {
-        margin-bottom: 10px;
+    body {
+        font-family: var(--font-family);
+    }
+
+    .invoice-container {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .invoice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 40px;
+        border-bottom: 2px solid var(--dark-color);
+        padding-bottom: 20px;
+    }
+
+    .hospital-logo {
+        max-height: 100px;
+        max-width: 300px;
+        object-fit: contain;
+    }
+
+    .invoice-info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+    }
+
+    .invoice-info-box {
+        background: #fcfcfc;
+        border: 1px solid #efefef;
+        padding: 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .invoice-info-box:hover {
+        border-color: var(--primary-color);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+    }
+
+    .invoice-info-box-title {
+        font-size: 0.9rem;
+        font-weight: 800;
+        color: var(--secondary-color);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        border-bottom: 1.5px solid var(--primary-color);
+        padding-bottom: 8px;
+        margin-bottom: 15px;
+    }
+
+    .invoice-info-row {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+
+    .invoice-info-label {
+        font-weight: 700;
+        color: #666;
+        min-width: 120px;
+        margin-right: 10px;
+    }
+
+    .invoice-info-value {
+        color: var(--dark-color);
+        font-weight: 500;
+    }
+
+    .lab-report-content {
+        padding: 10px 0;
     }
 
     .lab-report-content table {
         width: 100%;
-        margin-bottom: 15px;
-    }
-
-    .lab-report-content table td,
-    .lab-report-content table th {
-        padding: 8px 12px;
-        border: 1px solid #dee2e6;
-    }
-
-    .lab-report-content table th {
-        background: #f8f9fa;
-        font-weight: 600;
-    }
-
-    .lab-barcode {
-        text-align: center;
+        border-collapse: separate;
+        border-spacing: 0;
         margin: 20px 0;
-        display: none;
-        /* Hidden as per user request */
+    }
+
+    .lab-report-content th {
+        background: #f8f9fa;
+        color: var(--dark-color);
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+        padding: 12px 15px;
+        border-top: 2px solid var(--dark-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .lab-report-content td {
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .invoice-status {
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+    }
+
+    .invoice-status-paid {
+        background: #d1e7dd;
+        color: #0f5132;
+    }
+
+    .invoice-status-pending {
+        background: #f8d7da;
+        color: #842029;
+    }
+
+    .invoice-status-partial {
+        background: #fff3cd;
+        color: #664d03;
+    }
+
+    @media print {
+        .content-wrapper {
+            background: none !important;
+            padding: 0 !important;
+        }
+
+        .invoice-container {
+            box-shadow: none;
+            border: none;
+            padding: 0;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+
+        .invoice-header {
+            border-bottom-width: 2px;
+        }
     }
 </style>
 
@@ -90,22 +218,21 @@
                         <div class="invoice-content">
 
                             <!-- Invoice Header with Huge Logo -->
-                            <!-- Custom Header: Centered Logo, Date Right -->
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px;">
+                            <!-- Invoice Header -->
+                            <div class="invoice-header">
                                 <div style="flex: 1;"></div> <!-- Left Spacer -->
 
                                 <div style="flex: 1; text-align: center;">
                                     <?php if (!empty($settings->logo)): ?>
                                         <img src="<?php echo $settings->logo; ?>" alt="<?php echo $settings->title; ?>"
-                                            style="max-height: 100px; max-width: 100%;">
+                                            class="hospital-logo">
                                     <?php else: ?>
                                         <h3 style="margin: 0; font-weight: bold;"><?php echo $settings->title; ?></h3>
                                     <?php endif; ?>
                                 </div>
 
                                 <div style="flex: 1; text-align: right;">
-                                    <div style="font-size: 14px; color: #555;">
+                                    <div class="invoice-info-value">
                                         <strong><?php echo lang('date'); ?>:</strong>
                                         <?php echo date('d-m-Y', $lab->date); ?>
                                     </div>
@@ -117,14 +244,11 @@
                             <?php $patient_info = $this->db->get_where('patient', array('id' => $lab->patient))->row(); ?>
 
                             <!-- Information Grid -->
-                            <div class="invoice-info-grid"
-                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                            <div class="invoice-info-grid">
 
                                 <!-- Patient Details -->
-                                <div class="invoice-info-box"
-                                    style="border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #fafafa;">
-                                    <h4 class="invoice-info-box-title"
-                                        style="border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-bottom: 10px; font-size: 1rem; color: #333;">
+                                <div class="invoice-info-box">
+                                    <h4 class="invoice-info-box-title">
                                         <?php echo lang('patient'); ?>
                                         <?php echo lang('details'); ?>
                                     </h4>
@@ -135,6 +259,7 @@
                                                 style="font-weight: 700; color: #000;"><?php echo $patient_info->name; ?></span>
                                         </div>
                                         <div class="invoice-info-row">
+                                            <span class="invoice-info-label"><?php echo lang('patient'); ?> ID:</span>
                                             <span
                                                 class="invoice-info-value"><?php echo (!empty($settings->patient_id_prefix) ? $settings->patient_id_prefix : 'P') . (!empty($patient_info->hospital_patient_id) ? $patient_info->hospital_patient_id : $patient_info->id); ?></span>
                                         </div>
@@ -162,10 +287,8 @@
                                 </div>
 
                                 <!-- Lab Report Details -->
-                                <div class="invoice-info-box"
-                                    style="border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #fafafa;">
-                                    <h4 class="invoice-info-box-title"
-                                        style="border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-bottom: 10px; font-size: 1rem; color: #333;">
+                                <div class="invoice-info-box">
+                                    <h4 class="invoice-info-box-title">
                                         <?php echo lang('report'); ?>
                                         <?php echo lang('details'); ?>
                                     </h4>
@@ -199,37 +322,41 @@
                                 </div>
 
                                 <!-- Doctor Details -->
-                                <?php if (!empty($lab->doctor)): ?>
-                                    <div class="invoice-info-box"
-                                        style="border: 1px solid #eee; padding: 15px; border-radius: 8px; background: #fafafa;">
-                                        <h4 class="invoice-info-box-title"
-                                            style="border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-bottom: 10px; font-size: 1rem; color: #333;">
-                                            <?php echo lang('ordering'); ?>
-                                            <?php echo lang('physician'); ?>
-                                        </h4>
-                                        <?php $doctor_details = $this->doctor_model->getDoctorById($lab->doctor); ?>
-                                        <?php if (!empty($doctor_details)): ?>
-                                            <div class="invoice-info-row">
-                                                <span class="invoice-info-label"><?php echo lang('name'); ?>:</span>
-                                                <span class="invoice-info-value" style="font-weight: 600;">
-                                                    <?php echo (!empty($doctor_details->title) ? $doctor_details->title . ' ' : '') . $doctor_details->name; ?>
-                                                </span>
-                                            </div>
-                                            <?php if (!empty($doctor_details->profile)): ?>
-                                                <div class="invoice-info-row">
-                                                    <span class="invoice-info-label"><?php echo lang('specialization'); ?>:</span>
-                                                    <span class="invoice-info-value"><?php echo $doctor_details->profile; ?></span>
-                                                </div>
-                                            <?php elseif (!empty($doctor_details->department)): ?>
-                                                <div class="invoice-info-row">
-                                                    <span class="invoice-info-label"><?php echo lang('department'); ?>:</span>
-                                                    <span
-                                                        class="invoice-info-value"><?php echo $doctor_details->department; ?></span>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endif; ?>
+                                <div class="invoice-info-box">
+                                    <h4 class="invoice-info-box-title">
+                                        <?php echo lang('ordering'); ?>
+                                        <?php echo lang('physician'); ?>
+                                    </h4>
+                                    <?php
+                                    $doctor_details = !empty($lab->doctor) ? $this->doctor_model->getDoctorById($lab->doctor) : null;
+                                    ?>
+                                    <div class="invoice-info-row">
+                                        <span class="invoice-info-label"><?php echo lang('name'); ?>:</span>
+                                        <span class="invoice-info-value" style="font-weight: 600;">
+                                            <?php
+                                            if (!empty($doctor_details)) {
+                                                echo (!empty($doctor_details->title) ? $doctor_details->title . ' ' : '') . $doctor_details->name;
+                                            } else {
+                                                echo !empty($lab->doctor_name) ? $lab->doctor_name : lang('not_specified');
+                                            }
+                                            ?>
+                                        </span>
                                     </div>
-                                <?php endif; ?>
+                                    <?php if (!empty($doctor_details)): ?>
+                                        <?php if (!empty($doctor_details->profile)): ?>
+                                            <div class="invoice-info-row">
+                                                <span class="invoice-info-label"><?php echo lang('specialization'); ?>:</span>
+                                                <span class="invoice-info-value"><?php echo $doctor_details->profile; ?></span>
+                                            </div>
+                                        <?php elseif (!empty($doctor_details->department)): ?>
+                                            <div class="invoice-info-row">
+                                                <span class="invoice-info-label"><?php echo lang('department'); ?>:</span>
+                                                <span
+                                                    class="invoice-info-value"><?php echo $doctor_details->department; ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
                             </div>
 
                             <!-- Lab Report Content -->

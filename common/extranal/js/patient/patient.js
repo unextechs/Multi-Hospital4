@@ -54,12 +54,15 @@ $(document).ready(function () {
           .find('[name="p_id"]')
           .val(response.patient.patient_id)
           .end();
-        if (response.patient.age !== null) {
-          var age = response.patient.age.split("-");
-          $("#editPatientForm").find('[name="years"]').val(age[0]).end();
-          $("#editPatientForm").find('[name="months"]').val(age[1]).end();
-          $("#editPatientForm").find('[name="days"]').val(age[2]).end();
+
+        // Populate age field from computed age_years
+        if (typeof response.age_years !== "undefined" && response.age_years !== "") {
+          $("#editPatientForm")
+            .find('[name="age"]')
+            .val(response.age_years)
+            .end();
         }
+
         if (
           typeof response.patient.img_url !== "undefined" &&
           response.patient.img_url != ""
@@ -163,7 +166,12 @@ $(document).ready(function () {
         $(".phoneClass").append(response.patient.phone).end();
         $(".genderClass").append(response.patient.sex).end();
         $(".birthdateClass").append(response.patient.birthdate).end();
-        $(".ageClass").append(response.age).end();
+        // Show age in years if available, otherwise show computed age string
+        if (typeof response.age_years !== "undefined" && response.age_years !== "") {
+          $(".ageClass").append(response.age_years + " years").end();
+        } else {
+          $(".ageClass").append(response.age).end();
+        }
         $(".bloodgroupClass").append(response.patient.bloodgroup).end();
         $(".patientidClass").append(response.patient.patient_id).end();
 
@@ -295,4 +303,67 @@ $(document).ready(function () {
 $(document).ready(function () {
   "use strict";
   $(".flashmessage").delay(3000).fadeOut(100);
+});
+
+// =====================================================
+// DOB <-> Age Auto-Sync Logic
+// =====================================================
+$(document).ready(function () {
+  "use strict";
+
+  // Helper: compute age in years from a date string
+  function computeAgeFromDate(dateStr) {
+    if (!dateStr) return "";
+    var dob = new Date(dateStr);
+    if (isNaN(dob.getTime())) return "";
+    var today = new Date();
+    var age = today.getFullYear() - dob.getFullYear();
+    var m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+      age--;
+    }
+    return age >= 0 ? age : "";
+  }
+
+  // Helper: compute a birthdate string (YYYY-MM-DD) from age in years
+  function computeDateFromAge(ageYears) {
+    if (ageYears === "" || ageYears === null || isNaN(ageYears)) return "";
+    var age = parseInt(ageYears);
+    if (age < 0 || age > 150) return "";
+    var today = new Date();
+    var birthYear = today.getFullYear() - age;
+    var month = ("0" + (today.getMonth() + 1)).slice(-2);
+    var day = ("0" + today.getDate()).slice(-2);
+    return birthYear + "-" + month + "-" + day;
+  }
+
+  // Sync pairs: [birthdateSelector, ageSelector]
+  var pairs = [
+    ["#addModalBirthdate", "#addModalAge"],
+    ["#editModalBirthdate", "#editModalAge"],
+    ["#addNewBirthdate", "#addNewAge"]
+  ];
+
+  pairs.forEach(function (pair) {
+    var birthdateSel = pair[0];
+    var ageSel = pair[1];
+
+    // When birthdate changes -> update age
+    $(document).on("change dp.change", birthdateSel, function () {
+      var dateVal = $(this).val();
+      if (dateVal) {
+        var age = computeAgeFromDate(dateVal);
+        $(ageSel).val(age);
+      }
+    });
+
+    // When age changes -> update birthdate
+    $(document).on("change input", ageSel, function () {
+      var ageVal = $(this).val();
+      if (ageVal !== "" && !isNaN(ageVal)) {
+        var dateStr = computeDateFromAge(ageVal);
+        $(birthdateSel).val(dateStr);
+      }
+    });
+  });
 });

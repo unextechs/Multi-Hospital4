@@ -158,6 +158,7 @@ class Medicine extends MX_Controller
         $effects = $this->input->post('effects');
         $barcode = $this->input->post('barcode');
         $quantity = $this->input->post('quantity');
+        $e_date = $this->input->post('e_date');
         if ((empty($id))) {
             $add_date = date('m/d/y');
         } else {
@@ -215,6 +216,7 @@ class Medicine extends MX_Controller
                 'effects' => $effects,
                 'barcode' => $barcode,
                 'quantity' => $quantity,
+                'e_date' => $e_date,
                 'add_date' => $add_date,
             );
             if (empty($id)) {

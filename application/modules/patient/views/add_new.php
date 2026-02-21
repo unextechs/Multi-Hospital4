@@ -41,7 +41,7 @@
                         <div class="card-body bg-light p-4">
                             <form role="form" action="patient/addNew" method="post" enctype="multipart/form-data">
 
-                                <!-- Personal Information -->
+                                <!-- Personal Information - Required Fields First -->
                                 <div class="row mb-5">
                                     <div class="col-12 mb-4">
                                         <h3 class="border-bottom border-primary pb-3 text-uppercase font-weight-900">
@@ -54,59 +54,41 @@
                                         <div class="form-group">
                                             <label
                                                 class="text-uppercase font-weight-bold text-muted"><?php echo lang('name'); ?>
-                                                *</label>
+                                                <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control form-control-lg shadow-sm"
                                                 name="name" placeholder="<?php echo lang('patient_name'); ?>" required>
                                         </div>
                                     </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="form-group">
-                                            <label
-                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('email'); ?></label>
-                                            <input type="email" class="form-control form-control-lg shadow-sm"
-                                                name="email" placeholder="<?php echo lang('email'); ?>">
-                                        </div>
-                                    </div>
+
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label
                                                 class="text-uppercase font-weight-bold text-muted"><?php echo lang('phone'); ?>
-                                                *</label>
+                                                <span class="text-danger">*</span></label>
                                             <input type="text" class="form-control form-control-lg shadow-sm"
                                                 name="phone" placeholder="<?php echo lang('phone'); ?>" required>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <label
-                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('specialization'); ?></label>
-                                            <select class="form-control form-control-lg shadow-sm" id="departmentFilter"
-                                                onchange="filterDoctorsByDepartment()">
-                                                <option value=""><?php echo lang('all_specializations'); ?></option>
-                                                <?php if (!empty($departments)) {
-                                                    foreach ($departments as $dept) { ?>
-                                                        <option value="<?php echo $dept->id; ?>"><?php echo $dept->name; ?>
-                                                        </option>
-                                                    <?php }
-                                                } ?>
+                                            <label class="text-uppercase font-weight-bold text-muted">Gender
+                                                <span class="text-danger">*</span></label>
+                                            <select class="form-control form-control-lg shadow-sm" name="sex" required>
+                                                <option value="Male"><?php echo lang('male'); ?></option>
+                                                <option value="Female"><?php echo lang('female'); ?></option>
                                             </select>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6 mb-4">
                                         <div class="form-group">
                                             <label
-                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('doctor'); ?></label>
-                                            <select class="form-control form-control-lg shadow-sm" id="doctorSelect"
-                                                name="doctor">
-                                                <option value=""><?php echo lang('select_doctor'); ?></option>
-                                                <?php foreach ($doctors as $doctor) { ?>
-                                                    <option value="<?php echo $doctor->id; ?>"
-                                                        data-department="<?php echo $doctor->department; ?>">
-                                                        <?php echo $doctor->name; ?> -
-                                                        <?php echo $doctor->department_name; ?>
-                                                    </option>
-                                                <?php } ?>
-                                            </select>
+                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('residential_address'); ?>
+                                                <span class="text-danger">*</span></label>
+                                            <textarea class="form-control shadow-sm" name="address" rows="2"
+                                                placeholder="<?php echo lang('complete_residential_address'); ?>"
+                                                required></textarea>
                                         </div>
                                     </div>
 
@@ -114,9 +96,29 @@
                                         <div class="form-group">
                                             <label
                                                 class="text-uppercase font-weight-bold text-muted"><?php echo lang('date_of_birth'); ?>
-                                                *</label>
+                                                <span class="text-danger">*</span></label>
                                             <input type="date" class="form-control form-control-lg shadow-sm"
-                                                name="birthdate" required>
+                                                name="birthdate" id="addNewBirthdate">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 mb-4">
+                                        <div class="form-group">
+                                            <label
+                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('age'); ?>
+                                                <span
+                                                    class="text-muted font-weight-normal">(<?php echo lang('years'); ?>)</span></label>
+                                            <input type="number" class="form-control form-control-lg shadow-sm"
+                                                name="age" id="addNewAge" min="0" max="150" placeholder="e.g. 49">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-group">
+                                            <label
+                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('email'); ?></label>
+                                            <input type="email" class="form-control form-control-lg shadow-sm"
+                                                name="email" placeholder="<?php echo lang('email'); ?>">
                                         </div>
                                     </div>
 
@@ -178,13 +180,36 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3 mb-4">
+                                    <div class="col-md-6 mb-4">
                                         <div class="form-group">
-                                            <label class="text-uppercase font-weight-bold text-muted">Gender *</label>
-                                            <select class="form-control form-control-lg shadow-sm" name="sex" required>
-                                                <option value="Male"><?php echo lang('male'); ?></option>
-                                                <option value="Female"><?php echo lang('female'); ?></option>
-
+                                            <label
+                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('specialization'); ?></label>
+                                            <select class="form-control form-control-lg shadow-sm" id="departmentFilter"
+                                                onchange="filterDoctorsByDepartment()">
+                                                <option value=""><?php echo lang('all_specializations'); ?></option>
+                                                <?php if (!empty($departments)) {
+                                                    foreach ($departments as $dept) { ?>
+                                                        <option value="<?php echo $dept->id; ?>"><?php echo $dept->name; ?>
+                                                        </option>
+                                                    <?php }
+                                                } ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+                                        <div class="form-group">
+                                            <label
+                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('doctor'); ?></label>
+                                            <select class="form-control form-control-lg shadow-sm" id="doctorSelect"
+                                                name="doctor">
+                                                <option value=""><?php echo lang('select_doctor'); ?></option>
+                                                <?php foreach ($doctors as $doctor) { ?>
+                                                    <option value="<?php echo $doctor->id; ?>"
+                                                        data-department="<?php echo $doctor->department; ?>">
+                                                        <?php echo $doctor->name; ?> -
+                                                        <?php echo $doctor->department_name; ?>
+                                                    </option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -215,15 +240,6 @@
                                             <i
                                                 class="fas fa-map-marked-alt mr-3 text-success"></i><?php echo lang('contact_information'); ?>
                                         </h3>
-                                    </div>
-
-                                    <div class="col-md-12 mb-4">
-                                        <div class="form-group">
-                                            <label
-                                                class="text-uppercase font-weight-bold text-muted"><?php echo lang('residential_address'); ?></label>
-                                            <textarea class="form-control shadow-sm" name="address" rows="3"
-                                                placeholder="<?php echo lang('complete_residential_address'); ?>"></textarea>
-                                        </div>
                                     </div>
 
                                     <div class="col-md-6 mb-4">

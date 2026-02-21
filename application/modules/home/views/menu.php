@@ -1057,6 +1057,10 @@ if ($this->ion_auth->in_group(array('Accountant', 'Receptionist'))) {
                                         class="nav-icon far fa-circle"></i>
                                     <p><?php echo lang('pharmacy'); ?>             <?php echo lang('report'); ?></p>
                                 </a></li>
+                            <li class="nav-item"><a class="nav-link" href="finance/pharmacy/medicineStockReport"><i
+                                        class="nav-icon far fa-circle"></i>
+                                    <p>Stock & Sales Report</p>
+                                </a></li>
                             <li class="nav-item"><a class="nav-link" href="finance/pharmacy/monthly"><i
                                         class="nav-icon far fa-circle"></i>
                                     <p><?php echo lang('monthly_sales'); ?></p>

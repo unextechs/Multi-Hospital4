@@ -62,15 +62,13 @@ $patient = $this->patient_model->getPatientById($prescription->patient);
                         <?php $this->load->view('partials/invoice_watermark', array('settings' => $settings)); ?>
 
                         <!-- Hospital Header Section -->
-                        <div class="document-section mb-3 text-center">
+                        <div class="document-section mb-4 text-center border-0">
                             <?php if (!empty($settings->logo)): ?>
-                                <img src="<?php echo base_url() . $settings->logo; ?>" class="hospital-logo mb-3"
-                                    alt="Hospital Logo" style="max-height: 150px; max-width: 350px;">
+                                <img src="<?php echo $settings->logo; ?>" class="hospital-logo mb-3" alt="Hospital Logo">
                                 <br>
                                 <span class="font-weight-bold"
                                     style="font-size: 1.1em;"><?php echo date('M d, Y', $prescription->date); ?></span>
                             <?php endif; ?>
-                            <!-- Hospital Name and Address Removed as per request -->
                         </div>
 
                         <!-- Doctor Information Section -->
@@ -82,7 +80,7 @@ $patient = $this->patient_model->getPatientById($prescription->patient);
                                         <div class="info-row">
                                             <span class="info-label">Name:</span>
                                             <span
-                                                class="info-value"><?php echo !empty($doctor) ? $doctor->name . (!empty($doctor->title) ? ' (' . $doctor->title . ')' : '') : $settings->title; ?></span>
+                                                class="info-value"><?php echo !empty($doctor) ? $doctor->name . (!empty($doctor->title) ? ' (' . $doctor->title . ')' : '') : (!empty($prescription->doctorname) ? $prescription->doctorname : $settings->title); ?></span>
                                         </div>
                                         <?php if (!empty($doctor) && !empty($doctor->profile)): ?>
                                             <div class="info-row">
@@ -122,15 +120,11 @@ $patient = $this->patient_model->getPatientById($prescription->patient);
                                             <span class="info-value">
                                                 <?php
                                                 if (!empty($patient)) {
-                                                    if (!empty($patient->birthdate)) {
-                                                        $birthDate = strtotime($patient->birthdate);
-                                                        $birthDate = date('m/d/Y', $birthDate);
-                                                        $birthDate = explode("/", $birthDate);
-                                                        $age = (date("md", date("U", mktime(0, 0, 0, $birthDate[0], $birthDate[1], $birthDate[2]))) > date("md") ? ((date("Y") - $birthDate[2]) - 1) : (date("Y") - $birthDate[2]));
-                                                        echo $age . ' ' . lang('years');
-                                                    } elseif (!empty($patient->age)) {
-                                                        $age = explode('-', $patient->age);
-                                                        echo $age[0] . 'Y ' . $age[1] . 'M ' . $age[2] . 'D';
+                                                    $age = explode('-', $patient->age);
+                                                    if (count($age) == 3) {
+                                                        echo $age[0] . " Y " . $age[1] . " M " . $age[2] . " D";
+                                                    } else {
+                                                        echo $patient->age;
                                                     }
                                                 } else {
                                                     echo 'Not specified';
@@ -376,391 +370,179 @@ $patient = $this->patient_model->getPatientById($prescription->patient);
 </div>
 
 <style>
-    /* Document-Style Layout */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+        --primary-color: #007bff;
+        --secondary-color: #6c757d;
+        --dark-color: #212529;
+        --border-color: #dee2e6;
+        --font-family: 'Outfit', sans-serif;
+    }
+
+    body {
+        font-family: var(--font-family);
+    }
+
+    .document-wrapper {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
     .document-header {
-        border-bottom: 2px solid #000;
-        padding-bottom: 0.5rem;
-        margin-bottom: 1rem;
+        border-bottom: 2px solid var(--dark-color);
+        padding-bottom: 20px;
+        margin-bottom: 30px;
     }
 
     .document-title {
         font-size: 1.5rem;
-        font-weight: 700;
-        color: #000;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--dark-color);
         margin: 0;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .document-subtitle {
-        font-size: 0.9rem;
-        color: #666;
-        margin: 0;
-        font-weight: 500;
-    }
-
-    .document-content {
-        background: #fff;
-        padding: 0;
-    }
-
-    .document-section {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 0.75rem;
-        margin-bottom: 0.75rem;
-    }
-
-    .document-section:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
     }
 
     .section-title {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 700;
-        color: #000;
-        margin: 0 0 0.5rem 0;
+        color: var(--secondary-color);
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 0.25rem;
-    }
-
-    .section-content {
-        padding: 0;
+        letter-spacing: 1.5px;
+        border-bottom: 1.5px solid var(--primary-color);
+        padding-bottom: 8px;
+        margin-bottom: 15px;
     }
 
     .info-row {
         display: flex;
-        margin-bottom: 0.25rem;
-        padding: 0.125rem 0;
-        font-size: 0.85rem;
-        line-height: 1.3;
-    }
-
-    .info-row:last-child {
-        margin-bottom: 0;
+        align-items: baseline;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
     }
 
     .info-label {
-        font-weight: 600;
-        color: #333;
-        min-width: 120px;
-        margin-right: 0.5rem;
+        font-weight: 700;
+        color: #666;
+        min-width: 130px;
+        margin-right: 10px;
         flex-shrink: 0;
     }
 
     .info-value {
-        color: #000;
+        color: var(--dark-color);
+        font-weight: 500;
         flex: 1;
-        word-wrap: break-word;
     }
 
-    .hospital-logo {
-        max-height: 60px;
-        max-width: 120px;
-        object-fit: contain;
-    }
-
-    /* Prescription Specific Styles */
     .prescription-header {
+        background: #f8f9fa;
+        padding: 15px 20px;
+        border-radius: 8px;
         display: flex;
         align-items: center;
-        margin-bottom: 1rem;
-        padding: 0.5rem;
-        background: #f8f9fa;
-        border: 1px solid #ddd;
-        border-radius: 3px;
+        margin-bottom: 20px;
     }
 
     .rx-symbol {
-        font-size: 2rem;
-        font-weight: 700;
-        color: #000;
-        margin-right: 0.5rem;
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--primary-color);
+        margin-right: 15px;
     }
 
     .rx-text {
         font-size: 1.2rem;
-        font-weight: 700;
-        color: #000;
-        text-transform: uppercase;
+        font-weight: 800;
         letter-spacing: 1px;
-    }
-
-    .medicine-table {
-        margin-top: 0.5rem;
-    }
-
-    .medicine-table .table {
-        margin-bottom: 0;
-        font-size: 0.85rem;
     }
 
     .medicine-table th {
         background: #f8f9fa;
         font-weight: 700;
-        color: #000;
+        color: var(--dark-color);
         text-transform: uppercase;
         font-size: 0.75rem;
-        letter-spacing: 0.5px;
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #ddd;
+        letter-spacing: 1px;
+        padding: 12px;
     }
 
     .medicine-table td {
-        padding: 0.5rem 0.75rem;
-        border: 1px solid #ddd;
-        vertical-align: top;
-    }
-
-    .medicine-col {
-        width: 25%;
-    }
-
-    .dosage-col {
-        width: 15%;
-    }
-
-    .days-col {
-        width: 10%;
-        text-align: center;
-    }
-
-    .instruction-col {
-        width: 25%;
-    }
-
-    .frequency-col {
-        width: 15%;
-        text-align: center;
-    }
-
-    .quantity-col {
-        width: 10%;
-        text-align: center;
+        padding: 12px;
+        vertical-align: middle;
     }
 
     .medicine-cell {
         font-weight: 600;
-    }
-
-    .dosage-cell {
-        font-weight: 500;
-    }
-
-    .days-cell {
-        text-align: center;
-    }
-
-    .instruction-cell {
-        font-style: italic;
-    }
-
-    .frequency-cell {
-        text-align: center;
-        font-weight: 600;
+        color: var(--dark-color);
     }
 
     .quantity-cell {
-        text-align: center;
         font-weight: 700;
-        color: #000;
+        color: var(--primary-color);
     }
 
-    .no-medicine {
-        text-align: center;
-        padding: 2rem;
-        color: #666;
-        font-style: italic;
+    .hospital-logo {
+        max-height: 100px;
+        max-width: 300px;
+        object-fit: contain;
     }
 
-    /* Signature Section */
-    .signature-section {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid #ddd;
+    /* Watermark */
+    .invoice-watermark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.05;
+        z-index: 0;
+        width: 60%;
+        pointer-events: none;
     }
 
-    .signature-line {
-        margin-bottom: 1rem;
+    .invoice-watermark img {
+        width: 100%;
+        height: auto;
     }
 
-    .signature-label {
-        font-weight: 600;
-        color: #333;
-        font-size: 0.85rem;
+    .document-content {
+        position: relative;
+        z-index: 1;
     }
 
-    .signature-space {
-        height: 40px;
-        border-bottom: 1px solid #000;
-        margin-top: 0.5rem;
-    }
-
-    .hospital-info {
-        text-align: right;
-    }
-
-    /* Sidebar Styles */
-    .document-sidebar {
-        background: #f8f9fa;
-        border: 1px solid #ddd;
-        border-radius: 3px;
-        padding: 0.75rem;
-    }
-
-    .sidebar-section {
-        margin-bottom: 1rem;
-    }
-
-    .sidebar-section:last-child {
-        margin-bottom: 0;
-    }
-
-    .sidebar-title {
-        font-size: 0.8rem;
-        font-weight: 700;
-        color: #000;
-        margin: 0 0 0.5rem 0;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 0.25rem;
-    }
-
-    .summary-item {
-        display: flex;
-        margin-bottom: 0.25rem;
-        padding: 0.125rem 0;
-        font-size: 0.8rem;
-        line-height: 1.3;
-    }
-
-    .summary-item:last-child {
-        margin-bottom: 0;
-    }
-
-    .summary-label {
-        font-weight: 600;
-        color: #333;
-        min-width: 80px;
-        margin-right: 0.5rem;
-        flex-shrink: 0;
-    }
-
-    .summary-value {
-        color: #000;
-        flex: 1;
-    }
-
-    .action-buttons .btn {
-        font-size: 0.75rem;
-        padding: 0.375rem 0.75rem;
-        border-radius: 3px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    /* Print Button Styling */
-    .document-actions {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-    }
-
-    .print-btn {
-        font-size: 0.8rem;
-        padding: 0.375rem 0.75rem;
-        border-radius: 3px;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        transition: all 0.2s ease;
-    }
-
-    .print-btn:hover {
-        background-color: #007bff;
-        color: white;
-        transform: translateY(-1px);
-        box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
-    }
-
-    .print-btn:active {
-        transform: translateY(0);
-        box-shadow: 0 1px 2px rgba(0, 123, 255, 0.3);
-    }
-
-    /* Print Styles */
     @media print {
-        .print-btn {
+        .content-wrapper {
+            background: none !important;
+            padding: 0 !important;
+        }
+
+        .document-wrapper {
+            box-shadow: none;
+            border: none;
+            padding: 0;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+
+        .no-print,
+        .document-actions,
+        .col-lg-3 {
             display: none !important;
         }
 
-        .document-actions {
-            display: none !important;
+        .col-lg-9 {
+            width: 100% !important;
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
         }
 
-        .document-sidebar {
-            display: none !important;
-        }
-
-        .document-content {
-            background: #fff !important;
-            color: #000 !important;
-        }
-
-        .document-section {
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
-
-        .info-row {
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
-
-        .medicine-table {
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .document-title {
-            font-size: 1.25rem;
-        }
-
-        .info-label {
-            min-width: 100px;
-        }
-
-        .summary-label {
-            min-width: 70px;
-        }
-
-        .medicine-table {
-            font-size: 0.75rem;
-        }
-
-        .medicine-table th,
-        .medicine-table td {
-            padding: 0.375rem 0.5rem;
-        }
-
-        .document-actions {
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 0.25rem;
-        }
-
-        .print-btn {
-            font-size: 0.75rem;
-            padding: 0.25rem 0.5rem;
+        .document-header {
+            border-bottom-width: 2px;
         }
     }
 </style>

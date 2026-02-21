@@ -905,6 +905,90 @@ class Pharmacy extends MX_Controller
         $this->load->view('home/footer'); // just the footer fi
     }
 
+    function medicineStockReport()
+    {
+        $data['settings'] = $this->settings_model->getSettings();
+        $this->load->view('home/dashboard', $data);
+        $this->load->view('pharmacy/medicine_stock_report', $data);
+        $this->load->view('home/footer');
+    }
+
+    function getMedicineStockReportList()
+    {
+        $requestData = $_REQUEST;
+        $start = $requestData['start'];
+        $limit = $requestData['length'];
+        $search = $this->input->post('search')['value'];
+
+        $order = $this->input->post("order");
+        $columns_valid = array(
+            "0" => "id",
+            "1" => "name",
+            "2" => "quantity",
+            "3" => "price",
+            "4" => "s_price",
+            "5" => "quantity", // Total Purchase Val
+            "6" => "quantity", // Total Sales Val
+            "7" => "e_date",
+        );
+        $values = $this->settings_model->getColumnOrder($order, $columns_valid);
+        $dir = $values[0];
+        $order = $values[1];
+
+        if ($limit == -1) {
+            if (!empty($search)) {
+                $data['medicines'] = $this->medicine_model->getMedicineBySearch($search, $order, $dir);
+            } else {
+                $data['medicines'] = $this->medicine_model->getMedicineWithoutSearch($order, $dir);
+            }
+        } else {
+            if (!empty($search)) {
+                $data['medicines'] = $this->medicine_model->getMedicineByLimitBySearch($limit, $start, $search, $order, $dir);
+            } else {
+                $data['medicines'] = $this->medicine_model->getMedicineByLimit($limit, $start, $order, $dir);
+            }
+        }
+
+        $i = 0;
+        $info = array();
+        foreach ($data['medicines'] as $medicine) {
+            $i = $i + 1;
+            $settings = $this->settings_model->getSettings();
+
+            $quan = $medicine->quantity <= 0 ? 0 : $medicine->quantity;
+            $purchase_val = $quan * $medicine->price;
+            $sales_val = $quan * $medicine->s_price;
+
+            $info[] = array(
+                $i,
+                $medicine->name . " (" . $medicine->generic . ")",
+                $quan,
+                $settings->currency . " " . number_format($medicine->price, 2, '.', ','),
+                $settings->currency . " " . number_format($medicine->s_price, 2, '.', ','),
+                $settings->currency . " " . number_format($purchase_val, 2, '.', ','),
+                $settings->currency . " " . number_format($sales_val, 2, '.', ','),
+                $medicine->e_date
+            );
+        }
+
+        if (!empty($data['medicines'])) {
+            $output = array(
+                "draw" => intval($requestData['draw']),
+                "recordsTotal" => count($this->medicine_model->getMedicine()),
+                "recordsFiltered" => count($this->medicine_model->getMedicine()),
+                "data" => $info
+            );
+        } else {
+            $output = array(
+                "recordsTotal" => 0,
+                "recordsFiltered" => 0,
+                "data" => []
+            );
+        }
+
+        echo json_encode($output);
+    }
+
     function getPaymentList()
     {
         $requestData = $_REQUEST;

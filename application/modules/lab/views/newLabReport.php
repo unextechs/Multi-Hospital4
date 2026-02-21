@@ -39,13 +39,14 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
 
                 <!-- Document Content -->
                 <div class="document-content">
-                    <!-- Hospital Information: Centered Logo -->
-                    <div class="document-section mb-2 text-center">
+                    <!-- Watermark Background -->
+                    <?php $this->load->view('partials/invoice_watermark', array('settings' => $settings)); ?>
+                    <!-- Hospital Information -->
+                    <div class="document-header mb-4 text-center border-0">
                         <?php if (!empty($settings->logo)): ?>
-                            <img src="<?php echo site_url($this->settings_model->getSettings()->logo); ?>"
-                                alt="Hospital Logo" style="max-height: 80px;">
+                            <img src="<?php echo $settings->logo; ?>" alt="Hospital Logo" class="hospital-logo">
                         <?php else: ?>
-                            <h4 class="m-0"><?php echo $settings->title; ?></h4>
+                            <h2 class="m-0 font-weight-bold text-primary"><?php echo $settings->title; ?></h2>
                         <?php endif; ?>
                     </div>
 
@@ -110,7 +111,7 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
                                     <?php if ($doctor_details) { ?>
                                         <?php echo (!empty($doctor_details->title) ? $doctor_details->title . ' ' : '') . $doctor_details->name; ?>
                                     <?php } else { ?>
-                                        Not specified
+                                        <?php echo !empty($lab->doctor_name) ? $lab->doctor_name : 'Not specified'; ?>
                                     <?php } ?>
                                 </span>
                             </div>
@@ -219,162 +220,128 @@ $invoice_details = $this->db->get_where('payment', array('id' => $lab->invoice_i
 </div>
 
 <style>
-    /* Document Wrapper */
-    .document-wrapper {
-        margin: 0 1rem;
-        padding: 1rem;
-        background: #fff;
-        border: 1px solid #e1e5e9;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+    :root {
+        --primary-color: #007bff;
+        --secondary-color: #6c757d;
+        --dark-color: #212529;
+        --border-color: #dee2e6;
+        --font-family: 'Outfit', sans-serif;
     }
 
-    /* Document Header */
+    body {
+        font-family: var(--font-family);
+    }
+
+    .document-wrapper {
+        background: #fff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
     .document-header {
-        border-bottom: 2px solid #000;
-        padding-bottom: 0.3rem;
-        margin-bottom: 0.5rem;
+        border-bottom: 2px solid var(--dark-color);
+        padding-bottom: 20px;
+        margin-bottom: 30px;
     }
 
     .document-title {
-        font-size: 1.2rem;
-        font-weight: 700;
-        color: #000;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .document-subtitle {
-        font-size: 0.8rem;
-        color: #666;
+        font-size: 1.5rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        color: var(--dark-color);
         margin: 0;
     }
 
-    /* Section Styling */
-    .document-section {
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 0.4rem;
-        margin-bottom: 0.4rem;
-    }
-
     .section-title {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
         font-weight: 700;
-        color: #000;
+        color: var(--secondary-color);
         text-transform: uppercase;
-        border-bottom: 1px solid #ccc;
-        padding-bottom: 0.15rem;
-        margin-bottom: 0.3rem;
+        letter-spacing: 1.5px;
+        border-bottom: 1.5px solid var(--primary-color);
+        padding-bottom: 8px;
+        margin-bottom: 15px;
     }
 
-    /* Information Display */
     .info-row {
         display: flex;
-        margin-bottom: 0.15rem;
-        font-size: 0.8rem;
-        line-height: 1.2;
+        align-items: baseline;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
     }
 
     .info-label {
-        font-weight: 600;
-        color: #333;
-        min-width: 100px;
-        margin-right: 0.4rem;
+        font-weight: 700;
+        color: #666;
+        min-width: 130px;
+        margin-right: 10px;
         flex-shrink: 0;
     }
 
     .info-value {
-        color: #000;
+        color: var(--dark-color);
+        font-weight: 500;
         flex: 1;
-        word-wrap: break-word;
     }
 
-    /* Report Content */
     .report-content {
-        font-size: 0.85rem;
-        line-height: 1.3;
-        color: #000;
+        line-height: 1.6;
+        color: var(--dark-color);
     }
 
-    /* Print Button */
-    .print-btn {
-        font-size: 0.8rem;
-        padding: 0.4rem 0.8rem;
-    }
-
-    /* Hospital Logo */
     .hospital-logo {
-        max-width: 100%;
+        max-height: 100px;
+        max-width: 300px;
+        object-fit: contain;
+    }
+
+    /* Watermark */
+    .invoice-watermark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.05;
+        z-index: 0;
+        width: 60%;
+        pointer-events: none;
+    }
+
+    .invoice-watermark img {
+        width: 100%;
         height: auto;
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .document-wrapper {
-            margin: 0 0.5rem;
-            padding: 0.5rem;
-        }
-
-        .document-title {
-            font-size: 1rem;
-        }
-
-        .info-label {
-            min-width: 80px;
-        }
+    .document-content {
+        position: relative;
+        z-index: 1;
     }
 
-    /* Print Styles */
     @media print {
-        body {
-            font-size: 11px;
-        }
-
         .content-wrapper {
-            margin: 0 !important;
+            background: none !important;
             padding: 0 !important;
         }
 
         .document-wrapper {
-            margin: 0;
-            padding: 5mm;
-            border: none;
             box-shadow: none;
+            border: none;
+            padding: 0;
         }
 
+        .no-print,
         .document-actions {
-            display: none;
+            display: none !important;
         }
 
         .document-header {
-            border-bottom: 2px solid #000;
-            padding-bottom: 2px;
-            margin-bottom: 5px;
-        }
-
-        .document-section {
-            page-break-inside: avoid;
-            padding-bottom: 3px;
-            margin-bottom: 3px;
-        }
-
-        .section-title {
-            border-bottom: 1px solid #000;
-            font-size: 0.75rem;
-        }
-
-        .info-row {
-            font-size: 0.75rem;
-            margin-bottom: 1px;
-        }
-
-        .report-content {
-            font-size: 0.8rem;
-        }
-
-        @page {
-            size: A4;
-            margin: 8mm;
+            border-bottom-width: 2px;
         }
     }
 </style>
