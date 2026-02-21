@@ -27,7 +27,20 @@
                                     <?php
                                     $prefix = (!empty($settings->patient_id_prefix)) ? $settings->patient_id_prefix : 'P';
                                     $p_id = $prefix . (!empty($patient->hospital_patient_id) ? $patient->hospital_patient_id : $patient->id);
-                                    echo $patient->name . ' (' . lang('id') . ': ' . $p_id . ' - ' . lang('phone') . ': ' . $patient->phone . ' - ' . lang('age') . ': ' . explode('-', $patient->age)[0] . ' ' . lang('years'); ?>
+
+                                    $patient_age = explode('-', $patient->age);
+                                    if (count($patient_age) == 3) {
+                                        if ($patient_age[0] > 0) {
+                                            $age_str = $patient_age[0] . ' ' . lang('years');
+                                        } elseif ($patient_age[1] > 0) {
+                                            $age_str = $patient_age[1] . ' ' . lang('months');
+                                        } else {
+                                            $age_str = $patient_age[2] . ' ' . lang('days');
+                                        }
+                                    } else {
+                                        $age_str = $patient_age[0] . ' ' . lang('years');
+                                    }
+                                    echo $patient->name . ' (' . lang('id') . ': ' . $p_id . ' - ' . lang('phone') . ': ' . $patient->phone . ' - ' . lang('age') . ': ' . $age_str . ')'; ?>
                                 </option>
                             </select>
                         </div>

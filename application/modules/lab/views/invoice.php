@@ -268,11 +268,32 @@
                                                 <?php echo lang('gender'); ?>:</span>
                                             <span class="invoice-info-value">
                                                 <?php
-                                                $age = explode('-', $patient_info->age);
-                                                if (count($age) == 3) {
-                                                    echo $age[0] . " Y " . $age[1] . " M " . $age[2] . " D";
+                                                if (!empty($patient_info->age)) {
+                                                    $age = explode('-', $patient_info->age);
+                                                    if (count($age) == 3) {
+                                                        if ($age[0] > 0) {
+                                                            echo $age[0] . ' ' . lang('years');
+                                                        } elseif ($age[1] > 0) {
+                                                            echo $age[1] . ' ' . lang('months');
+                                                        } else {
+                                                            echo $age[2] . ' ' . lang('days');
+                                                        }
+                                                    } else {
+                                                        echo $patient_info->age;
+                                                    }
+                                                } elseif (!empty($patient_info->birthdate)) {
+                                                    $birthDate = new DateTime($patient_info->birthdate);
+                                                    $today = new DateTime('today');
+                                                    $diff = $birthDate->diff($today);
+                                                    if ($diff->y > 0) {
+                                                        echo $diff->y . ' ' . lang('years');
+                                                    } elseif ($diff->m > 0) {
+                                                        echo $diff->m . ' ' . lang('months');
+                                                    } else {
+                                                        echo $diff->d . ' ' . lang('days');
+                                                    }
                                                 } else {
-                                                    echo $patient_info->age;
+                                                    echo 'Not specified';
                                                 }
                                                 ?> / <?php echo $patient_info->sex; ?>
                                             </span>

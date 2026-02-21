@@ -77,10 +77,7 @@ class Workspace extends MX_Controller
         $data['lab_requests'] = array_values($filtered_labs);
 
         $all_prescriptions = $this->prescription_model->getPrescriptionByPatientId($patient_id);
-        $filtered_prescriptions = array_filter($all_prescriptions, function ($p) use ($today_start, $today_end) {
-            return ($p->date >= $today_start && $p->date < $today_end);
-        });
-        $data['prescriptions'] = array_values($filtered_prescriptions);
+        $data['prescriptions'] = $all_prescriptions;
 
         $all_histories = $this->patient_model->getMedicalHistoryByPatientId($patient_id);
         $data['medical_histories'] = array_slice($all_histories, 0, 20);

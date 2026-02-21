@@ -2230,6 +2230,8 @@ class Lab extends MX_Controller
             $this->load->view('home/permission');
         }
 
+        $data['setval'] = 'lab';
+
         $this->load->view('home/dashboard');
         $this->load->view('invoice', $data);
         $this->load->view('home/footer'); // just the footer fi

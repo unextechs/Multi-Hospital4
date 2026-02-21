@@ -343,6 +343,9 @@
                                     <?php echo $age_full; ?>
                                 </span>
                             <?php endif; ?>
+                            <span class="ml-3"><i class="fas fa-map-marker-alt text-danger mr-1"></i>
+                                <?php echo !empty($patient->address) ? $patient->address : 'Empty'; ?>
+                            </span>
                         </div>
                     </div>
                 </div>

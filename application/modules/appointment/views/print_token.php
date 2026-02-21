@@ -303,7 +303,8 @@
         <!-- Queue Number -->
         <div class="queue-section">
             <div class="queue-label"><?php echo lang('your'); ?> <?php echo lang('queue'); ?>
-                <?php echo lang('number'); ?></div>
+                <?php echo lang('number'); ?>
+            </div>
             <div class="queue-number">#<?php echo str_pad($appointment->queue_number, 3, '0', STR_PAD_LEFT); ?></div>
         </div>
 
@@ -325,7 +326,17 @@
                     $age .= ' ' . lang('years');
                 } elseif (!empty($patient->age)) {
                     $age_parts = explode('-', $patient->age);
-                    $age = $age_parts[0] . 'Y';
+                    if (count($age_parts) == 3) {
+                        if ($age_parts[0] > 0) {
+                            $age = $age_parts[0] . ' ' . lang('years');
+                        } elseif ($age_parts[1] > 0) {
+                            $age = $age_parts[1] . ' ' . lang('months');
+                        } else {
+                            $age = $age_parts[2] . ' ' . lang('days');
+                        }
+                    } else {
+                        $age = $patient->age;
+                    }
                 }
                 ?>
                 <div class="meta-item">
@@ -349,7 +360,8 @@
         <div class="doctor-section">
             <div class="section-title"><?php echo lang('doctor'); ?> <?php echo lang('information'); ?></div>
             <div class="doctor-name">
-                <?php echo !empty($doctor->title) ? $doctor->title . ' ' : ''; ?><?php echo $doctor->name; ?></div>
+                <?php echo !empty($doctor->title) ? $doctor->title . ' ' : ''; ?><?php echo $doctor->name; ?>
+            </div>
             <?php if (!empty($doctor->profile)): ?>
                 <div class="doctor-specialty"><?php echo $doctor->profile; ?></div>
             <?php endif; ?>

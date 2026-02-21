@@ -24,7 +24,21 @@
                         <div class="mt-3">
                             <select class="custom-select pos_select" id="pos_select_patient" name="patient_id" style="font-weight:300 !important;">
                                 <option value="<?php echo $patient->id; ?>" selected>
-                                    <?php echo  $patient->name . ' (' . lang('id') . ': ' . $patient->id . ' - ' . lang('phone') . ': ' . $patient->phone . ' - ' . lang('age') . ': ' . explode('-', $patient->age)[0] . ' ' . lang('years'); ?>
+                                    <?php
+                                    $patient_age = explode('-', $patient->age);
+                                    if (count($patient_age) == 3) {
+                                        if ($patient_age[0] > 0) {
+                                            $age_str = $patient_age[0] . ' ' . lang('years');
+                                        } elseif ($patient_age[1] > 0) {
+                                            $age_str = $patient_age[1] . ' ' . lang('months');
+                                        } else {
+                                            $age_str = $patient_age[2] . ' ' . lang('days');
+                                        }
+                                    } else {
+                                        $age_str =  $patient_age[0] . ' ' . lang('years');
+                                    }
+                                    echo  $patient->name . ' (' . lang('id') . ': ' . $patient->id . ' - ' . lang('phone') . ': ' . $patient->phone . ' - ' . lang('age') . ': ' . $age_str . ')';
+                                    ?>
                                 </option>
                             </select>
                         </div>

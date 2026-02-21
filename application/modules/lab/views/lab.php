@@ -214,6 +214,10 @@
                 "lengthMenu": "_MENU_",
                 search: "_INPUT_",
                 searchPlaceholder: "Search..."
+            },
+            "drawCallback": function (settings) {
+                // Ensure invoice buttons don't open in a new tab
+                $('.invoicebutton[href*="lab/invoice"]').attr('target', '_self');
             }
         });
         table.buttons().container().appendTo('.custom_buttons');
@@ -445,6 +449,10 @@
                 "lengthMenu": "_MENU_",
                 search: "_INPUT_",
                 searchPlaceholder: "Search..."
+            },
+            "drawCallback": function (settings) {
+                // Ensure invoice buttons don't open in a new tab
+                $('.invoicebutton[href*="lab/invoice"]').attr('target', '_self');
             }
         });
         table.buttons().container().appendTo('.custom_buttons');

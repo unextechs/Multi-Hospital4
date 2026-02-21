@@ -113,10 +113,27 @@
                                                 if (!empty($patient_info->birthdate)) {
                                                     $birthDate = new DateTime($patient_info->birthdate);
                                                     $today = new DateTime('today');
-                                                    echo $birthDate->diff($today)->y . ' ' . lang('years');
+                                                    $diff = $birthDate->diff($today);
+                                                    if ($diff->y > 0) {
+                                                        echo $diff->y . ' ' . lang('years');
+                                                    } elseif ($diff->m > 0) {
+                                                        echo $diff->m . ' ' . lang('months');
+                                                    } else {
+                                                        echo $diff->d . ' ' . lang('days');
+                                                    }
                                                 } elseif (!empty($patient_info->age)) {
                                                     $age_parts = explode('-', $patient_info->age);
-                                                    echo $age_parts[0] . 'Y';
+                                                    if (count($age_parts) == 3) {
+                                                        if ($age_parts[0] > 0) {
+                                                            echo $age_parts[0] . ' ' . lang('years');
+                                                        } elseif ($age_parts[1] > 0) {
+                                                            echo $age_parts[1] . ' ' . lang('months');
+                                                        } else {
+                                                            echo $age_parts[2] . ' ' . lang('days');
+                                                        }
+                                                    } else {
+                                                        echo $patient_info->age;
+                                                    }
                                                 }
                                                 ?>
                                             </span>
